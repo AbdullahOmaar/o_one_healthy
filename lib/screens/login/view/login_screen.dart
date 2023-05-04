@@ -5,6 +5,9 @@ import 'package:app/screens/login/view_model/login_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../coomon/bottom_bar_widget/bottom_bar_view.dart';
+import '../../../coomon/bottombar_view_model/bottomBar_view_model.dart';
+
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -14,18 +17,33 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
+int? currentIndex ;
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
+     currentIndex=ref.read((bottomBarViewModelProvider)).currentIndex;
+
+  }
+  @override
+  Widget build(BuildContext context,) {
 
     LoginModel? login = ref.watch((loginViewModelProvider)).loginModel;
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: (){
+        ref.read(bottomBarViewModelProvider.notifier).setCurrentScreen(3);
 
-    return Column(
+      }),
+      bottomNavigationBar:const CustomBottomBarWidget(),
+      body: Column(
 
-      children:  [
-        GetLogoWidget(login: login),
-        const GetLogoWidget(),
-        const GetLogoWidget()
-      ],
+        children:  [
+          GetLogoWidget(login: login),
+          const GetLogoWidget(),
+          const GetLogoWidget()
+        ],
+      ),
     );
   }
+
+
 }
