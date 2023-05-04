@@ -1,15 +1,25 @@
+import 'package:app/screens/login/view/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../coomon/bottombar_view_model/bottomBar_view_model.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+
   @override
-  Widget build(BuildContext context) {
-    return const Center(child:  Text(' Home Screen'));
+  Widget build(BuildContext context,) {
+    return Scaffold(
+      body:  Center(child: TextButton(onPressed: (){
+        ref.read(bottomBarViewModelProvider.notifier).setCurrentScreen(0,SelectedScreen.login);
+
+        Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>const LoginScreen()));
+      },child:const Text('Login'),),)
+    );
   }
 }

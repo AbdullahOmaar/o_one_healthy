@@ -1,6 +1,4 @@
 import 'package:app/screens/home_screen/view/home_fragment_screen.dart';
-import 'package:app/screens/login/model/login_model.dart';
-import 'package:app/screens/login/repository/login_repository.dart';
 import 'package:app/screens/subscribers_screen/view/subscribers_fragment_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,30 +11,44 @@ final bottomBarViewModelProvider =
 
 class SelectedFragmentState {
    int currentIndex;
-   List<Widget> screens = [
-     const HomeScreen(),
-     const AdsScreen(),
-     const SubscribersScreen(),
-     const Text('a')
-   ];
-  SelectedFragmentState({required this.currentIndex});
+   SelectedScreen selectedScreen;
+  SelectedFragmentState({required this.currentIndex,required this.selectedScreen});
 
-  SelectedFragmentState copyWith({required int currentIndex}) {
+  SelectedFragmentState copyWith({required int currentIndex,required SelectedScreen selectedScreen}) {
     return SelectedFragmentState(
       currentIndex: currentIndex ,
+      selectedScreen: selectedScreen
     );
   }
 }
-
+enum SelectedScreen {
+ login,
+  none
+}
 class BottomBarViewModel extends StateNotifier<SelectedFragmentState> {
 
+  List<Widget> screens = [
+    const HomeScreen(),
+    const AdsScreen(),
+    const SubscribersScreen(),
+  ];
 
+  BottomBarViewModel() : super(SelectedFragmentState(currentIndex: 0,selectedScreen: SelectedScreen.login));
 
-  BottomBarViewModel() : super(SelectedFragmentState(currentIndex: 0));
-
-  setCurrentScreen(int currentIndex) async {
+  setCurrentScreen(int currentIndex, SelectedScreen selectedScreen) async {
     state = state.copyWith(
       currentIndex: currentIndex,
+      selectedScreen: selectedScreen
     );
+  }
+
+  Widget getCurrentScreen(SelectedScreen selectedScreen,){
+    if(selectedScreen ==SelectedScreen.login) {
+      return const Center(child: Text('login'),);
+    } else {
+      return     screens[state.currentIndex];
+    }
+
+
   }
 }

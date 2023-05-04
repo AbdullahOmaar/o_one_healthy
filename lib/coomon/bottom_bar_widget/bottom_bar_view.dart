@@ -18,9 +18,7 @@ class _CustomBottomBarWidgetState extends ConsumerState<CustomBottomBarWidget> {
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
             icon: Icon(Icons.home, color: Colors.blue,), label: "home"),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.ads_click, color: Colors.blue,), label: "ads"),
-        BottomNavigationBarItem(
+         BottomNavigationBarItem(
             icon: Icon(Icons.ads_click, color: Colors.blue,), label: "ads"),
         BottomNavigationBarItem(
             icon: Icon(Icons.person_pin_outlined, color: Colors.blue,), label: "subscribers"),
@@ -28,9 +26,7 @@ class _CustomBottomBarWidgetState extends ConsumerState<CustomBottomBarWidget> {
       currentIndex: ref.watch(bottomBarViewModelProvider).currentIndex,
       fixedColor: Colors.deepPurple,
       onTap: (i){
-        // vm.setCurrentScreen(i);
-        // ref.read((bottomBarViewModelProvider)).copyWith(currentIndex: i);
-        ref.read(bottomBarViewModelProvider.notifier).setCurrentScreen(i);
+        ref.read(bottomBarViewModelProvider.notifier).setCurrentScreen(i,SelectedScreen.none);
       },
       selectedLabelStyle:const TextStyle(color: Colors.red, fontSize: 20),
     );

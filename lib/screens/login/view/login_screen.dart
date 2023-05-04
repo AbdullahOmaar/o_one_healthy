@@ -8,7 +8,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../coomon/bottom_bar_widget/bottom_bar_view.dart';
 import '../../../coomon/bottombar_view_model/bottomBar_view_model.dart';
 
-
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -29,21 +28,24 @@ int? currentIndex ;
 
     LoginModel? login = ref.watch((loginViewModelProvider)).loginModel;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: (){
-        ref.read(bottomBarViewModelProvider.notifier).setCurrentScreen(3);
-
-      }),
       bottomNavigationBar:const CustomBottomBarWidget(),
-      body: Column(
-
-        children:  [
-          GetLogoWidget(login: login),
-          const GetLogoWidget(),
-          const GetLogoWidget()
-        ],
-      ),
+      body:getCurrentScreen(login),
     );
   }
+  getLoginBody(login)=>Column(
 
+    children:  [
+      GetLogoWidget(login: login),
+      const GetLogoWidget(),
+      const GetLogoWidget()
+    ],
+  );
+getCurrentScreen(login){
+  if(ref.watch(bottomBarViewModelProvider).selectedScreen ==SelectedScreen.login) {
+    return getLoginBody(login);
+  } else {
+    return    ref.watch(bottomBarViewModelProvider.notifier).screens[ref.watch(bottomBarViewModelProvider).currentIndex];
+  }
+}
 
 }

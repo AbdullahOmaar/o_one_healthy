@@ -1,6 +1,7 @@
-import 'package:app/screens/login/view/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'coomon/bottom_bar_widget/bottom_bar_view.dart';
+import 'coomon/bottombar_view_model/bottomBar_view_model.dart';
 
 void main() {
   runApp( const ProviderScope(
@@ -19,11 +20,14 @@ class _MyAppState extends ConsumerState<MyApp>{
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(body: LoginScreen()),
+    return  MaterialApp(
+      home: Scaffold(
+          bottomNavigationBar:const CustomBottomBarWidget(),
+          body: ref.watch(bottomBarViewModelProvider.notifier).screens[ref.watch(bottomBarViewModelProvider).currentIndex]),
     );
   }
 }
+
 // class MyApp extends StatelessWidget {
 //   const MyApp({super.key});
 //   @override
