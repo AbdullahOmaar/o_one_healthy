@@ -18,7 +18,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       body:  Center(child: TextButton(onPressed: (){
         ref.read(bottomBarViewModelProvider.notifier).setCurrentScreen(0,SelectedScreen.login);
 
-        Navigator.of(context).push(MaterialPageRoute(builder: (ctx)=>const LoginScreen()));
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (ctx)=>const LoginScreen()),(route) => false,);
       },child:const Text('Login'),),)
     );
   }
