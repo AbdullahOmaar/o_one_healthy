@@ -57,9 +57,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     delegate: SearchPage<Patient>(
                       items: ref.watch(patientFSViewModelProvider).patients,
                       searchLabel: 'Search people',
-
+                      searchStyle: const TextStyle(color: Colors.white),
+                      barTheme: Theme.of(context).copyWith(
+                        appBarTheme:const AppBarTheme(backgroundColor: Colors.indigo) ,
+                        inputDecorationTheme: const InputDecorationTheme(
+                          focusedErrorBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          border: InputBorder.none,
+                        ),
+                      ),
                       suggestion: const Center(
-                        child: Text('Filter people by name, surname or age'),
+                        child: Text('Filter people by name, surname or ID'),
                       ),
 
                       failure: const Center(
