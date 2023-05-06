@@ -1,13 +1,28 @@
+import 'package:app/common/bottom_bar/bottom_bar_widget/bottom_bar_view.dart';
+import 'package:app/common/bottom_bar/bottombar_view_model/bottomBar_view_model.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'coomon/bottom_bar_widget/bottom_bar_view.dart';
-import 'coomon/bottombar_view_model/bottomBar_view_model.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
-  runApp( const ProviderScope(
-      child: MyApp()
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  runApp(  ProviderScope(
+      child:   EasyLocalization(
+          supportedLocales: const [Locale('en', 'US'), Locale('ar', 'AR')],
+          path: 'assets/translations',
+          fallbackLocale: const Locale('ar', 'AR'),
+          child: const MyApp()
+      ),
   ));
 }
+
 
 class MyApp extends ConsumerStatefulWidget{
   const MyApp({super.key});
@@ -21,6 +36,10 @@ class _MyAppState extends ConsumerState<MyApp>{
   @override
   Widget build(BuildContext context) {
     return  MaterialApp(
+      debugShowCheckedModeBanner: false,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       home: Scaffold(
           bottomNavigationBar:const CustomBottomBarWidget(),
           body: ref.watch(bottomBarViewModelProvider.notifier).screens[ref.watch(bottomBarViewModelProvider).currentIndex]),
@@ -28,37 +47,3 @@ class _MyAppState extends ConsumerState<MyApp>{
   }
 }
 
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Flutter Demo',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: const MyHomePage(title: 'Flutter Demo Home Page'),
-//     );
-//   }
-// }
-//
-// class MyHomePage extends StatefulWidget {
-//   const MyHomePage({super.key, required this.title});
-//   final String title;
-//
-//   @override
-//   State<MyHomePage> createState() => _MyHomePageState();
-// }
-//
-// class _MyHomePageState extends State<MyHomePage> {
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text(widget.title),
-//       ),
-//       body: const LoginScreen()
-//     );
-//   }
-// }

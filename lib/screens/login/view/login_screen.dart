@@ -1,12 +1,12 @@
+import 'package:app/common/bottom_bar/bottom_bar_widget/bottom_bar_view.dart';
+import 'package:app/common/bottom_bar/bottombar_view_model/bottomBar_view_model.dart';
+import 'package:app/common/custom_text_field/custom_text_field.dart';
+import 'package:app/common/widget_utils.dart';
 import 'package:app/screens/login/model/login_model.dart';
 import 'package:app/screens/login/view_model/login_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../coomon/bottom_bar_widget/bottom_bar_view.dart';
-import '../../../coomon/bottombar_view_model/bottomBar_view_model.dart';
-import '../../../coomon/custom_text_field/custom_text_field.dart';
-import '../../../coomon/widget_utils.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -105,7 +105,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             width: MediaQuery.of(context).size.width*0.5,
                             child: FilledButton(
                               style: FilledButton.styleFrom(backgroundColor: Colors.indigo,),
-                            onPressed: () {},
+                            onPressed: () {
+                            addFirData();
+                            },
                             child: const Text('Login now',style: TextStyle(fontSize: 16),),
                           ),
                           ))
@@ -125,5 +127,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           .watch(bottomBarViewModelProvider.notifier)
           .screens[ref.watch(bottomBarViewModelProvider).currentIndex];
     }
+  }
+
+  addFirData()async{
+    DatabaseReference ref = FirebaseDatabase.instance.ref("users/123");
+    await ref.set({
+      "name": "John",
+      "age": 18,
+      "address": {
+        "line1": "100 Mountain View"
+      }
+    });
   }
 }
