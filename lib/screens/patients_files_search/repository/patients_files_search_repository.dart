@@ -2,25 +2,30 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../models/patient_model.dart';
 abstract class IPatientsFilesRepository {
-  Future<dynamic> getPatientsFilesSearchServices(serviceUrl);
+  Future<List<Patient>> getPatientsFilesSearchServices();
 }
 
 final  patientsFilesRepositoryProvider = Provider((ref) => PatientsFilesRepository());
 
 class PatientsFilesRepository extends IPatientsFilesRepository {
   @override
-  Future<dynamic> getPatientsFilesSearchServices(serviceUrl) async{
-     final data = await callData();
-     print(data);
-     return data;
+  Future<List<Patient>> getPatientsFilesSearchServices() async{
+     final  data = await fetchPatientData();
+     Map<String,dynamic>m= Map<String,dynamic>.from(data as Map) ;
+    List<Patient> list=[];
+     for (var element in Map<String,dynamic>.from(m['patients'] as Map ).values) {
+       list.add(Patient.fromJson(Map<String,dynamic>.from(element)));
+     }
+     return  list;
   }
 }
 
 // call API
-callData()async{
+fetchPatientData()async{
   final ref = FirebaseDatabase.instance.ref();
-  final snapshot = await ref.child('patients').get();
+  final snapshot = await ref.get();
   if (snapshot.exists) {
     return snapshot.value;
   } else {
