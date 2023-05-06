@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "178835260518",
+    "project_id": "o-one-healthy",
+    "storage_bucket": "o-one-healthy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178835260518:android:67390cc480a19b66cad9a7",
+        "android_client_info": {
+          "package_name": "com.o_one_healthy.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "178835260518-0u3keao0cq1kke5ncts80r8sgo9ib6oq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIAYqHOML3erB2tVYqZ5zm1PCKoVsarLc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "178835260518-0u3keao0cq1kke5ncts80r8sgo9ib6oq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
