@@ -28,6 +28,33 @@ callData()async{
   }
 }
 
+
+void writeNewData(String nameEN, String usernameAR, double uid,) async {
+  // A post entry.
+  final postData = {
+    "nameAR": usernameAR,
+    "nameEN": nameEN,
+    "uid": uid,
+    "isLocked": false,
+    "isPassword": true,
+    "deletes": {
+      "age": 18,
+      "imageURL": "http/"
+    }
+  };
+
+  // Get a key for a new Post.
+  final newPostKey =
+      FirebaseDatabase.instance.ref().child('posts').push().key;
+
+  // Write the new post's data simultaneously in the posts list and the
+  // user's post list.
+  final Map<String, Map> updates = {};
+  updates['/patients/$uid'] = postData;
+
+  return FirebaseDatabase.instance.ref().update(updates);
+}
+
 // Patients object
 
 // PatientData = {
