@@ -13,6 +13,7 @@ class PatientCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
+
         width: MediaQuery.of(context).size.width*0.95,
         child: Card(
           elevation: 3,
