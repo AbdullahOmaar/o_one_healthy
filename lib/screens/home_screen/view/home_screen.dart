@@ -81,7 +81,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         patient.nameAR,
                         patient.uid.toString(),
                       ],
-                      builder: (patient) =>PatientCard(patient: patient,)
+                      builder: (patient) =>PatientCard(patient: patient,),
                     ),
                   );
 
