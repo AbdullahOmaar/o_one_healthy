@@ -7,12 +7,14 @@ class CustomButton extends StatelessWidget {
   final double fontSize;
   final BtnWidth btnWidth;
   late double fullWidth;
+  final IconData? icon;
   CustomButton({
     Key? key,
     required this.text,
     required this.fontSize,
     required this.onPressed,
     required this.btnWidth,
+    this.icon
   }) : super(key: key);
 
   @override
@@ -25,9 +27,24 @@ class CustomButton extends StatelessWidget {
           backgroundColor: Colors.indigo,
         ),
         onPressed: onPressed,
-        child: Text(
-          text,
-          style: TextStyle(fontSize: fontSize),
+        child: Row(
+          mainAxisAlignment: icon!=null?MainAxisAlignment.spaceBetween:MainAxisAlignment.center,
+          children: [
+            Text(
+              text,
+              style: TextStyle(fontSize: fontSize),
+
+            ),
+        if(icon != null)
+          Align(
+            alignment: Alignment.centerRight,
+            child: Icon(
+              icon,
+              size: 20,
+              color: Colors.white,
+            ),
+          ),
+          ],
         ),
       ),
     );
