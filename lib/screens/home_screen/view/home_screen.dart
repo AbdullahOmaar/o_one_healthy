@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:search_page/search_page.dart';
 
-import '../../../common/custom_button.dart';
 import '../../patients_files_search/models/patient_model.dart';
 import '../../patients_files_search/view_model/patients_files_search_view_model.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
+  static const routeName = "/HomeScreen";
+
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -17,7 +18,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-
   @override
   void initState() {
     fetchPatientData();
@@ -31,107 +31,133 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   @override
-  Widget build(BuildContext context,) {
+  Widget build(
+    BuildContext context,
+  ) {
     return Scaffold(
-      body:  Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-                width: MediaQuery.of(context).size.width * 0.80,
-                height: MediaQuery.of(context).size.height * 0.20,
-                child: Image.asset(
-                  'assets/images/logo/logo.jpeg',
-                  fit: BoxFit.fill,
-                )),
-            getVerticalSpacerWidget(context),
-            SizedBox(
-              width: MediaQuery.of(context).size.width*0.5,
-              child: FilledButton(
-                style: FilledButton.styleFrom(backgroundColor: Colors.indigo,),
-                onPressed: () {
-                  showSearch(
-                    useRootNavigator: true,
-                    context: context,
-                    delegate: SearchPage<Patient>(
-                      items: ref.watch(patientFSViewModelProvider).patients,
-                      searchLabel: 'Search people',
-                      searchStyle: const TextStyle(color: Colors.white),
-                      barTheme: Theme.of(context).copyWith(
-                        appBarTheme:const AppBarTheme(backgroundColor: Colors.indigo) ,
-                        inputDecorationTheme: const InputDecorationTheme(
-                          focusedErrorBorder: InputBorder.none,
-                          disabledBorder: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          errorBorder: InputBorder.none,
-                          border: InputBorder.none,
-                        ),
+        body: Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+              width: MediaQuery.of(context).size.width * 0.80,
+              height: MediaQuery.of(context).size.height * 0.20,
+              child: Image.asset(
+                'assets/images/logo/logo.jpeg',
+                fit: BoxFit.fill,
+              )),
+          getVerticalSpacerWidget(context),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.5,
+            child: FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: Colors.indigo,
+              ),
+              onPressed: () {
+                showSearch(
+                  useRootNavigator: true,
+                  context: context,
+                  delegate: SearchPage<Patient>(
+                    items: ref.watch(patientFSViewModelProvider).patients,
+                    searchLabel: 'Search people',
+                    searchStyle: const TextStyle(color: Colors.white),
+                    barTheme: Theme.of(context).copyWith(
+                      appBarTheme:
+                          const AppBarTheme(backgroundColor: Colors.indigo),
+                      inputDecorationTheme: const InputDecorationTheme(
+                        focusedErrorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        border: InputBorder.none,
                       ),
-                      suggestion: const Center(
-                        child: Text('Filter people by name, surname or ID'),
-                      ),
-
-                      failure: const Center(
-                        child: Text('No person found :('),
-                      ),
-                      filter: (patient) => [
-                        patient.nameEN,
-                        patient.nameAR,
-                        patient.uid.toString(),
-                      ],
-                      builder: (patient) =>PatientCard(patient: patient,),
                     ),
-                  );
-
-                },
-                child: const Text('Patients Files',style: TextStyle(fontSize: 16),),
+                    suggestion: const Center(
+                      child: Text('Filter people by name, surname or ID'),
+                    ),
+                    failure: const Center(
+                      child: Text('No person found :('),
+                    ),
+                    filter: (patient) => [
+                      patient.nameEN,
+                      patient.nameAR,
+                      patient.uid.toString(),
+                    ],
+                    builder: (patient) => PatientCard(
+                      patient: patient,
+                    ),
+                  ),
+                );
+              },
+              child: const Text(
+                'Patients Files',
+                style: TextStyle(fontSize: 16),
               ),
             ),
-            getVerticalSpacerWidget(context),
-            SizedBox(
-              width: MediaQuery.of(context).size.width*0.5,
-              child: FilledButton(
-                style: FilledButton.styleFrom(backgroundColor: Colors.indigo,),
-                onPressed: () {
-                    // ref.read(bottomBarViewModelProvider.notifier).setCurrentScreen(0,SelectedScreen.login);
-                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (ctx)=>const LoginScreen()),(route) => false,);
-                },
-                child: const Text('Login now',style: TextStyle(fontSize: 16),),
+          ),
+          getVerticalSpacerWidget(context),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.5,
+            child: FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: Colors.indigo,
+              ),
+              onPressed: () {
+                // ref.read(bottomBarViewModelProvider.notifier).setCurrentScreen(0,SelectedScreen.login);
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (ctx) => const LoginScreen()),
+                  (route) => false,
+                );
+              },
+              child: const Text(
+                'Login now',
+                style: TextStyle(fontSize: 16),
               ),
             ),
-            getVerticalSpacerWidget(context),
-            SizedBox(
-              width: MediaQuery.of(context).size.width*0.5,
-              child: FilledButton(
-                style: FilledButton.styleFrom(backgroundColor: Colors.indigo,),
-                onPressed: () {
-                },
-                child: const Text('subscription',style: TextStyle(fontSize: 16),),
+          ),
+          getVerticalSpacerWidget(context),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.5,
+            child: FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: Colors.indigo,
+              ),
+              onPressed: () {},
+              child: const Text(
+                'subscription',
+                style: TextStyle(fontSize: 16),
               ),
             ),
-            getVerticalSpacerWidget(context),
-            SizedBox(
-              width: MediaQuery.of(context).size.width*0.5,
-              child: FilledButton(
-                style: FilledButton.styleFrom(backgroundColor: Colors.indigo,),
-                onPressed: () {
-                },
-                child: const Text('ADS',style: TextStyle(fontSize: 16),),
+          ),
+          getVerticalSpacerWidget(context),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.5,
+            child: FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: Colors.indigo,
+              ),
+              onPressed: () {},
+              child: const Text(
+                'ADS',
+                style: TextStyle(fontSize: 16),
               ),
             ),
-            getVerticalSpacerWidget(context),
-            getVerticalSpacerWidget(context),
-            getVerticalSpacerWidget(context),
-            const Text('واذا مرضت فهو يشفين',style: TextStyle(fontSize: 30),),
-          ],
-        ),
-      )
-    );
+          ),
+          getVerticalSpacerWidget(context),
+          getVerticalSpacerWidget(context),
+          getVerticalSpacerWidget(context),
+          const Text(
+            'واذا مرضت فهو يشفين',
+            style: TextStyle(fontSize: 30),
+          ),
+        ],
+      ),
+    ));
   }
-  fetchPatientData()async{
+
+  fetchPatientData() async {
     await ref.read(patientFSViewModelProvider.notifier).getPatientList();
   }
 }
-
