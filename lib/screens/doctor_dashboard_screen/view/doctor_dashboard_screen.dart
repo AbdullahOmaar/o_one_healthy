@@ -15,6 +15,7 @@ import '../../patients_files_search/view_model/patients_files_search_view_model.
 
 class DoctorDashboardScreen extends ConsumerStatefulWidget {
   const DoctorDashboardScreen({Key? key}) : super(key: key);
+  static const routeName = "/DoctorDashboardScreen";
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>

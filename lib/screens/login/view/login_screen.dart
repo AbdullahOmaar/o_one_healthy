@@ -10,9 +10,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 import '../../../common/custom_button.dart';
+import '../../../routes/app_routes.dart';
+import '../../../routes/route_generator.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
+  static const routeName = "/LoginScreen";
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _LoginScreenState();
@@ -34,11 +37,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     LoginModel? login = ref.watch((loginViewModelProvider)).loginModel;
     return Scaffold(
       bottomNavigationBar: const CustomBottomBarWidget(),
-      body: getCurrentScreen(login),
+      body: getLoginBody(),
     );
   }
 
-  getLoginBody(login) => Stack(
+  getLoginBody() => Stack(
         children: [
           SizedBox(
               width: MediaQuery.of(context).size.width,
@@ -110,12 +113,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               btnWidth: BtnWidth.half,
                               fontSize: 16,
                               onPressed: () {
-                                Navigator.of(context).pushAndRemoveUntil(
+                                Navigator.of(context).push( RouteGenerator.generateRoute(
+                                    const RouteSettings(
+                                        name: AppRoutes.doctorDashboard)));
+                              /*  RouteGenerator.generateRoute(
+                                    const RouteSettings(
+                                        name: AppRoutes.doctorDashboard));*/
+                              /*    Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(
                                       builder: (ctx) =>
                                           const DoctorDashboardScreen()),
                                   (route) => false,
-                                );
+                                );*/
                               },
                               text: "Login now",
                             ),
@@ -130,7 +139,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   getCurrentScreen(login) {
     if (ref.watch(bottomBarViewModelProvider).selectedScreen ==
         SelectedScreen.login) {
-      return getLoginBody(login);
+      return getLoginBody();
     } else {
       return ref
           .watch(bottomBarViewModelProvider.notifier)

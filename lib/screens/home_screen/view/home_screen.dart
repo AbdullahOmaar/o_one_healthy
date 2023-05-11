@@ -1,3 +1,4 @@
+import 'package:app/common/bottom_bar/bottom_bar_widget/bottom_bar_view.dart';
 import 'package:app/common/widget_utils.dart';
 import 'package:app/screens/login/view/login_screen.dart';
 import 'package:app/screens/patients_files_search/view/patients_files_search.dart';
@@ -35,6 +36,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     BuildContext context,
   ) {
     return Scaffold(
+      bottomNavigationBar: const CustomBottomBarWidget(),
         body: Center(
       child: Column(
         mainAxisSize: MainAxisSize.max,

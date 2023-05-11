@@ -26,7 +26,7 @@ class _CustomBottomBarWidgetState extends ConsumerState<CustomBottomBarWidget> {
       currentIndex: ref.watch(bottomBarViewModelProvider).currentIndex,
       fixedColor: Colors.deepPurple,
       onTap: (i){
-        ref.read(bottomBarViewModelProvider.notifier).setCurrentScreen(i,SelectedScreen.none);
+        ref.read(bottomBarViewModelProvider.notifier).setCurrentScreen(i,SelectedScreen.none, context: context);
       },
       selectedLabelStyle:const TextStyle(color: Colors.red, fontSize: 20),
     );

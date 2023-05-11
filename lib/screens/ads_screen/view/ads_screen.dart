@@ -1,6 +1,9 @@
+import 'package:app/common/bottom_bar/bottom_bar_widget/bottom_bar_view.dart';
 import 'package:flutter/material.dart';
 
 class AdsScreen extends StatefulWidget {
+  static const routeName = "/AdsScreen";
+
   const AdsScreen({Key? key}) : super(key: key);
 
   @override
@@ -10,6 +13,9 @@ class AdsScreen extends StatefulWidget {
 class _AdsScreenState extends State<AdsScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Text(' Ads Screen');
+    return const Scaffold(
+      body: Text(' Ads Screen'),
+      bottomNavigationBar: CustomBottomBarWidget(),
+    );
   }
 }

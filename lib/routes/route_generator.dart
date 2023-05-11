@@ -1,12 +1,25 @@
 import 'package:app/routes/app_routes.dart';
+import 'package:app/screens/ads_screen/view/ads_screen.dart';
 import 'package:app/screens/home_screen/view/home_screen.dart';
+import 'package:app/screens/login/view/login_screen.dart';
+import 'package:app/screens/subscribers_screen/view/subscribers_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../screens/doctor_dashboard_screen/view/doctor_dashboard_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case AppRoutes.home:
         return buildRoute(const HomeScreen(), settings: settings);
+      case AppRoutes.doctorDashboard:
+        return buildRoute(const DoctorDashboardScreen(), settings: settings);
+      case AppRoutes.adsScreen:
+        return buildRoute(const AdsScreen(), settings: settings);
+      case AppRoutes.loginScreen:
+        return buildRoute(const LoginScreen(), settings: settings);
+      case AppRoutes.subscribersScreen:
+        return buildRoute(const SubscribersScreen(), settings: settings);
       // 1. Add screen ID in screen class:
       // static const routeName = '/SampleScreen';
       // 2. Add screen route ID in AppRoutes:
