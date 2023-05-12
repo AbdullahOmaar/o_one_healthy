@@ -1,11 +1,12 @@
+import 'package:app/common/widget_utils.dart';
 import 'package:flutter/material.dart';
 
-enum BtnWidth {oneThird ,twoThird , half , matchParent}
+enum CustomWidth {oneThird ,twoThird , half , matchParent}
 class CustomButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed ;
   final double fontSize;
-  final BtnWidth btnWidth;
+  final CustomWidth btnWidth;
   late double fullWidth;
   final IconData? icon;
   CustomButton({
@@ -21,7 +22,7 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
      fullWidth =MediaQuery.of(context).size.width;
     return SizedBox(
-      width: getBtnWidth(),
+      width: getWidgetWidth(fullWidth,btnWidth),
       child: FilledButton(
         style: FilledButton.styleFrom(
           backgroundColor: Colors.indigo,
@@ -49,18 +50,5 @@ class CustomButton extends StatelessWidget {
       ),
     );
   }
-  double getBtnWidth(){
-    switch(btnWidth){
-      case BtnWidth.oneThird :
-        return fullWidth *0.33;
-      case BtnWidth.twoThird:
-        return fullWidth * 0.66;
-      case BtnWidth.half:
-        return fullWidth * 0.50;
-      case BtnWidth.matchParent:
-        return fullWidth ;
-      default :
-        return fullWidth;
-    }
-  }
+
 }

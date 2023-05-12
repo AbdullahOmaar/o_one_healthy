@@ -52,7 +52,7 @@ class PatientCard extends StatelessWidget {
                             ///TODO handle password Validation
                           },
                           text: 'Enter',
-                          btnWidth: BtnWidth.oneThird),
+                          btnWidth: CustomWidth.oneThird),
 
                     ],
                   )

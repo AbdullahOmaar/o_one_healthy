@@ -110,21 +110,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           child: SizedBox(
                             width: MediaQuery.of(context).size.width * 0.5,
                             child: CustomButton(
-                              btnWidth: BtnWidth.half,
+                              btnWidth: CustomWidth.half,
                               fontSize: 16,
                               onPressed: () {
-                                Navigator.of(context).push( RouteGenerator.generateRoute(
+                                Navigator.of(context).pushAndRemoveUntil( RouteGenerator.generateRoute(
                                     const RouteSettings(
-                                        name: AppRoutes.doctorDashboard)));
-                              /*  RouteGenerator.generateRoute(
-                                    const RouteSettings(
-                                        name: AppRoutes.doctorDashboard));*/
-                              /*    Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                      builder: (ctx) =>
-                                          const DoctorDashboardScreen()),
-                                  (route) => false,
-                                );*/
+                                        name: AppRoutes.doctorDashboard)),(route) => false,);
                               },
                               text: "Login now",
                             ),

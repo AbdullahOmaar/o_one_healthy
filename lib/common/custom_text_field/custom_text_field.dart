@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 
+import '../custom_button.dart';
+import '../widget_utils.dart';
+
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final TextInputType inputType;
   final Function? fieldSubmitted;
   final Function? validate;
   final String labelText;
-  final Function? onChanged;
+  final ValueChanged<String>? onChanged;
   final IconData? prefix;
   final Function? onTappedTextForm;
   final IconData? suffix;
   final bool isPassword;
-
+  late CustomWidth customWidth;
   final Function? showPassword;
+  late double fullWidth;
 
-  const CustomTextField({
+
+  CustomTextField({
     Key? key,
     required this.controller,
     required this.inputType,
@@ -27,21 +32,27 @@ class CustomTextField extends StatelessWidget {
     this.suffix,
     required this.isPassword,
     this.showPassword,
+    this.customWidth =CustomWidth.matchParent,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      style: const TextStyle(color: Colors.grey),
-      cursorColor: Colors.black,
-      keyboardType: inputType,
-      controller: controller,
-      validator: (String? value) {
-        validate!(value);
-        return null;
-      },
-      obscureText: isPassword,
-      decoration: getInputDecoration(),
+    fullWidth =MediaQuery.of(context).size.width;
+
+    return SizedBox(
+      width: getWidgetWidth(fullWidth,customWidth),
+      child: TextFormField(
+        style: const TextStyle(color: Colors.grey),
+        cursorColor: Colors.black,
+        keyboardType: inputType,
+        controller: controller,
+        onChanged: onChanged,
+        validator: (String? value) {
+          return validate!(value);
+        },
+        obscureText: isPassword,
+        decoration: getInputDecoration(),
+      ),
     );
   }
 

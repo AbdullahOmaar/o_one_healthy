@@ -1,3 +1,4 @@
+import 'package:app/common/custom_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,7 +9,7 @@ import '../screens/patients_files_search/view/patients_files_search.dart';
 import '../screens/patients_files_search/view_model/patients_files_search_view_model.dart';
 
 SizedBox getVerticalSpacerWidget(context) => SizedBox(
-      height: MediaQuery.of(context).size.height * 0.03,
+      height: MediaQuery.of(context).size.height * 0.04,
     );
 
 SearchPage<Patient> getSearchPage(WidgetRef ref, context,items) => SearchPage<Patient>(
@@ -41,3 +42,24 @@ SearchPage<Patient> getSearchPage(WidgetRef ref, context,items) => SearchPage<Pa
         patient: patient,
       ),
     );
+
+double getWidgetWidth(double fullWidth, CustomWidth customWidth){
+  switch(customWidth){
+    case CustomWidth.oneThird :
+      return fullWidth *0.33;
+    case CustomWidth.twoThird:
+      return fullWidth * 0.66;
+    case CustomWidth.half:
+      return fullWidth * 0.50;
+    case CustomWidth.matchParent:
+      return fullWidth ;
+    default :
+      return fullWidth;
+  }
+}
+Container getVerticalSpacerLine(double fullWidth, CustomWidth customWidth,Color color,double padding)=>Container(
+  padding: EdgeInsets.symmetric(horizontal: padding),
+  height: 1,
+  width: getWidgetWidth(fullWidth,customWidth),
+  color: color,
+);
