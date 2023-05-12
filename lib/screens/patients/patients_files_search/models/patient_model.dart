@@ -1,4 +1,4 @@
-import 'package:app/screens/patients_files_search/models/patient_details_model.dart';
+import 'package:app/screens/patients/patients_files_search/models/patient_details_model.dart';
 
 class Patient {
   String nameAR;
@@ -12,14 +12,13 @@ class Patient {
   bool isPassword;
 
   PatientDetails? patientDetails;
-  Patient({
-    required this.nameAR,
-    required this.nameEN,
-    required this.uid,
-    required this.isLocked,
-    required this.isPassword,
-    this.patientDetails
-  });
+  Patient(
+      {required this.nameAR,
+      required this.nameEN,
+      required this.uid,
+      required this.isLocked,
+      required this.isPassword,
+      this.patientDetails});
 
   factory Patient.fromJson(Map<String, dynamic> json) => Patient(
       nameAR: json['nameAR'],
@@ -27,8 +26,9 @@ class Patient {
       uid: json['uid'],
       isLocked: json['isLocked'],
       isPassword: json['isPassword'],
-      patientDetails:json['details']!=null? PatientDetails.fromJson(json['details']):null
-  );
+      patientDetails: json['details'] != null
+          ? PatientDetails.fromJson(json['details'])
+          : null);
 
   toJson() => {
         "nameAR": nameAR,
