@@ -63,14 +63,3 @@ class _FileTabsState extends State<FileTabs>
     );
   }
 }
-
-// TabBar(
-// controller: _tabController,
-// tabs: _iconTabs,
-// unselectedLabelColor: Colors.black,
-// labelColor: _selectedColor,
-// indicator: BoxDecoration(
-// borderRadius: BorderRadius.circular(80.0),
-// color: _selectedColor.withOpacity(0.2),
-// ),
-// ),
