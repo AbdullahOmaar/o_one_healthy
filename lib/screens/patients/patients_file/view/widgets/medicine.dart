@@ -1,4 +1,4 @@
-import 'package:app/common/rosheta_screen.dart';
+import 'package:app/common/roshata/rosheta_screen.dart';
 import 'package:flutter/material.dart';
 
 class Medicine extends StatefulWidget {
@@ -13,8 +13,14 @@ class _MedicineState extends State<Medicine> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
-        // crossAxisAlignment: CrossAxisAlignment.start,
-        children: [buildButton(), const RoshetaScreen()],
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          buildButton(),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: RoshetaScreen(),
+          )
+        ],
       ),
     );
   }
