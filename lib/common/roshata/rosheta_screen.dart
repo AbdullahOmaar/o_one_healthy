@@ -1,3 +1,4 @@
+import 'package:app/common/roshata/widget/buld_medicines_list.dart';
 import 'package:flutter/material.dart';
 
 class RoshetaScreen extends StatefulWidget {
@@ -8,11 +9,13 @@ class RoshetaScreen extends StatefulWidget {
 }
 
 class _RoshetaScreenState extends State<RoshetaScreen> {
+  final Map<String, bool> _map = {};
+  int _count = 0;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 350,
-      padding: const EdgeInsets.all(12.0),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         border: Border.all(width: 2, color: Colors.black54),
         borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -24,6 +27,7 @@ class _RoshetaScreenState extends State<RoshetaScreen> {
             height: 15,
             color: Colors.black,
           ),
+          const SizedBox(height: 400, child: BuildMedicinesList()),
           const Divider(
             height: 15,
             color: Colors.black,
@@ -63,7 +67,7 @@ Widget buildDoctorHeaderDetails() {
 Widget buildDoctorFooterDetails() {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
+    children: const [
       Text("هاتف 012127632"),
       Text("الزقازيق"),
     ],
