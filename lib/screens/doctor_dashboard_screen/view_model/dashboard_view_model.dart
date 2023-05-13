@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:random_password_generator/random_password_generator.dart';
 import '../models/user_data_model.dart';
 import '../repository/doctor_dashboard_repository.dart';
 
@@ -20,9 +21,22 @@ class DashboardState {
 
 class DashboardViewModel extends StateNotifier<DashboardState> {
   final DoctorDashboardRepo repo;
+  final passwordGenerator =RandomPasswordGenerator();
 
   DashboardViewModel(this.repo) : super(DashboardState(isCreated: true));
 
+  String generatePassword(){
+    return passwordGenerator.randomPassword(
+        letters: true,
+        numbers: true,
+        passwordLength: 6,
+        specialChar: false,
+        uppercase: false);
+  }
+  Future<bool> validateUserIdExist(String uid)async{
+    bool isExist = await repo.checkUserExisting(uid);
+    return isExist;
+  }
   postNewUser(User user) async {
     state = state.copyWith(
       isCreated: false,
@@ -37,4 +51,18 @@ class DashboardViewModel extends StateNotifier<DashboardState> {
       );
     });
   }
+
+  String? validateUserID(String value ,bool isUidExists)  {
+  if (value.isEmpty) {
+  return 'Please enter valid ID';
+  } else if (value.length < 14) {
+  return 'ID is less than 14';
+  } else if (value.length > 14) {
+  return 'ID is greater than 14';
+  }else if (isUidExists) {
+  return 'user id is already exists';
+  }
+  return null;
+  }
+
 }

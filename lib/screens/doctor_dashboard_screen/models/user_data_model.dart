@@ -1,5 +1,7 @@
 class User {
    String name;
+   String password;
+   String email;
    String phoneNumber;
    String uid;
   Address? address;
@@ -11,6 +13,8 @@ class User {
     required this.phoneNumber,
     required this.uid,
     required this.privileges,
+    required this.password,
+    required this.email,
     this.address,
     this.createdBy,
   });
@@ -19,6 +23,8 @@ class User {
         name: json['name'],
         phoneNumber: json['phone_number'],
         uid: json['uid'],
+        password: json['password'],
+        email: json['email'],
         privileges: Privileges.fromJson(json['privileges']),
         address:
             json['address'] != null ? Address.fromJson(json['address']) : null,
@@ -29,6 +35,8 @@ class User {
 
   Map<String, dynamic> toJson() => {
         "name": name,
+        "password":password,
+        "email":email,
         "phone_number": phoneNumber,
         "uid": uid,
         "address": address?.toJson(),

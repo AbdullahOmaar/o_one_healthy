@@ -2,6 +2,7 @@ import 'package:app/common/custom_button.dart';
 import 'package:app/common/custom_text_field/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:random_password_generator/random_password_generator.dart';
 
 import '../../../../common/widget_utils.dart';
 import '../../models/user_data_model.dart';
@@ -17,6 +18,7 @@ class CreateUserForm extends ConsumerStatefulWidget {
 class _CreateUserFormState extends ConsumerState<CreateUserForm> {
   TextEditingController usernameTextEditingController = TextEditingController();
   TextEditingController uidEditingController = TextEditingController();
+  TextEditingController emailEditingController = TextEditingController();
   TextEditingController phoneNumberEditingController = TextEditingController();
   TextEditingController countryEditingController = TextEditingController();
   TextEditingController governorateEditingController = TextEditingController();
@@ -29,11 +31,15 @@ class _CreateUserFormState extends ConsumerState<CreateUserForm> {
   late CheckboxListTile isPharmacyCheckBox;
   late double fullWidth;
   final formKey = GlobalKey<FormState>();
-
+  final passwordGenerator = RandomPasswordGenerator();
+  late DashboardViewModel viewModelReader;
+  bool isUidExists=false;
   User user = User(
       name: '',
       phoneNumber: '',
       uid: '1',
+      password: '',
+      email: "",
       address: Address(city: 'v', country: 'c', governorate: 'g'),
       createdBy: CreatedBy(createdDate: "", creatorName: "", creatorUid: ''),
       privileges: Privileges(
@@ -48,6 +54,7 @@ class _CreateUserFormState extends ConsumerState<CreateUserForm> {
   @override
   Widget build(BuildContext context) {
     fullWidth = MediaQuery.of(context).size.width;
+    viewModelReader = ref.read(dashboardViewModelProvider.notifier);
 
     initCheckBoxes();
     return Form(
@@ -84,14 +91,28 @@ class _CreateUserFormState extends ConsumerState<CreateUserForm> {
               labelText: 'National ID',
               isPassword: false,
               suffix: Icons.person_pin,
+              validate: (String value)  {
+              return  viewModelReader.validateUserID(value, isUidExists);
+              },
+              onChanged: (val) {
+                user.uid = val;
+              },
+            ),
+            getVerticalSpacerWidget(context),
+            CustomTextField(
+              controller: emailEditingController,
+              inputType: TextInputType.number,
+              labelText: 'E-mail',
+              isPassword: false,
+              suffix: Icons.email,
               validate: (String value) {
                 if (value.isEmpty) {
-                  return 'Please enter valid ID';
+                  return 'Enter valid email';
                 }
                 return null;
               },
               onChanged: (val) {
-                user.uid = val;
+                user.email = val;
               },
             ),
             getVerticalSpacerWidget(context),
@@ -181,18 +202,33 @@ class _CreateUserFormState extends ConsumerState<CreateUserForm> {
             getVerticalSpacerWidget(context),
             ref.watch(dashboardViewModelProvider).isCreated
                 ? CustomButton(
-                    onPressed: () {
+                    onPressed: ()async {
+                      isUidExists= await viewModelReader.validateUserIdExist(user.uid);
                       if (formKey.currentState!.validate()) {
-                        ref
-                            .read(dashboardViewModelProvider.notifier)
-                            .postNewUser(user);
+                       if(isUidExists){
+                         return;
+                      }else {
+                         user.password = viewModelReader
+                              .generatePassword(); //generate random password
+                          viewModelReader.postNewUser(user);
+                          Navigator.of(context).pop();
+                        }
                       }
                     },
                     text: 'Submit',
                     fontSize: 20,
                     btnWidth: CustomWidth.half,
                   )
-                : const CircularProgressIndicator()
+                : const CircularProgressIndicator(),
+            getVerticalSpacerWidget(context),
+            CustomButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              text: 'Cancel',
+              fontSize: 20,
+              btnWidth: CustomWidth.half,
+            ),
           ],
         ),
       ),
