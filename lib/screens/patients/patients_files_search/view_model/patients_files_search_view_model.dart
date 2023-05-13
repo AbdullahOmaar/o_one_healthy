@@ -1,6 +1,5 @@
-import 'package:app/screens/patients_files_search/models/patient_details_model.dart';
-import 'package:app/screens/patients_files_search/models/patient_model.dart';
-
+import 'package:app/screens/patients/patients_files_search/models/patient_details_model.dart';
+import 'package:app/screens/patients/patients_files_search/models/patient_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../repository/patients_files_search_repository.dart';
@@ -37,7 +36,7 @@ class PatientSearchViewModel extends StateNotifier<PatientFilesSearchState> {
         ]));
 
   getPatientList() async {
-    final List <Patient> resModel = await repo.getPatientsFilesSearchServices();
+    final List<Patient> resModel = await repo.getPatientsFilesSearchServices();
 
     state = state.copyWith(
       patient: resModel,

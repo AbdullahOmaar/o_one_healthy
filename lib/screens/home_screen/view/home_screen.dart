@@ -1,13 +1,12 @@
-import 'package:app/common/bottom_bar/bottom_bar_widget/bottom_bar_view.dart';
 import 'package:app/common/widget_utils.dart';
+import 'package:app/routes/app_routes.dart';
 import 'package:app/screens/login/view/login_screen.dart';
-import 'package:app/screens/patients_files_search/view/patients_files_search.dart';
+import 'package:app/screens/patients/patients_files_search/models/patient_model.dart';
+import 'package:app/screens/patients/patients_files_search/view/patients_files_search.dart';
+import 'package:app/screens/patients/patients_files_search/view_model/patients_files_search_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:search_page/search_page.dart';
-
-import '../../patients_files_search/models/patient_model.dart';
-import '../../patients_files_search/view_model/patients_files_search_view_model.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   static const routeName = "/HomeScreen";
@@ -36,7 +35,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     BuildContext context,
   ) {
     return Scaffold(
-      bottomNavigationBar: const CustomBottomBarWidget(),
+        // bottomNavigationBar: const CustomBottomBarWidget(),
         body: Center(
       child: Column(
         mainAxisSize: MainAxisSize.max,
@@ -107,7 +106,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 backgroundColor: Colors.indigo,
               ),
               onPressed: () {
-                // ref.read(bottomBarViewModelProvider.notifier).setCurrentScreen(0,SelectedScreen.login);
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (ctx) => const LoginScreen()),
                   (route) => false,

@@ -1,6 +1,7 @@
+import 'package:app/common/custom_button.dart';
+import 'package:app/common/custom_text_field/custom_text_field.dart';
+import 'package:app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
-import '../../../common/custom_button.dart';
-import '../../../common/custom_text_field/custom_text_field.dart';
 import '../models/patient_model.dart';
 
 class PatientCard extends StatelessWidget {
@@ -13,8 +14,7 @@ class PatientCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-
-        width: MediaQuery.of(context).size.width*0.95,
+        width: MediaQuery.of(context).size.width * 0.95,
         child: Card(
           elevation: 3,
           child: Padding(
@@ -26,7 +26,6 @@ class PatientCard extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 20,
-
                       backgroundImage: patient.patientDetails?.imgUrl == null
                           ? Image.asset('assets/images/logo/logo.jpeg').image
                           : NetworkImage(patient.patientDetails?.imgUrl ?? ''),
@@ -38,7 +37,7 @@ class PatientCard extends StatelessWidget {
                   Column(
                     children: [
                       SizedBox(
-                        width: MediaQuery.of(context).size.width*0.8,
+                        width: MediaQuery.of(context).size.width * 0.8,
                         child: CustomTextField(
                           controller: patientFilePasswordTEC,
                           inputType: TextInputType.text,
@@ -49,11 +48,15 @@ class PatientCard extends StatelessWidget {
                       CustomButton(
                           fontSize: 10,
                           onPressed: () {
+                            Navigator.pushNamed(
+                              context,
+                              AppRoutes.patientFileScreen,
+                            );
+
                             ///TODO handle password Validation
                           },
                           text: 'Enter',
                           btnWidth: CustomWidth.oneThird),
-
                     ],
                   )
               ],
