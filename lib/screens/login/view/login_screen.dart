@@ -23,6 +23,13 @@ class LoginScreen extends ConsumerStatefulWidget {
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   int? currentIndex;
+ late LoginViewModel loginViewModel;
+ late LoginViwState stateWatcher ;
+
+  TextEditingController uidTextEditingController =TextEditingController();
+  TextEditingController passwordTextEditingController =TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  bool isAuth =false;
 
   @override
   void initState() {
@@ -34,6 +41,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget build(
     BuildContext context,
   ) {
+    loginViewModel=ref.read(loginViewModelProvider.notifier);
+    stateWatcher =ref.read(loginViewModelProvider);
+
     LoginModel? login = ref.watch((loginViewModelProvider)).loginModel;
     return Scaffold(
       bottomNavigationBar: const CustomBottomBarWidget(),
@@ -41,91 +51,125 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
-  getLoginBody() => Stack(
-        children: [
-          SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.40,
-              child: Image.asset(
-                'assets/images/immg.png',
-                fit: BoxFit.fill,
-              )),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-                decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(25),
-                      topRight: Radius.circular(25),
-                    )),
+  getLoginBody() => Form(
+    key: formKey,
+    child: Stack(
+          children: [
+            SizedBox(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * .65 -
-                    kBottomNavigationBarHeight,
-                child: Padding(
-                  padding: const EdgeInsets.all(25.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Login',
-                        style: TextStyle(
-                            fontSize: 36.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.indigo),
-                      ),
-                      getVerticalSpacerWidget(context),
-                      CustomTextField(
-                        controller: TextEditingController(),
-                        inputType: TextInputType.text,
-                        labelText: 'user name',
-                        // prefix: Icons.remove_red_eye,
-                        suffix: Icons.person,
-                        isPassword: false,
-                      ),
-                      getVerticalSpacerWidget(context),
-                      CustomTextField(
-                        controller: TextEditingController(),
-                        inputType: TextInputType.text,
-                        labelText: 'password',
-                        // prefix: Icons.remove_red_eye,
-                        suffix: Icons.remove_red_eye,
-                        isPassword: false,
-                      ),
-                      getVerticalSpacerWidget(context),
-                      Center(
-                        child: TextButton(
-                            onPressed: () {},
-                            child: const Text(
-                              'Forget password?',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.indigo,
-                              ),
-                            )),
-                      ),
-                      getVerticalSpacerWidget(context),
-                      Align(
-                          alignment: Alignment.bottomCenter,
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.5,
-                            child: CustomButton(
-                              btnWidth: CustomWidth.half,
-                              fontSize: 16,
-                              onPressed: () {
-                                Navigator.of(context).pushAndRemoveUntil( RouteGenerator.generateRoute(
-                                    const RouteSettings(
-                                        name: AppRoutes.doctorDashboard)),(route) => false,);
-                              },
-                              text: "Login now",
-                            ),
-                          ))
-                    ],
-                  ),
+                height: MediaQuery.of(context).size.height * 0.35,
+                child: Image.asset(
+                  'assets/images/immg.png',
+                  fit: BoxFit.fill,
                 )),
-          )
-        ],
-      );
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(25),
+                        topRight: Radius.circular(25),
+                      )),
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * .65 -
+                      kBottomNavigationBarHeight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(25.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Login',
+                          style: TextStyle(
+                              fontSize: 36.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.indigo),
+                        ),
+                        getVerticalSpacerWidget(context),
+                        Flexible(
+                          child: CustomTextField(
+                            controller: uidTextEditingController,
+                            inputType: TextInputType.text,
+                            labelText: 'Enter your ID',
+                            // prefix: Icons.remove_red_eye,
+                            suffix: Icons.person,
+                            isPassword: false,
+                            validate: (String value){
+                              if(value.isEmpty) {
+                                return 'ID must not be empty';
+                              }else if (!isAuth) {
+                                return 'wrong ID or password';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        getVerticalSpacerWidget(context),
+                        Flexible(
+                          child: CustomTextField(
+                            controller: passwordTextEditingController,
+                            inputType: TextInputType.text,
+                            labelText: 'password',
+                            // prefix: Icons.remove_red_eye,
+                            suffix: Icons.remove_red_eye,
+                            isPassword: false,
+                            validate: (String value){
+                              if(value.isEmpty) {
+                                return 'Password must not be empty';
+                              }else if (!isAuth) {
+                                return 'wrong ID or password';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        getVerticalSpacerWidget(context),
+                        Center(
+                          child: TextButton(
+                              onPressed: () {},
+                              child: const Text(
+                                'Forget password?',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.indigo,
+                                ),
+                              )),
+                        ),
+                        getVerticalSpacerWidget(context),
+                        Align(
+                            alignment: Alignment.bottomCenter,
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.5,
+                              child: stateWatcher.isLoading?const Center(child: CircularProgressIndicator()):CustomButton(
+                                btnWidth: CustomWidth.half,
+                                fontSize: 16,
+                                onPressed: () async{
+                                  final String uid= uidTextEditingController.text;
+                                  isAuth =await loginViewModel.authUser(uid, passwordTextEditingController.text);
+                                  if (formKey.currentState!.validate()) {
+                                    if(!isAuth){
+                                      return;
+                                    }else {
+                                  await loginViewModel.getUserData(uid).then((_){
+                                       Navigator.of(context).pushAndRemoveUntil( RouteGenerator.generateRoute(
+                                      const RouteSettings(
+                                          name: AppRoutes.doctorDashboard)),(route) => false,);
+                                  });
+                                    }
+                                  }
+
+                                },
+                                text: "Login now",
+                              ),
+                            ))
+                      ],
+                    ),
+                  )),
+            )
+          ],
+        ),
+  );
 
   getCurrentScreen(login) {
     if (ref.watch(bottomBarViewModelProvider).selectedScreen ==

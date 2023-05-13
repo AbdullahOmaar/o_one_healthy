@@ -1,37 +1,60 @@
+import 'dart:convert';
 
 import 'package:app/screens/login/model/login_model.dart';
 import 'package:app/screens/login/repository/login_repository.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-final loginViewModelProvider = StateNotifierProvider<LoginViewModel, LoginViwState>(
-    (ref) => LoginViewModel(ref.watch(loginRepositoryProvider))
-);
+import '../../doctor_dashboard_screen/models/user_data_model.dart';
 
-class LoginViwState{
+final loginViewModelProvider =
+    StateNotifierProvider<LoginViewModel, LoginViwState>(
+        (ref) => LoginViewModel(ref.watch(loginRepositoryProvider)));
+
+class LoginViwState {
   final LoginModel? loginModel;
+  bool isLoading=false;
 
-  LoginViwState({this.loginModel});
+  LoginViwState({this.loginModel,required this.isLoading});
 
-  LoginViwState copyWith({
-    LoginModel? loginModel
-}){
+  LoginViwState copyWith({LoginModel? loginModel ,bool? isLoading}) {
     return LoginViwState(
       loginModel: loginModel ?? this.loginModel,
+      isLoading: isLoading??false,
     );
   }
 }
 
-
 class LoginViewModel extends StateNotifier<LoginViwState> {
   final LoginRepository repo;
 
-  LoginViewModel(this.repo): super(LoginViwState(loginModel: LoginModel(name: "skajdhksajhdjkashdkjashdjk")));
+  LoginViewModel(this.repo)
+      : super(LoginViwState(
+            loginModel: LoginModel(name: "skajdhksajhdjkashdkjashdjk"),isLoading: false));
 
-  getLoginLogo(url) async{
+  getLoginLogo(url) async {
     final resModel = await repo.getLoginServices(url);
 
-    state =state.copyWith(
+    state = state.copyWith(
       loginModel: resModel,
     );
+  }
+
+  Future<bool> authUser(String uid, String password) async {
+
+    bool isUserExists = await repo.checkUserExistence(uid, password);
+    return isUserExists;
+  }
+  Future<void> getUserData(String uid)async{
+    state=state.copyWith(loginModel: null,isLoading: true);
+    try{
+      const FlutterSecureStorage storage = FlutterSecureStorage();
+      User user =await repo.getUserData(uid);
+      await storage.write(key: 'currentUser', value: json.encode(user.toJson()));
+      state=state.copyWith(loginModel: null,isLoading: false);
+    }catch(e){
+      state=state.copyWith(loginModel: null,isLoading: false);
+    }
   }
 }

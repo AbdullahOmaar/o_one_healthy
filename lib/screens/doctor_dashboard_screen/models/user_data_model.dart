@@ -21,10 +21,10 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         name: json['name'],
-        phoneNumber: json['phone_number'],
+        phoneNumber: json['phone_number']??'',
         uid: json['uid'],
-        password: json['password'],
-        email: json['email'],
+        password: json['password'].toString(),
+        email: json['email']??'',
         privileges: Privileges.fromJson(json['privileges']),
         address:
             json['address'] != null ? Address.fromJson(json['address']) : null,
@@ -53,10 +53,10 @@ class Address {
   Address(
       {required this.country, required this.governorate, required this.city});
 
-  factory Address.fromJson(Map<String, dynamic> json) => Address(
-        country: json['country'],
-        governorate: json['phone_number'],
-        city: json['city'],
+  factory Address.fromJson(Map<Object?, Object?> json) => Address(
+        country: json['country'].toString(),
+        governorate: json['phone_number'].toString(),
+        city: json['city'].toString(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -76,10 +76,10 @@ class CreatedBy {
       required this.creatorUid,
       required this.createdDate});
 
-  factory CreatedBy.fromJson(Map<String, dynamic> json) => CreatedBy(
-        creatorName: json['creator_name'],
-        creatorUid: json['creator_uid'],
-        createdDate: json['created_date'],
+  factory CreatedBy.fromJson(Map<Object?, Object?> json) => CreatedBy(
+        creatorName: json['creator_name'].toString(),
+        creatorUid: json['creator_uid'].toString(),
+        createdDate: json['created_date'].toString(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -107,13 +107,13 @@ class Privileges {
     required this.isPharmacy,
   });
 
-  factory Privileges.fromJson(Map<String, dynamic> json) => Privileges(
-        hasAdsPrivileges: json['hasAdsPrivileges'],
-        isAdmin: json['isAdmin'],
-        isClinic: json['isClinic'],
-        isDoctor: json['isDoctor'],
-        isLaboratory: json['isLaboratory'],
-        isPharmacy: json['isPharmacy'],
+  factory Privileges.fromJson(Map<Object?, Object?> json) => Privileges(
+        hasAdsPrivileges: json['hasAdsPrivileges'] as bool,
+        isAdmin: json['isAdmin'] as bool,
+        isClinic: json['isClinic']as bool,
+        isDoctor: json['isDoctor']as bool,
+        isLaboratory: json['isLaboratory']as bool,
+        isPharmacy: json['isPharmacy']as bool,
       );
 
   Map<String, dynamic> toJson() => {
