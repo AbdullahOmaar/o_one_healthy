@@ -1,3 +1,4 @@
+import 'package:app/screens/patients/patients_file/view/widgets/medicine.dart';
 import 'package:flutter/material.dart';
 
 class FileTabs extends StatefulWidget {
@@ -13,9 +14,9 @@ class _FileTabsState extends State<FileTabs>
   final _selectedColor = const Color(0xff1a73e8);
 
   final _iconTabs = [
-    const Tab(icon: Icon(Icons.home)),
-    const Tab(icon: Icon(Icons.search)),
-    const Tab(icon: Icon(Icons.settings)),
+    const Tab(icon: Icon(Icons.medical_services)),
+    const Tab(icon: Icon(Icons.ac_unit)),
+    const Tab(icon: Icon(Icons.ac_unit)),
   ];
 
   @override
@@ -33,32 +34,30 @@ class _FileTabsState extends State<FileTabs>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            TabBar(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          TabBar(
+            controller: _tabController,
+            tabs: _iconTabs,
+            unselectedLabelColor: Colors.black,
+            labelColor: _selectedColor,
+            indicator: BoxDecoration(
+              borderRadius: BorderRadius.circular(80.0),
+              color: _selectedColor.withOpacity(0.2),
+            ),
+          ),
+          Expanded(
+            child: TabBarView(
               controller: _tabController,
-              tabs: _iconTabs,
-              unselectedLabelColor: Colors.black,
-              labelColor: _selectedColor,
-              indicator: BoxDecoration(
-                borderRadius: BorderRadius.circular(80.0),
-                color: _selectedColor.withOpacity(0.2),
-              ),
+              children: const [
+                Medicine(),
+                Center(child: Text('1')),
+                Center(child: Text('2')),
+              ],
             ),
-            Expanded(
-              child: TabBarView(
-                children: [
-                  Container(child: Center(child: Text('people'))),
-                  Container(child: Center(child: Text('people'))),
-                  Text('Person')
-                ],
-                controller: _tabController,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
