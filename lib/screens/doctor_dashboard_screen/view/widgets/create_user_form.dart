@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:app/common/custom_button.dart';
 import 'package:app/common/custom_text_field/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:random_password_generator/random_password_generator.dart';
 
 import '../../../../common/widget_utils.dart';
@@ -203,6 +206,12 @@ class _CreateUserFormState extends ConsumerState<CreateUserForm> {
             ref.watch(dashboardViewModelProvider).isCreated
                 ? CustomButton(
                     onPressed: ()async {
+                       FlutterSecureStorage storage = const FlutterSecureStorage();
+
+                      String? data = await storage.read(
+                        key: 'currentUser',
+                      );
+                      User admin = User.fromJson(json.decode(data ?? ''));
                       isUidExists= await viewModelReader.validateUserIdExist(user.uid);
                       if (formKey.currentState!.validate()) {
                        if(isUidExists){
@@ -210,6 +219,7 @@ class _CreateUserFormState extends ConsumerState<CreateUserForm> {
                       }else {
                          user.password = viewModelReader
                               .generatePassword(); //generate random password
+                         user.createdBy=CreatedBy(creatorName: admin.name, creatorUid: admin.uid, createdDate: DateTime.now().toString());
                           viewModelReader.postNewUser(user);
                           Navigator.of(context).pop();
                         }

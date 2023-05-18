@@ -6,21 +6,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:workmanager/workmanager.dart';
 import 'firebase_options.dart';
-
+@pragma('vm:entry-point') // Mandatory if the App is obfuscated or using Flutter 3.1+
+void callbackDispatcher() {
+  Workmanager().executeTask((task, inputData) async{
+    const FlutterSecureStorage storage = FlutterSecureStorage();
+    await storage.delete(key: 'userSession');
+    return Future.value(true);
+  });
+}
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final cron = Cron();
-  cron.schedule(Schedule.parse('0-1 * * * *'), () async {
-    const FlutterSecureStorage storage = FlutterSecureStorage();
-    print('sessionnnn deleted');
-    await storage.delete(key: 'userSession');
-  });
   await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  Workmanager().initialize(
+      callbackDispatcher, // The top level function, aka callbackDispatcher
+      isInDebugMode: false , // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
+  );
 
+  Workmanager().registerPeriodicTask(
+    "end-session",
+    "Session ended",
+    frequency:const Duration(hours: 2),
+  );
   runApp(ProviderScope(
     child: EasyLocalization(
         supportedLocales: const [Locale('en', 'US'), Locale('ar', 'AR')],
