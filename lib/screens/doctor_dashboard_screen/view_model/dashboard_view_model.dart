@@ -9,12 +9,13 @@ final dashboardViewModelProvider =
 
 class DashboardState {
   final bool isCreated;
+  List<User> users=[] ;
+  DashboardState({required this.isCreated,this.users=const[]});
 
-  DashboardState({required this.isCreated});
-
-  DashboardState copyWith({required bool isCreated}) {
+  DashboardState copyWith({required bool isCreated,List<User>? users}) {
     return DashboardState(
       isCreated: isCreated,
+      users: users??[]
     );
   }
 }
@@ -50,6 +51,11 @@ class DashboardViewModel extends StateNotifier<DashboardState> {
         isCreated: false,
       );
     });
+  }
+  getUsersList() async {
+    final List<User> users = await repo.getAllUsersFiles();
+    state = state.copyWith(isCreated: true,
+      users: users);
   }
 
   String? validateUserID(String value ,bool isUidExists)  {

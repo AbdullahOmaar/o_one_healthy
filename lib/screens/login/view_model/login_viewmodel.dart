@@ -5,6 +5,7 @@ import 'package:app/screens/login/repository/login_repository.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:random_password_generator/random_password_generator.dart';
 
 import '../../doctor_dashboard_screen/models/user_data_model.dart';
 
@@ -52,6 +53,18 @@ class LoginViewModel extends StateNotifier<LoginViwState> {
       const FlutterSecureStorage storage = FlutterSecureStorage();
       User user =await repo.getUserData(uid);
       await storage.write(key: 'currentUser', value: json.encode(user.toJson()));
+      RandomPasswordGenerator().randomPassword(
+          letters: true,
+          numbers: true,
+          passwordLength: 20,
+          specialChar: false,
+          uppercase: false);
+      await storage.write(key: 'userSession', value: RandomPasswordGenerator().randomPassword(
+          letters: true,
+          numbers: true,
+          passwordLength: 20,
+          specialChar: false,
+          uppercase: true));
       state=state.copyWith(loginModel: null,isLoading: false);
     }catch(e){
       state=state.copyWith(loginModel: null,isLoading: false);

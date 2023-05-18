@@ -4,9 +4,13 @@ import 'package:app/screens/login/view/login_screen.dart';
 import 'package:app/screens/patients/patients_files_search/models/patient_model.dart';
 import 'package:app/screens/patients/patients_files_search/view/patients_files_search.dart';
 import 'package:app/screens/patients/patients_files_search/view_model/patients_files_search_view_model.dart';
+import 'package:cron/cron.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:search_page/search_page.dart';
+
+import '../../../routes/route_generator.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   static const routeName = "/HomeScreen";
@@ -105,11 +109,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               style: FilledButton.styleFrom(
                 backgroundColor: Colors.indigo,
               ),
-              onPressed: () {
-                Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (ctx) => const LoginScreen()),
-                  (route) => false,
-                );
+              onPressed: ()async {
+                const FlutterSecureStorage storage = FlutterSecureStorage();
+                String session= await storage.read(key: 'userSession')??'';
+                print('session $session');
+                if(session.isEmpty) {
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (ctx) => const LoginScreen()),
+                    (route) => false,
+                  );
+                }else{
+                  Navigator.of(context).pushAndRemoveUntil( RouteGenerator.generateRoute(
+                      const RouteSettings(
+                          name: AppRoutes.doctorDashboard)),(route) => false,);
+                }
               },
               child: const Text(
                 'Login now',

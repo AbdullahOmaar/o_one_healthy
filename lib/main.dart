@@ -1,13 +1,21 @@
 import 'package:app/routes/app_routes.dart';
 import 'package:app/routes/route_generator.dart';
+import 'package:cron/cron.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final cron = Cron();
+  cron.schedule(Schedule.parse('0-1 * * * *'), () async {
+    const FlutterSecureStorage storage = FlutterSecureStorage();
+    print('sessionnnn deleted');
+    await storage.delete(key: 'userSession');
+  });
   await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

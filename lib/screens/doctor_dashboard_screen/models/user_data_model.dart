@@ -20,7 +20,7 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        name: json['name'],
+        name: json['name']??'',
         phoneNumber: json['phone_number']??'',
         uid: json['uid'],
         password: json['password'].toString(),
