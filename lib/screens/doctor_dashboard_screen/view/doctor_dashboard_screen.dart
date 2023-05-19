@@ -4,6 +4,7 @@ import 'package:app/common/bottom_bar/bottom_bar_widget/bottom_bar_view.dart';
 import 'package:app/common/custom_button.dart';
 import 'package:app/common/widget_utils.dart';
 import 'package:app/screens/doctor_dashboard_screen/view/widgets/create_user_form.dart';
+import 'package:app/screens/doctor_dashboard_screen/view/widgets/filter_text_btn.dart';
 import 'package:app/screens/doctor_dashboard_screen/view/widgets/user_card.dart';
 import 'package:app/screens/patients/patients_files_search/view/patients_files_search.dart';
 import 'package:app/screens/patients/patients_files_search/view_model/patients_files_search_view_model.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:searchable_listview/resources/arrays.dart';
 import 'package:searchable_listview/searchable_listview.dart';
 
+import '../../../common/custom_text_field/custom_text_field.dart';
 import '../../../routes/app_routes.dart';
 import '../../../routes/route_generator.dart';
 import '../../patients/patients_files_search/models/patient_model.dart';
@@ -29,11 +31,15 @@ class DoctorDashboardScreen extends ConsumerStatefulWidget {
 }
 
 class _DoctorDashboardScreenState extends ConsumerState<DoctorDashboardScreen> {
-  TextEditingController searchTextController = TextEditingController();
+  TextEditingController searchUserTextController = TextEditingController();
+  TextEditingController searchPatientTextController = TextEditingController();
   FocusNode focusNode = FocusNode();
   FlutterSecureStorage storage = const FlutterSecureStorage();
-
-   User? user;
+  List<User>? allUsers;
+  List<Patient>? allPatients;
+  User? user;
+  bool isAdminToggled=false;
+  bool isPharmacyToggled=false;
 
   @override
   void initState() {
@@ -44,6 +50,10 @@ class _DoctorDashboardScreenState extends ConsumerState<DoctorDashboardScreen> {
 
   @override
   void didChangeDependencies() {
+    allPatients =ref.watch(patientFSViewModelProvider).patients;
+    allUsers =ref.watch(dashboardViewModelProvider).users??[];
+
+    fetchPatientsAndUsersData();
     super.didChangeDependencies();
   }
 
@@ -60,6 +70,10 @@ class _DoctorDashboardScreenState extends ConsumerState<DoctorDashboardScreen> {
   Widget build(
     BuildContext context,
   ) {
+    if(searchUserTextController.text.isEmpty && (!isAdminToggled&&!isPharmacyToggled)) {
+      allUsers =ref.watch(dashboardViewModelProvider).users;
+    }
+
     return Scaffold(
       bottomNavigationBar: const CustomBottomBarWidget(),
       body: SafeArea(
@@ -69,7 +83,7 @@ class _DoctorDashboardScreenState extends ConsumerState<DoctorDashboardScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   height: MediaQuery.of(context).size.height * 0.15,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,16 +95,27 @@ class _DoctorDashboardScreenState extends ConsumerState<DoctorDashboardScreen> {
                               radius: 30,
                               backgroundImage:
                                   Image.asset('assets/images/logo/logo.jpeg')
-                                      .image
-                              ),
-                          Text(user?.name??'',style: const TextStyle(fontWeight: FontWeight.bold,fontSize: 20),)
+                                      .image),
+                          Text(
+                            user?.name ?? '',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          )
                         ],
                       ),
                       Row(
                         children: [
                           IconButton(
+                              onPressed: () async {},
+                              icon: const Icon(
+                                Icons.settings,
+                                size: 40,
+                                color: Colors.grey,
+                              )),
+                          IconButton(
                               onPressed: () async {
                                 await storage.delete(key: 'userSession');
+                                await storage.delete(key: 'currentUser');
                                 Navigator.of(context).pushAndRemoveUntil(
                                   RouteGenerator.generateRoute(
                                       const RouteSettings(
@@ -102,12 +127,11 @@ class _DoctorDashboardScreenState extends ConsumerState<DoctorDashboardScreen> {
                                 Icons.exit_to_app_rounded,
                                 size: 40,
                                 color: Colors.grey,
-                              ))
+                              )),
                         ],
                       )
                     ],
                   )),
-              getVerticalSpacerWidget(context),
               CustomButton(
                 btnWidth: CustomWidth.twoThird,
                 fontSize: 18,
@@ -122,9 +146,6 @@ class _DoctorDashboardScreenState extends ConsumerState<DoctorDashboardScreen> {
                           maxHeight: MediaQuery.of(context).size.height,
                           minWidth: 100,
                           maxWidth: 1100),
-                      /*  constraints:  BoxConstraints.loose(Size(
-                        MediaQuery.of(context).size.width,
-                        MediaQuery.of(context).size.height * 0.75)),*/
 
                       context: context,
                       builder: (context) => const CreateUserForm());
@@ -132,9 +153,59 @@ class _DoctorDashboardScreenState extends ConsumerState<DoctorDashboardScreen> {
                 text: 'Create patient file',
               ),
               Container(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(4),
+                margin:const  EdgeInsets.fromLTRB(8, 8, 8, 8),
                 height: MediaQuery.of(context).size.height * 0.40,
-                child: SearchableList<User>(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CustomTextField(
+                        controller: searchUserTextController,
+                        inputType: TextInputType.text,
+                        labelText: 'Search users',
+                        isPassword: false,
+                        fieldBorder: FieldBorder.outline,
+                        onChanged: searchUser,
+                      ),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height*0.045,
+                      child: ToggleButtons(
+
+                        fillColor: Colors.indigo,
+                        selectedColor: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        isSelected: [isAdminToggled,isPharmacyToggled],
+                        onPressed: (i){
+                          switch(i){
+                            case 0:
+                              isAdminToggled=!isAdminToggled;
+                              break;
+                            case 1:
+                              isPharmacyToggled=!isPharmacyToggled;
+                              break ;
+                          }
+                          toggleFilter();
+                        },
+                        children: [
+                          FilterTextShape(text: 'is admin'),
+                          FilterTextShape(text: 'is Pharmacy'),
+                        ],),
+                    ),
+
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: allUsers!.length,
+                        itemBuilder: (ctx, index) {
+                          final User user =allUsers![index];
+                          return UserCard(user: user);
+                        },
+                      ),
+                    )
+                  ],
+                )
+                /*SearchableList<User>(
                   focusNode: focusNode,
                   keyboardAction: TextInputAction.none,
                   searchMode: SearchMode.onEdit,
@@ -165,41 +236,40 @@ class _DoctorDashboardScreenState extends ConsumerState<DoctorDashboardScreen> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
-                ),
+                )*/
+                ,
               ),
               getVerticalSpacerLine(MediaQuery.of(context).size.width,
                   CustomWidth.matchParent, Colors.black26, 20),
               Container(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(4),
+                margin:const  EdgeInsets.fromLTRB(8, 8, 8, 8),
                 height: MediaQuery.of(context).size.height * 0.40,
-                child: SearchableList<Patient>(
-                  keyboardAction: TextInputAction.none,
-                  searchMode: SearchMode.onEdit,
-                  autoCompleteHints: const [],
-                  initialList: ref.watch(patientFSViewModelProvider).patients,
-                  builder: (Patient patient) => PatientCard(patient: patient),
-                  filter: (value) => ref
-                      .watch(patientFSViewModelProvider)
-                      .patients
-                      .where(
-                        (element) =>
-                            element.nameEN.toLowerCase().contains(value),
-                      )
-                      .toList(),
-                  emptyWidget: const SizedBox(
-                    child: Text('emty'),
-                  ),
-                  inputDecoration: InputDecoration(
-                    labelText: "Search Patient",
-                    fillColor: Colors.white,
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: Colors.blue,
-                        width: 1.0,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CustomTextField(
+                        controller: searchPatientTextController,
+                        inputType: TextInputType.text,
+                        labelText: 'Search patients',
+                        isPassword: false,
+                        fieldBorder: FieldBorder.outline,
+                        onChanged: (String val){
+                          searchPatients(val);
+                        },
                       ),
-                      borderRadius: BorderRadius.circular(10.0),
                     ),
-                  ),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: allPatients!.length,
+                        itemBuilder: (ctx, index) {
+                          final Patient patient =allPatients![index];
+                          return PatientCard(patient: patient);
+                        },
+                      ),
+                    )
+                  ],
                 ),
               ),
               getVerticalSpacerLine(MediaQuery.of(context).size.width,
@@ -215,7 +285,62 @@ class _DoctorDashboardScreenState extends ConsumerState<DoctorDashboardScreen> {
     await ref.read(dashboardViewModelProvider.notifier).getUsersList();
     await ref.read(patientFSViewModelProvider.notifier).getPatientList();
   }
-
+  void searchUser(String query){
+    if(query.isNotEmpty) {
+      final suggestions =
+          ref.watch(dashboardViewModelProvider).users.where((User user) {
+        final userName = user.name.toLowerCase();
+        final userID = user.uid.toLowerCase();
+        final input = query.toLowerCase();
+        return userName.contains(input)||userID.contains(input);
+      }).toList();
+      setState(() {
+        allUsers = suggestions;
+      });
+    }else{
+      setState(() {
+        allUsers =ref.watch(dashboardViewModelProvider).users;
+      });
+    }
+  }
+  void searchPatients(String query){
+    if(query.isNotEmpty) {
+      final suggestions =
+          ref.watch(patientFSViewModelProvider).patients.where((Patient patient) {
+        final patientNameEN = patient.nameEN.toLowerCase();
+        final patientNameAR = patient.nameAR.toLowerCase();
+        final patientUID = patient.uid.toLowerCase();
+        final input = query.toLowerCase();
+        return patientNameEN.contains(input)||patientNameAR.contains(input)||patientUID.contains(input);
+      }).toList();
+      setState(() {
+        allPatients = suggestions;
+      });
+    }else{
+      setState(() {
+        allPatients =ref.watch(patientFSViewModelProvider).patients;
+      });
+    }
+  }
+  toggleFilter(){
+    // if(query.isNotEmpty) {
+    if(isAdminToggled ||isPharmacyToggled) {
+      final suggestions =
+          ref.watch(dashboardViewModelProvider).users.where((User user) {
+        final isAdmin = user.privileges.isAdmin;
+        final isPharmacy = user.privileges.isPharmacy;
+        // final input = query.toLowerCase();
+        return (isAdminToggled && isAdmin) || (isPharmacyToggled && isPharmacy);
+      }).toList();
+      setState(() {
+        allUsers = suggestions;
+      });
+    }else{
+      setState(() {
+        allUsers =ref.watch(dashboardViewModelProvider).users;
+      });
+    }
+  }
   getCurrentUserData() async {
     String? data = await storage.read(
       key: 'currentUser',

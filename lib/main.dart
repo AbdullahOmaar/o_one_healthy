@@ -13,6 +13,7 @@ void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async{
     const FlutterSecureStorage storage = FlutterSecureStorage();
     await storage.delete(key: 'userSession');
+    await storage.delete(key: 'currentUser');
     return Future.value(true);
   });
 }

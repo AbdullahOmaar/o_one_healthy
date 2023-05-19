@@ -1,3 +1,5 @@
+import 'package:app/common/custom_button.dart';
+import 'package:app/common/widget_utils.dart';
 import 'package:app/screens/doctor_dashboard_screen/models/user_data_model.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +19,7 @@ class UserCard extends StatelessWidget {
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.95,
         child: Card(
+          color: user.privileges.isAdmin?Colors.indigo:Colors.white70,
           elevation: 5,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -39,11 +42,12 @@ class UserCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          getPatientNameText(user.name),
+                          getPatientNameText(user.name ,user.privileges.isAdmin),
                           // if (user.privileges.isAdmin)
 /*
                             getPrivilegeContainer("Admin"),
 */
+                        // getVerticalSpacerLine(MediaQuery.of(context).size.width, CustomWidth.oneThird, Colors.grey, 16),
                           Padding(
                             padding: const EdgeInsets.all(2.0),
                             child: Row(
@@ -52,14 +56,15 @@ class UserCard extends StatelessWidget {
                               // shrinkWrap: false,
                               children: [
                                 if (user.privileges.isAdmin)
-                                  getPrivilegeContainer("Admin"),
+                                  getPrivilegeContainer("Admin",user.privileges.isAdmin),
                               if (user.privileges.isClinic)
-                                  getPrivilegeContainer("Clinic"),
+                                  getPrivilegeContainer("Clinic",user.privileges.isAdmin),
                                 if (user.privileges.isDoctor)
-                                  getPrivilegeContainer("Doctor"),
+                                  getPrivilegeContainer("Doctor",user.privileges.isAdmin),
                               ],
                             ),
-                          )   , Padding(
+                          )   ,
+                          Padding(
                             padding: const EdgeInsets.all(2.0),
                             child: Row(
                               // scrollDirection: Axis.horizontal,
@@ -67,11 +72,11 @@ class UserCard extends StatelessWidget {
                               // shrinkWrap: false,
                               children: [
                                 if (user.privileges.isLaboratory)
-                                  getPrivilegeContainer("Lab"),
+                                  getPrivilegeContainer("Lab",user.privileges.isAdmin),
                                 if (user.privileges.isPharmacy)
-                                  getPrivilegeContainer("Pharmacy"),
+                                  getPrivilegeContainer("Pharmacy",user.privileges.isAdmin),
                                 if (user.privileges.hasAdsPrivileges)
-                                  getPrivilegeContainer("Control Ads"),
+                                  getPrivilegeContainer("Control Ads",user.privileges.isAdmin),
                               ],
                             ),
                           )
@@ -88,25 +93,26 @@ class UserCard extends StatelessWidget {
     );
   }
 
-  getPrivilegeContainer(String text) => Padding(
+  getPrivilegeContainer(String text,bool isAdmin) => Padding(
     padding: const EdgeInsets.all(4.0),
     child: Container(
           decoration: BoxDecoration(
-              color: Colors.green.shade300.withOpacity(.35),
+              color: isAdmin?Colors.white:Colors.green.shade300.withOpacity(.35),
               borderRadius: BorderRadius.circular(20)),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
               text,
-              style: const TextStyle(
-                  overflow: TextOverflow.ellipsis, color: Colors.black54,fontSize: 10),
+              style: const  TextStyle(
+                  overflow: TextOverflow.ellipsis, color: Colors.black54,fontSize: 10,fontWeight: FontWeight.bold),
             ),
           ),
         ),
   );
 
-  Widget getPatientNameText(String text) => Text(
+  Widget getPatientNameText(String text ,bool isAdmin) => Text(
         text,
-        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        style:  TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color:isAdmin?Colors.white:Colors.indigo
+        ),
       );
 }

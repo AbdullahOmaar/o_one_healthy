@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../custom_button.dart';
 import '../widget_utils.dart';
 
+enum FieldBorder { underline, outline }
+
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final TextInputType inputType;
@@ -17,7 +19,7 @@ class CustomTextField extends StatelessWidget {
   late CustomWidth customWidth;
   final Function? showPassword;
   late double fullWidth;
-
+  FieldBorder fieldBorder;
 
   CustomTextField({
     Key? key,
@@ -32,15 +34,16 @@ class CustomTextField extends StatelessWidget {
     this.suffix,
     required this.isPassword,
     this.showPassword,
-    this.customWidth =CustomWidth.matchParent,
+    this.fieldBorder = FieldBorder.underline,
+    this.customWidth = CustomWidth.matchParent,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    fullWidth =MediaQuery.of(context).size.width;
+    fullWidth = MediaQuery.of(context).size.width;
 
     return SizedBox(
-      width: getWidgetWidth(fullWidth,customWidth),
+      width: getWidgetWidth(fullWidth, customWidth),
       child: TextFormField(
         style: const TextStyle(color: Colors.grey),
         cursorColor: Colors.black,
@@ -60,6 +63,19 @@ class CustomTextField extends StatelessWidget {
         borderSide: BorderSide(color: Colors.indigo, width: 0.2),
       );
 
+  getTextFieldBorder() {
+    switch (fieldBorder) {
+      case FieldBorder.underline:
+        return getUnderlineBorder();
+      case FieldBorder.outline :
+        return const OutlineInputBorder(
+          borderSide: BorderSide(
+              color: Colors.indigo, width: 0.9, style: BorderStyle.solid),
+        );
+    }
+
+  }
+
   InputDecoration getInputDecoration() => InputDecoration(
         labelText: labelText,
         labelStyle: const TextStyle(
@@ -67,9 +83,9 @@ class CustomTextField extends StatelessWidget {
           color: Colors.grey,
           fontSize: 18.0,
         ),
-        focusedBorder: getUnderlineBorder(),
-        enabledBorder: getUnderlineBorder(),
-        border: getUnderlineBorder(),
+        focusedBorder: getTextFieldBorder(),
+        enabledBorder: getTextFieldBorder(),
+        border: getTextFieldBorder(),
         prefixIcon: prefix != null
             ? Icon(
                 prefix,
