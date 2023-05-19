@@ -11,8 +11,6 @@ import 'package:app/screens/patients/patients_files_search/view_model/patients_f
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:searchable_listview/resources/arrays.dart';
-import 'package:searchable_listview/searchable_listview.dart';
 
 import '../../../common/custom_text_field/custom_text_field.dart';
 import '../../../routes/app_routes.dart';
@@ -21,8 +19,8 @@ import '../../patients/patients_files_search/models/patient_model.dart';
 import '../models/user_data_model.dart';
 import '../view_model/dashboard_view_model.dart';
 
-class DoctorDashboardScreen extends ConsumerStatefulWidget {
-  const DoctorDashboardScreen({Key? key}) : super(key: key);
+class DashboardScreen extends ConsumerStatefulWidget {
+  const DashboardScreen({Key? key}) : super(key: key);
   static const routeName = "/DoctorDashboardScreen";
 
   @override
@@ -30,7 +28,7 @@ class DoctorDashboardScreen extends ConsumerStatefulWidget {
       _DoctorDashboardScreenState();
 }
 
-class _DoctorDashboardScreenState extends ConsumerState<DoctorDashboardScreen> {
+class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
   TextEditingController searchUserTextController = TextEditingController();
   TextEditingController searchPatientTextController = TextEditingController();
   FocusNode focusNode = FocusNode();
@@ -58,7 +56,7 @@ class _DoctorDashboardScreenState extends ConsumerState<DoctorDashboardScreen> {
   }
 
   @override
-  void didUpdateWidget(covariant DoctorDashboardScreen oldWidget) {
+  void didUpdateWidget(covariant DashboardScreen oldWidget) {
     getCurrentUserData();
     fetchPatientsAndUsersData();
     // FocusScope.of(context).requestFocus(FocusNode());

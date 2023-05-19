@@ -6,7 +6,7 @@ import 'package:app/screens/patients/patients_file/view/patients_files_screen.da
 import 'package:app/screens/subscribers_screen/view/subscribers_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../screens/doctor_dashboard_screen/view/doctor_dashboard_screen.dart';
+import '../screens/doctor_dashboard_screen/view/dashboard_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -14,7 +14,7 @@ class RouteGenerator {
       case AppRoutes.home:
         return buildRoute(const HomeScreen(), settings: settings);
       case AppRoutes.doctorDashboard:
-        return buildRoute(const DoctorDashboardScreen(), settings: settings);
+        return buildRoute(const DashboardScreen(), settings: settings);
       case AppRoutes.adsScreen:
         return buildRoute(const AdsScreen(), settings: settings);
       case AppRoutes.loginScreen:
