@@ -5,8 +5,8 @@ class PatientDetails {
 
   PatientDetails({this.age, this.imgUrl});
 
-  factory PatientDetails.fromJson(Map<String, dynamic> json) =>
-      PatientDetails(age: json['age'], imgUrl: json['imgUrl']);
+  factory PatientDetails.fromJson(Map<Object?, Object?> json) =>
+      PatientDetails(age: int.tryParse(json['age'].toString()), imgUrl: json['imgUrl'].toString());
 
   toJson() => {"age": age, "imgUrl": imgUrl};
 }

@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/patient_model.dart';
 abstract class IPatientsFilesRepository {
   Future<List<Patient>> getPatientsFilesSearchServices();
+  Future<void> createPatient(Patient patient);
+  Future<bool> checkPatientExisting(String uid);
 }
 
 final  patientsFilesRepositoryProvider = Provider((ref) => PatientsFilesRepository());
@@ -20,6 +22,26 @@ class PatientsFilesRepository extends IPatientsFilesRepository {
      }
      return  list;
   }
+
+  @override
+  Future<void> createPatient(Patient patient) async{
+    await _writeNewUser(patient);
+  }
+
+  @override
+  Future<bool> checkPatientExisting(String uid) async{
+    var data =await FirebaseDatabase.instance.ref().child('patients').child(uid).get();
+    return data.exists;
+  }
+}
+Future<void> _writeNewUser(Patient user) async {
+
+  // Write the new post's data simultaneously in the posts list and the
+  // user's post list.
+  final Map<String, Map> updates = {};
+  updates['/patients/${user.uid}'] = user.toJson();
+
+  return await FirebaseDatabase.instance.ref().update(updates);
 }
 
 // call API

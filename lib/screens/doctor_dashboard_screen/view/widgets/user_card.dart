@@ -1,9 +1,6 @@
-import 'package:app/common/custom_button.dart';
-import 'package:app/common/widget_utils.dart';
 import 'package:app/screens/doctor_dashboard_screen/models/user_data_model.dart';
 import 'package:flutter/material.dart';
 
-import '../../../patients/patients_files_search/models/patient_model.dart';
 
 class UserCard extends StatelessWidget {
   final User user;
@@ -15,75 +12,61 @@ class UserCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size screenSize = MediaQuery.of(context).size;
     return Center(
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.95,
+        width: screenSize.width * 0.40,
         child: Card(
-          color: user.privileges.isAdmin?Colors.indigo:Colors.white70,
-          elevation: 5,
+          color: user.privileges.isAdmin ? Colors.indigo : Colors.white70,
+          elevation: 20,
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    CircleAvatar(
-                        radius: 20,
-                        backgroundImage:
-                            Image.asset('assets/images/logo/logo.jpeg').image
-                        /*user.userDetails?.imgUrl == null
-                          ? Image.asset('assets/images/logo/logo.jpeg').image
-                          : NetworkImage(user.userDetails?.imgUrl ?? ''),*/
-                        ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          getPatientNameText(user.name ,user.privileges.isAdmin),
-                          // if (user.privileges.isAdmin)
-/*
-                            getPrivilegeContainer("Admin"),
-*/
-                        // getVerticalSpacerLine(MediaQuery.of(context).size.width, CustomWidth.oneThird, Colors.grey, 16),
-                          Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: Row(
-                              // scrollDirection: Axis.horizontal,
-                              // physics: const NeverScrollableScrollPhysics(),
-                              // shrinkWrap: false,
-                              children: [
-                                if (user.privileges.isAdmin)
-                                  getPrivilegeContainer("Admin",user.privileges.isAdmin),
-                              if (user.privileges.isClinic)
-                                  getPrivilegeContainer("Clinic",user.privileges.isAdmin),
-                                if (user.privileges.isDoctor)
-                                  getPrivilegeContainer("Doctor",user.privileges.isAdmin),
-                              ],
-                            ),
-                          )   ,
-                          Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: Row(
-                              // scrollDirection: Axis.horizontal,
-                              // physics: const NeverScrollableScrollPhysics(),
-                              // shrinkWrap: false,
-                              children: [
-                                if (user.privileges.isLaboratory)
-                                  getPrivilegeContainer("Lab",user.privileges.isAdmin),
-                                if (user.privileges.isPharmacy)
-                                  getPrivilegeContainer("Pharmacy",user.privileges.isAdmin),
-                                if (user.privileges.hasAdsPrivileges)
-                                  getPrivilegeContainer("Control Ads",user.privileges.isAdmin),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
+                CircleAvatar(
+                    radius: 22,
+                    backgroundImage:
+                        Image.asset('assets/images/logo/logo.jpeg').image
+                    /*user.userDetails?.imgUrl == null
+                      ? Image.asset('assets/images/logo/logo.jpeg').image
+                      : NetworkImage(user.userDetails?.imgUrl ?? ''),*/
                     ),
-                  ],
+                getPatientNameText(user.name, user.privileges.isAdmin),
+                Align(
+                  alignment: AlignmentDirectional.centerStart,
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(2, 2, 2, 2),
+                    padding: const EdgeInsets.fromLTRB(1, 3, 1, 3),
+                    clipBehavior: Clip.hardEdge,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: Colors.amber.withOpacity(.15),
+                        borderRadius: BorderRadius.circular(15)),
+                    child: Wrap(
+                      runSpacing: 4,
+                      // runAlignment: WrapAlignment.start,
+                      spacing: 2,
+                      direction: Axis.horizontal,
+                      // scrollDirection: Axis.horizontal,
+                      // physics: const NeverScrollableScrollPhysics(),
+                      // shrinkWrap: false,
+                      children: [
+                        if (user.privileges.isAdmin)
+                          getPrivilegeChip("admin", screenSize),
+                        if (user.privileges.isClinic)
+                          getPrivilegeChip("Clinic", screenSize),
+                        if (user.privileges.isDoctor)
+                          getPrivilegeChip("Doctor", screenSize),
+                        if (user.privileges.isLaboratory)
+                          getPrivilegeChip("Lab", screenSize),
+                        if (user.privileges.isPharmacy)
+                          getPrivilegeChip("Pharmacy", screenSize),
+                        if (user.privileges.hasAdsPrivileges)
+                          getPrivilegeChip("Control Ads", screenSize)
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -93,26 +76,25 @@ class UserCard extends StatelessWidget {
     );
   }
 
-  getPrivilegeContainer(String text,bool isAdmin) => Padding(
-    padding: const EdgeInsets.all(4.0),
-    child: Container(
-          decoration: BoxDecoration(
-              color: isAdmin?Colors.white:Colors.green.shade300.withOpacity(.35),
-              borderRadius: BorderRadius.circular(20)),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              text,
-              style: const  TextStyle(
-                  overflow: TextOverflow.ellipsis, color: Colors.black54,fontSize: 10,fontWeight: FontWeight.bold),
-            ),
+  Widget getPrivilegeChip(String text, Size screenSize) => SizedBox(
+        width: screenSize.width * 0.15,
+        height: screenSize.height * 0.04,
+        child: Chip(
+          label: Text(
+            text,
+            style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+            overflow: TextOverflow.ellipsis,
           ),
+          elevation: 7,
+          backgroundColor: Colors.green.shade300.withOpacity(.35),
         ),
-  );
+      );
 
-  Widget getPatientNameText(String text ,bool isAdmin) => Text(
+  Widget getPatientNameText(String text, bool isAdmin) => Text(
         text,
-        style:  TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color:isAdmin?Colors.white:Colors.indigo
-        ),
+        style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: isAdmin ? Colors.white : Colors.indigo),
       );
 }

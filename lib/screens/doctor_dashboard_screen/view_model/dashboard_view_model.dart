@@ -8,13 +8,13 @@ final dashboardViewModelProvider =
         DashboardViewModel(ref.watch(doctorDashboardRepositoryProvider)));
 
 class DashboardState {
-  final bool isCreated;
+  final bool isNotCreated;
   List<User> users=[] ;
-  DashboardState({required this.isCreated,this.users=const[]});
+  DashboardState({required this.isNotCreated,this.users=const[]});
 
   DashboardState copyWith({required bool isCreated,List<User>? users}) {
     return DashboardState(
-      isCreated: isCreated,
+      isNotCreated: isCreated,
       users: users??[]
     );
   }
@@ -24,7 +24,7 @@ class DashboardViewModel extends StateNotifier<DashboardState> {
   final DoctorDashboardRepo repo;
   final passwordGenerator =RandomPasswordGenerator();
 
-  DashboardViewModel(this.repo) : super(DashboardState(isCreated: true));
+  DashboardViewModel(this.repo) : super(DashboardState(isNotCreated: true));
 
   String generatePassword(){
     return passwordGenerator.randomPassword(

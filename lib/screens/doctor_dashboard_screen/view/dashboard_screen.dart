@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:app/common/bottom_bar/bottom_bar_widget/bottom_bar_view.dart';
 import 'package:app/common/custom_button.dart';
 import 'package:app/common/widget_utils.dart';
+import 'package:app/screens/doctor_dashboard_screen/view/widgets/create_patient_form.dart';
 import 'package:app/screens/doctor_dashboard_screen/view/widgets/create_user_form.dart';
 import 'package:app/screens/doctor_dashboard_screen/view/widgets/filter_text_btn.dart';
 import 'package:app/screens/doctor_dashboard_screen/view/widgets/user_card.dart';
@@ -36,8 +37,8 @@ class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
   List<User>? allUsers;
   List<Patient>? allPatients;
   User? user;
-  bool isAdminToggled=false;
-  bool isPharmacyToggled=false;
+  bool isAdminToggled = false;
+  bool isPharmacyToggled = false;
 
   @override
   void initState() {
@@ -48,8 +49,8 @@ class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
 
   @override
   void didChangeDependencies() {
-    allPatients =ref.watch(patientFSViewModelProvider).patients;
-    allUsers =ref.watch(dashboardViewModelProvider).users??[];
+    allPatients = ref.watch(patientFSViewModelProvider).patients;
+    allUsers = ref.watch(dashboardViewModelProvider).users ?? [];
 
     fetchPatientsAndUsersData();
     super.didChangeDependencies();
@@ -68,8 +69,9 @@ class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
   Widget build(
     BuildContext context,
   ) {
-    if(searchUserTextController.text.isEmpty && (!isAdminToggled&&!isPharmacyToggled)) {
-      allUsers =ref.watch(dashboardViewModelProvider).users;
+    if (searchUserTextController.text.isEmpty &&
+        (!isAdminToggled && !isPharmacyToggled)) {
+      allUsers = ref.watch(dashboardViewModelProvider).users;
     }
 
     return Scaffold(
@@ -144,15 +146,33 @@ class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
                           maxHeight: MediaQuery.of(context).size.height,
                           minWidth: 100,
                           maxWidth: 1100),
-
                       context: context,
                       builder: (context) => const CreateUserForm());
                 },
-                text: 'Create patient file',
+                text: 'Create new user',
+              ),
+              CustomButton(
+                btnWidth: CustomWidth.twoThird,
+                fontSize: 18,
+                onPressed: () {
+                  showModalBottomSheet(
+                      isScrollControlled: true,
+                      shape: const RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(45))),
+                      constraints: BoxConstraints(
+                          minHeight: 200,
+                          maxHeight: MediaQuery.of(context).size.height,
+                          minWidth: 100,
+                          maxWidth: 1100),
+                      context: context,
+                      builder: (context) => const CreatePatientForm());
+                },
+                text: 'Create new patient',
               ),
               Container(
                 padding: const EdgeInsets.all(4),
-                margin:const  EdgeInsets.fromLTRB(8, 8, 8, 8),
+                margin: const EdgeInsets.fromLTRB(8, 8, 8, 8),
                 height: MediaQuery.of(context).size.height * 0.40,
                 child: Column(
                   children: [
@@ -168,35 +188,35 @@ class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height*0.045,
+                      height: MediaQuery.of(context).size.height * 0.045,
                       child: ToggleButtons(
-
                         fillColor: Colors.indigo,
                         selectedColor: Colors.white,
                         borderRadius: BorderRadius.circular(20),
-                        isSelected: [isAdminToggled,isPharmacyToggled],
-                        onPressed: (i){
-                          switch(i){
+                        isSelected: [isAdminToggled, isPharmacyToggled],
+                        onPressed: (i) {
+                          switch (i) {
                             case 0:
-                              isAdminToggled=!isAdminToggled;
+                              isAdminToggled = !isAdminToggled;
                               break;
                             case 1:
-                              isPharmacyToggled=!isPharmacyToggled;
-                              break ;
+                              isPharmacyToggled = !isPharmacyToggled;
+                              break;
                           }
                           toggleFilter();
                         },
                         children: [
                           FilterTextShape(text: 'is admin'),
                           FilterTextShape(text: 'is Pharmacy'),
-                        ],),
+                        ],
+                      ),
                     ),
-
                     Expanded(
                       child: ListView.builder(
                         itemCount: allUsers!.length,
+                        scrollDirection: Axis.horizontal,
                         itemBuilder: (ctx, index) {
-                          final User user =allUsers![index];
+                          final User user = allUsers![index];
                           return UserCard(user: user);
                         },
                       ),
@@ -241,7 +261,7 @@ class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
                   CustomWidth.matchParent, Colors.black26, 20),
               Container(
                 padding: const EdgeInsets.all(4),
-                margin:const  EdgeInsets.fromLTRB(8, 8, 8, 8),
+                margin: const EdgeInsets.fromLTRB(8, 8, 8, 8),
                 height: MediaQuery.of(context).size.height * 0.40,
                 child: Column(
                   children: [
@@ -253,7 +273,7 @@ class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
                         labelText: 'Search patients',
                         isPassword: false,
                         fieldBorder: FieldBorder.outline,
-                        onChanged: (String val){
+                        onChanged: (String val) {
                           searchPatients(val);
                         },
                       ),
@@ -262,7 +282,7 @@ class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
                       child: ListView.builder(
                         itemCount: allPatients!.length,
                         itemBuilder: (ctx, index) {
-                          final Patient patient =allPatients![index];
+                          final Patient patient = allPatients![index];
                           return PatientCard(patient: patient);
                         },
                       ),
@@ -283,46 +303,53 @@ class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
     await ref.read(dashboardViewModelProvider.notifier).getUsersList();
     await ref.read(patientFSViewModelProvider.notifier).getPatientList();
   }
-  void searchUser(String query){
-    if(query.isNotEmpty) {
+
+  void searchUser(String query) {
+    if (query.isNotEmpty) {
       final suggestions =
           ref.watch(dashboardViewModelProvider).users.where((User user) {
         final userName = user.name.toLowerCase();
         final userID = user.uid.toLowerCase();
         final input = query.toLowerCase();
-        return userName.contains(input)||userID.contains(input);
+        return userName.contains(input) || userID.contains(input);
       }).toList();
       setState(() {
         allUsers = suggestions;
       });
-    }else{
+    } else {
       setState(() {
-        allUsers =ref.watch(dashboardViewModelProvider).users;
+        allUsers = ref.watch(dashboardViewModelProvider).users;
       });
     }
   }
-  void searchPatients(String query){
-    if(query.isNotEmpty) {
-      final suggestions =
-          ref.watch(patientFSViewModelProvider).patients.where((Patient patient) {
+
+  void searchPatients(String query) {
+    if (query.isNotEmpty) {
+      final suggestions = ref
+          .watch(patientFSViewModelProvider)
+          .patients
+          .where((Patient patient) {
         final patientNameEN = patient.nameEN.toLowerCase();
         final patientNameAR = patient.nameAR.toLowerCase();
         final patientUID = patient.uid.toLowerCase();
         final input = query.toLowerCase();
-        return patientNameEN.contains(input)||patientNameAR.contains(input)||patientUID.contains(input);
+        return patientNameEN.contains(input) ||
+            patientNameAR.contains(input) ||
+            patientUID.contains(input);
       }).toList();
       setState(() {
         allPatients = suggestions;
       });
-    }else{
+    } else {
       setState(() {
-        allPatients =ref.watch(patientFSViewModelProvider).patients;
+        allPatients = ref.watch(patientFSViewModelProvider).patients;
       });
     }
   }
-  toggleFilter(){
+
+  toggleFilter() {
     // if(query.isNotEmpty) {
-    if(isAdminToggled ||isPharmacyToggled) {
+    if (isAdminToggled || isPharmacyToggled) {
       final suggestions =
           ref.watch(dashboardViewModelProvider).users.where((User user) {
         final isAdmin = user.privileges.isAdmin;
@@ -333,12 +360,13 @@ class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
       setState(() {
         allUsers = suggestions;
       });
-    }else{
+    } else {
       setState(() {
-        allUsers =ref.watch(dashboardViewModelProvider).users;
+        allUsers = ref.watch(dashboardViewModelProvider).users;
       });
     }
   }
+
   getCurrentUserData() async {
     String? data = await storage.read(
       key: 'currentUser',

@@ -52,6 +52,11 @@ class MyApp extends ConsumerStatefulWidget {
 class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
+    Workmanager().registerPeriodicTask(
+      "end-session",
+      "Session ended",
+      frequency:const Duration(hours: 2),
+    );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,

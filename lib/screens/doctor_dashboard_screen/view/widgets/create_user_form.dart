@@ -203,7 +203,7 @@ class _CreateUserFormState extends ConsumerState<CreateUserForm> {
               isPharmacyCheckBox,
             ]),
             getVerticalSpacerWidget(context),
-            ref.watch(dashboardViewModelProvider).isCreated
+            ref.watch(dashboardViewModelProvider).isNotCreated
                 ? CustomButton(
                     onPressed: ()async {
                        FlutterSecureStorage storage = const FlutterSecureStorage();
