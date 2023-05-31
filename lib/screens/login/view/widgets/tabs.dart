@@ -1,8 +1,11 @@
 import 'package:app/screens/patients/patients_file/view/widgets/medicine.dart';
 import 'package:flutter/material.dart';
+import '../../../patients/patients_file/view/widgets/Rays.dart';
+import '../../../patients/patients_files_search/models/patient_model.dart';
 
 class FileTabs extends StatefulWidget {
-  const FileTabs({Key? key}) : super(key: key);
+  Patient patient ;
+   FileTabs({Key? key ,required this.patient}) : super(key: key);
 
   @override
   _FileTabsState createState() => _FileTabsState();
@@ -50,10 +53,10 @@ class _FileTabsState extends State<FileTabs>
           Expanded(
             child: TabBarView(
               controller: _tabController,
-              children: const [
-                Medicine(),
-                Center(child: Text('1')),
-                Center(child: Text('2')),
+              children:  [
+               const  Medicine(),
+                const Center(child: Text('1')),
+                RaysScreen(patient: widget.patient,),
               ],
             ),
           ),

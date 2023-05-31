@@ -51,6 +51,7 @@ class PatientCard extends StatelessWidget {
                             Navigator.pushNamed(
                               context,
                               AppRoutes.patientFileScreen,
+                              arguments: patient
                             );
 
                             ///TODO handle password Validation

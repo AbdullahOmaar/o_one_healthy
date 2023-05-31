@@ -2,6 +2,8 @@ import 'package:app/screens/login/view/widgets/tabs.dart';
 import 'package:app/screens/patients/patients_file/view/widgets/patient_deatils_card.dart';
 import 'package:flutter/material.dart';
 
+import '../../patients_files_search/models/patient_model.dart';
+
 class PatientFileScreen extends StatelessWidget {
   static const routeName = "/PatientFileScreen";
 
@@ -9,6 +11,8 @@ class PatientFileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Patient patient = ModalRoute.of(context)!.settings.arguments as Patient;
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -18,9 +22,9 @@ class PatientFileScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Column(
-          children: const [
-            PatientDetailsCard(),
-            SizedBox(height: 500, child: FileTabs())
+          children:  [
+            const PatientDetailsCard(),
+            SizedBox(height: 500, child: FileTabs(patient: patient,))
           ],
         ),
       ),
