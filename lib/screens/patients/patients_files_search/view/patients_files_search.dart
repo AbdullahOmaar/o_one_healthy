@@ -4,11 +4,22 @@ import 'package:app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import '../models/patient_model.dart';
 
-class PatientCard extends StatelessWidget {
-  final Patient patient;
-  TextEditingController patientFilePasswordTEC = TextEditingController();
+class PatientCard extends StatefulWidget {
+   Patient patient;
 
   PatientCard({Key? key, required this.patient}) : super(key: key);
+
+  @override
+  State<PatientCard> createState() => _PatientCardState();
+}
+
+class _PatientCardState extends State<PatientCard> {
+  TextEditingController patientFilePasswordTEC = TextEditingController();
+
+  @override
+  void didUpdateWidget(PatientCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +37,14 @@ class PatientCard extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 20,
-                      backgroundImage: patient.patientDetails?.imgUrl == null
+                      backgroundImage: widget.patient.patientDetails?.imgUrl == null
                           ? Image.asset('assets/images/logo/logo.jpeg').image
-                          : NetworkImage(patient.patientDetails?.imgUrl ?? ''),
+                          : NetworkImage(widget.patient.patientDetails?.imgUrl ?? ''),
                     ),
-                    getPatientNameText(patient.nameEN)
+                    getPatientNameText(widget.patient.nameEN)
                   ],
                 ),
-                if (patient.isPassword)
+                if (widget.patient.isPassword)
                   Column(
                     children: [
                       SizedBox(
@@ -51,7 +62,7 @@ class PatientCard extends StatelessWidget {
                             Navigator.pushNamed(
                               context,
                               AppRoutes.patientFileScreen,
-                              arguments: patient
+                              arguments: widget.patient
                             );
 
                             ///TODO handle password Validation

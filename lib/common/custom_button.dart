@@ -7,11 +7,13 @@ class CustomButton extends StatelessWidget {
   final VoidCallback onPressed ;
   final double fontSize;
   final CustomWidth btnWidth;
+  double? width;
   late double fullWidth;
   final IconData? icon;
   CustomButton({
     Key? key,
     required this.text,
+    this.width,
     required this.fontSize,
     required this.onPressed,
     required this.btnWidth,
@@ -22,7 +24,7 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
      fullWidth =MediaQuery.of(context).size.width;
     return SizedBox(
-      width: getWidgetWidth(fullWidth,btnWidth),
+      width: width??getWidgetWidth(fullWidth,btnWidth),
       child: FilledButton(
         style: FilledButton.styleFrom(
           backgroundColor: Colors.indigo,

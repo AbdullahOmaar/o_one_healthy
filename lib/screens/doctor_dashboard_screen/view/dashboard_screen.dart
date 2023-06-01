@@ -274,6 +274,7 @@ class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
                         isPassword: false,
                         fieldBorder: FieldBorder.outline,
                         onChanged: (String val) {
+                          fetchPatientsAndUsersData();
                           searchPatients(val);
                         },
                       ),
@@ -283,6 +284,7 @@ class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
                         itemCount: allPatients!.length,
                         itemBuilder: (ctx, index) {
                           final Patient patient = allPatients![index];
+
                           return PatientCard(patient: patient);
                         },
                       ),

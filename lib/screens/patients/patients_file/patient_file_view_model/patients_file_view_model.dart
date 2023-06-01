@@ -13,16 +13,13 @@ final fileViewModelProvider =
             FilesViewModel(ref.watch(filesRepositoryProvider)));
 
 class FilesSearchState {
-  final List<Patient> patients;
-   bool? isCreated;
+  Patient? currentPatient ;
 
+  FilesSearchState({this.currentPatient});
 
-  FilesSearchState({required this.patients,this.isCreated});
-
-  FilesSearchState copyWith({required List<Patient>? patient ,bool? isCreated}) {
+  FilesSearchState copyWith({Patient? patient}) {
     return FilesSearchState(
-      patients: patient ?? patients,
-      isCreated: isCreated ?? true
+      currentPatient: patient
     );
   }
 }
@@ -32,18 +29,15 @@ class FilesViewModel extends StateNotifier<FilesSearchState> {
   final passwordGenerator =RandomPasswordGenerator();
 
   FilesViewModel(this.repo)
-      : super(FilesSearchState(patients: [
-          Patient(
-              isLocked: false,
-              isPassword: false,
-              nameAR: "A",
-              nameEN: "A",
-              uid: "11",
-              patientDetails: PatientDetails(age: 10, imgUrl: "n"))
-        ]));
+      : super(FilesSearchState());
 
   pushPatientFile(File file,Patient patient ,FileType fileType) async {
-      await repo.uploadFileToStorage(file,patient,fileType);
+    Patient updatedPatient;
+      await repo.uploadFileToStorage(file,patient,fileType).then((value) async{
+          updatedPatient=await repo.getUpdatedPatientFile(patient.uid);
+          state=state.copyWith(patient: updatedPatient);
+      });
+
 
   }
 }

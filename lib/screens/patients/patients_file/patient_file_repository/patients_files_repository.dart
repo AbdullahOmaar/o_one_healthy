@@ -14,6 +14,7 @@ abstract class IFilesRepository {
 
   Future<void> uploadFileToStorage(
       File file, Patient patient, FileType fileType);
+  Future<Patient> getUpdatedPatientFile (String uid);
 }
 
 enum FileType { pdf, dicom, image }
@@ -52,7 +53,7 @@ class FilesRepository extends IFilesRepository {
             .child('dicom_files')
             .child(Uri.file(file.path).pathSegments.last);
         settableMetadata = SettableMetadata(
-          contentType: 'image/dicom',
+          contentType: 'application/zip',
         );
         fileTypeCaption ="dicomFiles";
         break;
@@ -107,12 +108,20 @@ class FilesRepository extends IFilesRepository {
       'orderCheckoutDetails' : FieldValue.arrayUnion([checkout.toDocument])
     });*/ /*.update(updates);*/
   }
+
+  @override
+  Future<Patient> getUpdatedPatientFile(String uid)async {
+    final  data = await fetchPatientData(uid);
+    Map<String,dynamic>map= Map<String,dynamic>.from(data as Map) ;
+    return Patient.fromJson(map);
+  }
 }
 
 // call API
-fetchPatientData() async {
+fetchPatientData(String uid) async {
   final ref = FirebaseDatabase.instance.ref();
-  final snapshot = await ref.get();
+  final snapshot = await ref .child('patients')
+      .child(uid).get();
   if (snapshot.exists) {
     return snapshot.value;
   } else {

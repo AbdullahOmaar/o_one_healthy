@@ -22,6 +22,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  List<Patient> patients =[];
   @override
   void initState() {
     fetchPatientData();
@@ -38,6 +39,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(
     BuildContext context,
   ) {
+    fetchPatientData();
+    patients =ref.watch(patientFSViewModelProvider).patients;
     return Scaffold(
         // bottomNavigationBar: const CustomBottomBarWidget(),
         body: Center(
@@ -64,7 +67,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   useRootNavigator: true,
                   context: context,
                   delegate: SearchPage<Patient>(
-                    items: ref.watch(patientFSViewModelProvider).patients,
+                    items:patients ,
+                    onQueryUpdate: (_){
+                      fetchPatientData();
+                      patients =ref.watch(patientFSViewModelProvider).patients;
+
+                    },
                     searchLabel: 'Search people',
                     searchStyle: const TextStyle(color: Colors.white),
                     barTheme: Theme.of(context).copyWith(

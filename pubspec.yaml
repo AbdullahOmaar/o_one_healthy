@@ -49,6 +49,7 @@ dependencies:
   workmanager: ^0.5.1
   firebase_storage: ^11.2.1
   file_picker: 5.1.0
+  webview_flutter: ^4.0.7
 #  multiselect: ^0.1.0
 
 dev_dependencies:

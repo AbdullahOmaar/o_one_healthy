@@ -97,17 +97,19 @@ class Rays {
 
   toJson() => {"pdfRays": pdfRays, "dicomRays": dicomRays};
 }
-class PDFFile{
+abstract class PatientFile{
+}
+class PDFFile extends PatientFile{
   String? pdfFile;
   PDFFile({this.pdfFile});
   factory PDFFile.fromJson(String json)=>PDFFile(pdfFile :json);
 }
-class DicomFile{
+class DicomFile extends PatientFile{
   String? dicomFile;
   DicomFile({this.dicomFile});
   factory DicomFile.fromJson(String json)=>DicomFile(dicomFile :json);
 }
-class ImageFile{
+class ImageFile extends PatientFile{
   String? imageFile;
   ImageFile({this.imageFile});
   factory ImageFile.fromJson(String json)=>ImageFile(imageFile :json);
