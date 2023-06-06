@@ -1,6 +1,7 @@
 import 'package:app/screens/patients/patients_file/view/widgets/custom_web_view.dart';
 import 'package:app/screens/patients/patients_files_search/models/patient_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../patient_file_repository/patients_files_repository.dart';
 
 class FileCard extends StatefulWidget {
@@ -74,6 +75,7 @@ class _FileCardState extends State<FileCard> {
                     )),
                 IconButton(
                     onPressed: () async {
+                      await Clipboard.setData( ClipboardData(text: url));
                       print(url);
                     },
                     icon: Icon(
@@ -83,27 +85,6 @@ class _FileCardState extends State<FileCard> {
                     )),
               ],
             ),
-            /*      CustomButton(
-              text: 'view',
-              fontSize: 14,
-              onPressed: ()async {
-                await Navigator.of(context).push(MaterialPageRoute(builder: (context)=>CustomWebViewer(url: url??'')));
-              },
-              btnWidth: CustomWidth.oneThird,
-              width: MediaQuery.of(context).size.width * .25,
-              icon: Icons.remove_red_eye,
-            ),*/
-            /*        CustomButton(
-              text: 'Copy URL',
-              fontSize: 14,
-              onPressed: () {
-                print(url);
-                setState(() {
-                });
-              },
-              btnWidth: CustomWidth.oneThird,
-              width: MediaQuery.of(context).size.width * .25,
-            ),*/
           ],
         ),
       ),

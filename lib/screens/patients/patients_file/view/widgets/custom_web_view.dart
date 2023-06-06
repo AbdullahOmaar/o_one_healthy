@@ -29,12 +29,25 @@ class _CustomWebViewerState extends State<CustomWebViewer> {
           },
         ),
       )
-      ..loadRequest(Uri.parse(widget.url));
+      ..loadRequest(Uri.parse(widget.url),headers: {
+       /* "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Headers":
+        "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+        "responseHeader": "Content-Type",
+        "origin": "*",
+        "maxAgeSeconds": "3600",
+        "Access-Control-Allow-Methods": "POST,OPTIONS,GET,HEAD"*/
+      });
+
     return Scaffold(
       body: widget.url.isNotEmpty
-          ? WebViewWidget(
-              controller: controller,
-            )
+          ? SafeArea(
+            child: WebViewWidget(
+                controller: controller,
+              ),
+          )
           : const Center(
               child: Text('sorry , invalid data'),
             ),

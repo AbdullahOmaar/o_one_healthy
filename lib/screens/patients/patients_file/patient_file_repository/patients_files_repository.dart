@@ -53,7 +53,7 @@ class FilesRepository extends IFilesRepository {
             .child('dicom_files')
             .child(Uri.file(file.path).pathSegments.last);
         settableMetadata = SettableMetadata(
-          contentType: 'application/zip',
+          // contentType: 'application/zip',
         );
         fileTypeCaption ="dicomFiles";
         break;

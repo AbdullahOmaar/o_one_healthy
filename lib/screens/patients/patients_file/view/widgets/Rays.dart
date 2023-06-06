@@ -146,6 +146,7 @@ class _RaysScreenState extends ConsumerState<RaysScreen> {
       if (fileName.substring(fileName.lastIndexOf('.')).contains('pdf') ||
           fileName.substring(fileName.lastIndexOf('.')).contains('jpg') ||
           fileName.substring(fileName.lastIndexOf('.')).contains('png')||
+          fileName.substring(fileName.lastIndexOf('.')).contains('DCM')||
           fileName.substring(fileName.lastIndexOf('.')).contains('zip')) {
         await ref
             .read(fileViewModelProvider.notifier)
