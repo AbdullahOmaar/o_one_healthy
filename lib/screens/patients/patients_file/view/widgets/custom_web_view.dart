@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+import '../../patient_file_repository/patients_files_repository.dart';
 
 class CustomWebViewer extends StatefulWidget {
   final String url;
+  final FileType fileType;
 
-  const CustomWebViewer({Key? key, required this.url}) : super(key: key);
+
+  const CustomWebViewer({Key? key, required this.url,required this.fileType}) : super(key: key);
 
   @override
   State<CustomWebViewer> createState() => _CustomWebViewerState();
@@ -29,22 +34,15 @@ class _CustomWebViewerState extends State<CustomWebViewer> {
           },
         ),
       )
-      ..loadRequest(Uri.parse(widget.url),headers: {
-       /* "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": "true",
-        "Access-Control-Allow-Headers":
-        "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
-        "responseHeader": "Content-Type",
-        "origin": "*",
-        "maxAgeSeconds": "3600",
-        "Access-Control-Allow-Methods": "POST,OPTIONS,GET,HEAD"*/
-      });
+      ..loadRequest(Uri.parse(widget.url));
 
     return Scaffold(
       body: widget.url.isNotEmpty
           ? SafeArea(
-            child: WebViewWidget(
+            child: widget.fileType==FileType.pdf?
+            SfPdfViewer.network(
+                widget.url)
+            :WebViewWidget(
                 controller: controller,
               ),
           )

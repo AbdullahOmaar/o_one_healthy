@@ -66,7 +66,7 @@ class _FileCardState extends State<FileCard> {
                       }*/
                       await Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              CustomWebViewer(url: widget.fileType ==FileType.dicom?"https://webnamics.github.io/u-dicom-viewer/":url ?? '')));
+                              CustomWebViewer(url: widget.fileType ==FileType.dicom?"https://webnamics.github.io/u-dicom-viewer/":url ?? '',fileType: widget.fileType)));
                     },
                     icon: Icon(
                       Icons.remove_red_eye,
