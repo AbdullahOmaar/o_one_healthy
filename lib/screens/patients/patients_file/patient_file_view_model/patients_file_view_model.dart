@@ -14,12 +14,13 @@ final fileViewModelProvider =
 
 class FilesSearchState {
   Patient? currentPatient ;
+  bool? isPushLoading;
+  FilesSearchState({this.currentPatient,this.isPushLoading});
 
-  FilesSearchState({this.currentPatient});
-
-  FilesSearchState copyWith({Patient? patient}) {
+  FilesSearchState copyWith({Patient? patient, bool? isPushLoading}) {
     return FilesSearchState(
-      currentPatient: patient
+      currentPatient: patient,
+      isPushLoading: isPushLoading??false
     );
   }
 }
@@ -29,15 +30,19 @@ class FilesViewModel extends StateNotifier<FilesSearchState> {
   final passwordGenerator =RandomPasswordGenerator();
 
   FilesViewModel(this.repo)
-      : super(FilesSearchState());
+      : super(FilesSearchState(isPushLoading: false));
 
   pushPatientFile(File file,Patient patient ,FileType fileType) async {
-    Patient updatedPatient;
-      await repo.uploadFileToStorage(file,patient,fileType).then((value) async{
-          updatedPatient=await repo.getUpdatedPatientFile(patient.uid);
-          state=state.copyWith(patient: updatedPatient);
-      });
-
+    state=state.copyWith(patient: patient,isPushLoading: true);
+      await repo.uploadFileToStorage(file,patient,fileType);
+  }
+  getPatientData(Patient patient) async {
+    // Patient updatedPatient;
+    /*updatedPatient=await*/ repo.getUpdatedPatientFile(patient.uid).then((value) {
+      state=state.copyWith(patient: value,isPushLoading: false) ;
+    }).catchError((e){
+      state=state.copyWith(patient: patient,isPushLoading: false) ;
+    });
 
   }
 }

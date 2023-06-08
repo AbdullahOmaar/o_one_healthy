@@ -3,7 +3,6 @@ import 'package:app/common/custom_button.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../../patients_files_search/models/patient_model.dart';
 import '../../../patients_files_search/view_model/patients_files_search_view_model.dart';
 import '../../patient_file_repository/patients_files_repository.dart' as repo;
@@ -24,56 +23,68 @@ class _RaysScreenState extends ConsumerState<RaysScreen> {
   List<PatientFile>? files;
 
   @override
+  void initState() {
+    getCurrentPatient();
+    super.initState();
+  }
+  @override
   void didUpdateWidget(RaysScreen oldWidget) {
+    getCurrentPatient();
     super.didUpdateWidget(oldWidget);
   }
-  fetchPatientData() async {
-    await ref.read(patientFSViewModelProvider.notifier).getPatientList();
-  }
+
   @override
   Widget build(BuildContext context) {
     widget.patient= ref.watch(fileViewModelProvider).currentPatient??widget.patient;
     fetchPatientData();
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                CustomButton(
-                    text: "add pdf",
-                    fontSize: 16,
-                    onPressed: () async {
-                      filePickAction(repo.FileType.pdf);
-                    },
-                    btnWidth: CustomWidth.oneThird),
-                CustomButton(
-                    text: "add Dicom",
-                    fontSize: 16,
-                    onPressed: () async {
-                      filePickAction(repo.FileType.dicom);
-                    },
-                    btnWidth: CustomWidth.oneThird),
-                CustomButton(
-                    text: "add image ",
-                    fontSize: 16,
-                    onPressed: () async {
-                      filePickAction(repo.FileType.image);
-                    },
-                    btnWidth: CustomWidth.oneThird),
-              ],
+    return RefreshIndicator(
+      onRefresh: () {
+        getCurrentPatient();
+
+        return Future(() => null);
+      },
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child:!(ref.watch(fileViewModelProvider).isPushLoading??false)? Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  CustomButton(
+                      text: "add pdf",
+                      fontSize: 16,
+                      onPressed: () async {
+                        filePickAction(repo.FileType.pdf);
+                      },
+                      btnWidth: CustomWidth.oneThird),
+                  CustomButton(
+                      text: "add Dicom",
+                      fontSize: 16,
+                      onPressed: () async {
+                        filePickAction(repo.FileType.dicom);
+                      },
+                      btnWidth: CustomWidth.oneThird),
+                  CustomButton(
+                      text: "add image ",
+                      fontSize: 16,
+                      onPressed: () async {
+                        filePickAction(repo.FileType.image);
+                      },
+                      btnWidth: CustomWidth.oneThird),
+                ],
+              ),
             ),
-          ),
-          getFileHeaderWithSpacer('pdf files'),
-          getFileList(repo.FileType.pdf),
-          getFileHeaderWithSpacer('image files'),
-          getFileList(repo.FileType.image),
-          getFileHeaderWithSpacer('dicom files'),
-          getFileList(repo.FileType.dicom)
-        ],
+            getFileHeaderWithSpacer('pdf files'),
+            getFileList(repo.FileType.pdf),
+            getFileHeaderWithSpacer('image files'),
+            getFileList(repo.FileType.image),
+            getFileHeaderWithSpacer('dicom files'),
+            getFileList(repo.FileType.dicom)
+          ],
+        ):const Center(child: CircularProgressIndicator(),),
       ),
     );
   }
@@ -158,5 +169,18 @@ class _RaysScreenState extends ConsumerState<RaysScreen> {
 
       // print('file${result.files.single.path?.lastIndexOf('/')}');
     }
+  }
+  fetchPatientData() async {
+    await ref.read(patientFSViewModelProvider.notifier).getPatientList();
+    if( ref.watch(fileViewModelProvider).isPushLoading??false) {
+      ref
+          .read(fileViewModelProvider.notifier)
+          .getPatientData(widget.patient);
+    }
+  }
+  getCurrentPatient(){
+    ref
+        .read(fileViewModelProvider.notifier)
+        .getPatientData(widget.patient);
   }
 }

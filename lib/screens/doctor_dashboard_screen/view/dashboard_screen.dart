@@ -274,7 +274,6 @@ class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
                         isPassword: false,
                         fieldBorder: FieldBorder.outline,
                         onChanged: (String val) {
-                          fetchPatientsAndUsersData();
                           searchPatients(val);
                         },
                       ),

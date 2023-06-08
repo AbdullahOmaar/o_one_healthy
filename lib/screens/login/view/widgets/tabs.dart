@@ -52,6 +52,7 @@ class _FileTabsState extends State<FileTabs>
           ),
           Expanded(
             child: TabBarView(
+              physics: const BouncingScrollPhysics(),
               controller: _tabController,
               children:  [
                const  Medicine(),
