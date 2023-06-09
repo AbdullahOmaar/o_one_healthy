@@ -61,9 +61,6 @@ class _FileCardState extends State<FileCard> {
               children: [
                 IconButton(
                     onPressed: () async {
-                  /*    if(widget.fileType ==FileType.dicom){
-                        url ="https://webnamics.github.io/u-dicom-viewer/";
-                      }*/
                       await Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
                               CustomWebViewer(url: widget.fileType ==FileType.dicom?"https://webnamics.github.io/u-dicom-viewer/":url ?? '',fileType: widget.fileType)));
@@ -75,7 +72,7 @@ class _FileCardState extends State<FileCard> {
                     )),
                 IconButton(
                     onPressed: () async {
-                      await Clipboard.setData( ClipboardData(text: url));
+                      await Clipboard.setData( ClipboardData(text: url??''));
                       print(url);
                     },
                     icon: Icon(
