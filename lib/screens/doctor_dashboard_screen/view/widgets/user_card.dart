@@ -15,24 +15,37 @@ class UserCard extends StatelessWidget {
     final Size screenSize = MediaQuery.of(context).size;
     return Center(
       child: SizedBox(
-        width: screenSize.width * 0.40,
+        width: screenSize.width * 0.42,
         child: Card(
-          color: user.privileges.isAdmin ? Colors.indigo : Colors.white70,
+          margin: const EdgeInsets.fromLTRB(12, 5, 12, 5),
+          // color: user.privileges.isAdmin ? Colors.indigo : Colors.white70,
+          color: Colors.indigo,
           elevation: 20,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(40.0)),
+          ),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CircleAvatar(
-                    radius: 22,
-                    backgroundImage:
-                        Image.asset('assets/images/logo/logo.jpeg').image
-                    /*user.userDetails?.imgUrl == null
-                      ? Image.asset('assets/images/logo/logo.jpeg').image
-                      : NetworkImage(user.userDetails?.imgUrl ?? ''),*/
-                    ),
-                getPatientNameText(user.name, user.privileges.isAdmin),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(2, 10, 2, 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      CircleAvatar(
+                          radius: 22,
+                          backgroundImage:
+                              Image.asset('assets/images/logo/logo.jpeg').image
+                          /*user.userDetails?.imgUrl == null
+                        ? Image.asset('assets/images/logo/logo.jpeg').image
+                        : NetworkImage(user.userDetails?.imgUrl ?? ''),*/
+                          ),
+                      getPatientNameText(user.name, user.privileges.isAdmin),
+                    ],
+                  ),
+                ),
                 Align(
                   alignment: AlignmentDirectional.centerStart,
                   child: Container(

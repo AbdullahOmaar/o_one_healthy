@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../custom_button.dart';
 import '../widget_utils.dart';
 
-enum FieldBorder { underline, outline }
+enum FieldBorder { underline, outline, custom }
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -69,6 +69,12 @@ class CustomTextField extends StatelessWidget {
         return getUnderlineBorder();
       case FieldBorder.outline :
         return const OutlineInputBorder(
+          borderSide: BorderSide(
+              color: Colors.indigo, width: 0.9, style: BorderStyle.solid),
+        );
+      case FieldBorder.custom:
+        return const OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(50.0)),
           borderSide: BorderSide(
               color: Colors.indigo, width: 0.9, style: BorderStyle.solid),
         );

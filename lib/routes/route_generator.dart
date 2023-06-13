@@ -7,6 +7,8 @@ import 'package:app/screens/subscribers_screen/view/subscribers_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/doctor_dashboard_screen/view/dashboard_screen.dart';
+import '../screens/doctor_dashboard_screen/view/doctor_dashboard.dart';
+import '../screens/doctor_dashboard_screen/view/patients_dashboard.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -23,6 +25,10 @@ class RouteGenerator {
         return buildRoute(const SubscribersScreen(), settings: settings);
       case AppRoutes.patientFileScreen:
         return buildRoute(const PatientFileScreen(), settings: settings);
+      case AppRoutes.usersScreen:
+        return buildRoute(const DoctorDashboard(), settings: settings);
+        case AppRoutes.patientScreen:
+        return buildRoute(const PatientsDashboard(), settings: settings);  
       // 1. Add screen ID in screen class:
       // static const routeName = '/SampleScreen';
       // 2. Add screen route ID in AppRoutes:

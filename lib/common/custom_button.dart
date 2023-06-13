@@ -1,56 +1,64 @@
 import 'package:app/common/widget_utils.dart';
 import 'package:flutter/material.dart';
 
-enum CustomWidth {oneThird ,twoThird , half , matchParent}
+enum CustomWidth { oneThird, twoThird, half, matchParent }
+
 class CustomButton extends StatelessWidget {
-  final String text;
-  final VoidCallback onPressed ;
+  final String? text;
+  final VoidCallback onPressed;
   final double fontSize;
+  double? iconSize;
   final CustomWidth btnWidth;
   double? width;
+  double? height;
   late double fullWidth;
   final IconData? icon;
-  CustomButton({
-    Key? key,
-    required this.text,
-    this.width,
-    required this.fontSize,
-    required this.onPressed,
-    required this.btnWidth,
-    this.icon
-  }) : super(key: key);
+  CustomButton(
+      {Key? key,
+      this.text,
+      this.width,
+      this.height,
+      this.iconSize,
+      required this.fontSize,
+      required this.onPressed,
+      required this.btnWidth,
+      this.icon})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-     fullWidth =MediaQuery.of(context).size.width;
+    fullWidth = MediaQuery.of(context).size.width;
     return SizedBox(
-      width: width??getWidgetWidth(fullWidth,btnWidth),
+      width: width ?? getWidgetWidth(fullWidth, btnWidth),
+      height: height,
       child: FilledButton(
         style: FilledButton.styleFrom(
           backgroundColor: Colors.indigo,
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(23.0))),
         ),
         onPressed: onPressed,
         child: Row(
-          mainAxisAlignment: icon!=null?MainAxisAlignment.spaceBetween:MainAxisAlignment.center,
+          mainAxisAlignment: icon != null
+              ? MainAxisAlignment.spaceBetween
+              : MainAxisAlignment.center,
           children: [
             Text(
-              text,
+              text ?? '',
               style: TextStyle(fontSize: fontSize),
-
             ),
-        if(icon != null)
-          Align(
-            alignment: Alignment.centerRight,
-            child: Icon(
-              icon,
-              size: 20,
-              color: Colors.white,
-            ),
-          ),
+            if (icon != null)
+              Align(
+                alignment: Alignment.centerRight,
+                child: Icon(
+                  icon,
+                  size: iconSize,
+                  color: Colors.white,
+                ),
+              ),
           ],
         ),
       ),
     );
   }
-
 }
