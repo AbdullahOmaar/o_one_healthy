@@ -82,8 +82,8 @@ class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
                                 size: 40,
                                 color: Colors.grey,
                               )),
-                          const SizedBox(
-                            height: 25.0,
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * .007,
                           ),
                           Text(
                             user?.name ?? '',

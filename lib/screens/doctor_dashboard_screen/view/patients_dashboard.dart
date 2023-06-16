@@ -84,8 +84,8 @@ class _PatientsDashboardState extends ConsumerState<PatientsDashboard> {
                       searchPatients(val);
                     },
                   ),
-                  const SizedBox(
-                    width: 20.0,
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * .02,
                   ),
                   CustomButton(
                     btnWidth: CustomWidth.oneThird,

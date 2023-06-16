@@ -15,7 +15,7 @@ class UserCard extends StatelessWidget {
     final Size screenSize = MediaQuery.of(context).size;
     return Center(
       child: SizedBox(
-        width: screenSize.width * 0.42,
+        width: screenSize.width * 0.44,
         child: Card(
           margin: const EdgeInsets.fromLTRB(12, 5, 12, 5),
           // color: user.privileges.isAdmin ? Colors.indigo : Colors.white70,
@@ -32,16 +32,20 @@ class UserCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(2, 10, 2, 8),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      CircleAvatar(
-                          radius: 22,
-                          backgroundImage:
-                              Image.asset('assets/images/logo/logo.jpeg').image
-                          /*user.userDetails?.imgUrl == null
-                        ? Image.asset('assets/images/logo/logo.jpeg').image
-                        : NetworkImage(user.userDetails?.imgUrl ?? ''),*/
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: CircleAvatar(
+                            radius: 22,
+                            backgroundImage:
+                                Image.asset('assets/images/logo/logo.jpeg')
+                                    .image
+                            /*user.userDetails?.imgUrl == null
+                          ? Image.asset('assets/images/logo/logo.jpeg').image
+                          : NetworkImage(user.userDetails?.imgUrl ?? ''),*/
+                            ),
+                      ),
                       getPatientNameText(user.name, user.privileges.isAdmin),
                     ],
                   ),
