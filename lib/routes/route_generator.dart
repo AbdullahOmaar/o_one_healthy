@@ -3,12 +3,12 @@ import 'package:app/screens/ads_screen/view/ads_screen.dart';
 import 'package:app/screens/home_screen/view/home_screen.dart';
 import 'package:app/screens/login/view/login_screen.dart';
 import 'package:app/screens/patients/patients_file/view/patients_files_screen.dart';
-import 'package:app/screens/subscribers_screen/view/subscribers_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/doctor_dashboard_screen/view/dashboard_screen.dart';
 import '../screens/doctor_dashboard_screen/view/doctor_dashboard.dart';
 import '../screens/doctor_dashboard_screen/view/patients_dashboard.dart';
+import '../screens/subscribers_screen/view/subscribers_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {

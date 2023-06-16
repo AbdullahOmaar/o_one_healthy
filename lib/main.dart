@@ -1,7 +1,9 @@
 import 'package:app/routes/app_routes.dart';
 import 'package:app/routes/route_generator.dart';
 import 'package:cron/cron.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -38,7 +40,8 @@ void main() async {
         supportedLocales: const [Locale('en', 'US'), Locale('ar', 'AR')],
         path: 'assets/translations',
         fallbackLocale: const Locale('ar', 'AR'),
-        child: const MyApp()),
+        child:   DevicePreview(
+            enabled: !kReleaseMode,builder:(context) =>const MyApp())),
   ));
 }
 
@@ -58,10 +61,13 @@ class _MyAppState extends ConsumerState<MyApp> {
       frequency:const Duration(hours: 2),
     );
     return MaterialApp(
+      useInheritedMediaQuery: true,
+      locale: DevicePreview.locale(context),
+      builder: DevicePreview.appBuilder,
       debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
-      locale: context.locale,
+      // locale: context.locale,
       theme: ThemeData(
           // primarySwatch: Themes.kPrimarySwatch,
           ),

@@ -51,6 +51,7 @@ dependencies:
   file_picker: 5.1.0
   webview_flutter: ^4.0.7
   syncfusion_flutter_pdfviewer: ^21.2.3
+  device_preview: ^1.1.0
 #  multiselect: ^0.1.0
 
 dev_dependencies:

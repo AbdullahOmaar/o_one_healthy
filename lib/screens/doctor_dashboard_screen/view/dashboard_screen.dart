@@ -123,6 +123,18 @@ class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
                 },
                 text: 'Create new patient',
               ),
+              CustomButton(
+                btnWidth: CustomWidth.twoThird,
+                fontSize: 18,
+                onPressed: () {
+                  Navigator.of(context).pushAndRemoveUntil(
+                    RouteGenerator.generateRoute(
+                        const RouteSettings(name: AppRoutes.subscribersScreen)),
+                    (route) => false,
+                  );
+                },
+                text: 'Subscribers',
+              ),
             ],
           ),
         ),
