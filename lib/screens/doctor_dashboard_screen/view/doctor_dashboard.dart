@@ -91,8 +91,8 @@ class _DoctorDashboardState extends ConsumerState<DoctorDashboard> {
                     onChanged: searchUser,
                     suffix: Icons.search,
                   ),
-                  const SizedBox(
-                    width: 20.0,
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * .02,
                   ),
                   CustomButton(
                     width: 63.0,
@@ -119,44 +119,41 @@ class _DoctorDashboardState extends ConsumerState<DoctorDashboard> {
                 ],
               ),
             ),
-            const SizedBox(
-              height: 50.0,
-            ),
             Container(
               padding: const EdgeInsets.all(4),
               margin: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-              height: MediaQuery.of(context).size.height * 0.35,
+              height: MediaQuery.of(context).size.height * 0.37,
               child: Column(
                 children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.045,
-                    child: ToggleButtons(
-                      fillColor: Colors.indigo,
-                      selectedColor: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                      isSelected: [
-                        isAdminToggled,
-                        isPharmacyToggled,
-                      ],
-                      onPressed: (i) {
-                        switch (i) {
-                          case 0:
-                            isAdminToggled = !isAdminToggled;
-                            break;
-                          case 1:
-                            isPharmacyToggled = !isPharmacyToggled;
-                            break;
-                        }
-                        toggleFilter();
-                      },
-                      children: [
-                        FilterTextShape(text: 'is admin'),
-                        FilterTextShape(text: 'is Pharmacy'),
-                      ],
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.045,
+                      child: ToggleButtons(
+                        fillColor: Colors.indigo,
+                        selectedColor: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                        isSelected: [
+                          isAdminToggled,
+                          isPharmacyToggled,
+                        ],
+                        onPressed: (i) {
+                          switch (i) {
+                            case 0:
+                              isAdminToggled = !isAdminToggled;
+                              break;
+                            case 1:
+                              isPharmacyToggled = !isPharmacyToggled;
+                              break;
+                          }
+                          toggleFilter();
+                        },
+                        children: [
+                          FilterTextShape(text: 'is admin'),
+                          FilterTextShape(text: 'is Pharmacy'),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 20.0,
                   ),
                   Expanded(
                     child: ListView.builder(
