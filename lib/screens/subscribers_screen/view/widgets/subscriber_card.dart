@@ -47,7 +47,8 @@ class SubscribersCard extends StatelessWidget {
                           )
                       ),
                       width: double.infinity,
-                    )),
+                    ),
+                ),
                 Expanded(
                     flex: 2,
                     child: Container(

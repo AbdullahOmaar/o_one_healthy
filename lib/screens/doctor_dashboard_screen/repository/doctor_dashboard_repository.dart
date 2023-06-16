@@ -1,4 +1,5 @@
 
+import 'package:app/screens/subscribers_screen/models/subscribe_request.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -6,6 +7,7 @@ import '../models/user_data_model.dart';
 
 abstract class IDoctorDashboardRepo {
   Future<void> createUser(User user);
+  Future<void> createSubscriptionRequest(SubscribeRequest subscribeRequest);
   Future<bool> checkUserExisting(String uid);
   Future<List<User>> getAllUsersFiles();
 }
@@ -47,9 +49,21 @@ class DoctorDashboardRepo extends IDoctorDashboardRepo {
     return await FirebaseDatabase.instance.ref().update(updates);
   }
 
+  Future<void> _writeSubscribeRequest(SubscribeRequest subscribeRequest) async {
+    final Map<String, Map> updates = {};
+    updates['/subscriptionRequests/${subscribeRequest.phoneNumber}'] = subscribeRequest.toJson();
+
+    return await FirebaseDatabase.instance.ref().update(updates);
+  }
+
   @override
   Future<bool> checkUserExisting(String uid) async{
     var data =await FirebaseDatabase.instance.ref().child('users').child(uid).get();
    return data.exists;
+  }
+
+  @override
+  Future<void> createSubscriptionRequest(SubscribeRequest subscribeRequest)async {
+    await _writeSubscribeRequest(subscribeRequest);
   }
 }

@@ -1,3 +1,4 @@
+import 'package:app/screens/subscribers_screen/models/subscribe_request.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:random_password_generator/random_password_generator.dart';
 import '../models/user_data_model.dart';
@@ -43,6 +44,20 @@ class DashboardViewModel extends StateNotifier<DashboardState> {
       isCreated: false,
     );
     await repo.createUser(user).then((_) {
+      state = state.copyWith(
+        isCreated: true,
+      );
+    }).catchError((e) {
+      state = state.copyWith(
+        isCreated: false,
+      );
+    });
+  }
+  postSubscriptionRequest(SubscribeRequest request) async {
+    state = state.copyWith(
+      isCreated: false,
+    );
+    await repo.createSubscriptionRequest(request).then((_) {
       state = state.copyWith(
         isCreated: true,
       );
