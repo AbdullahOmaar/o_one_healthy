@@ -96,7 +96,13 @@ class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
                     (route) => false,
                   );
                 }),
-                makeDashboardItem("Rosheta", Icons.feed_outlined, () {}),
+                makeDashboardItem("Subscribers", Icons.feed_outlined, () {
+                  Navigator.of(context).pushAndRemoveUntil(
+                    RouteGenerator.generateRoute(
+                        const RouteSettings(name: AppRoutes.subscribersScreen)),
+                        (route) => false,
+                  );
+                }),
                 makeDashboardItem("Hosbital", Icons.local_hospital, () {}),
               ]),
         )
@@ -107,26 +113,6 @@ class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
         //       ),
 
         );
-                },
-                text: 'Create new patient',
-              ),
-              CustomButton(
-                btnWidth: CustomWidth.twoThird,
-                fontSize: 18,
-                onPressed: () {
-                  Navigator.of(context).pushAndRemoveUntil(
-                    RouteGenerator.generateRoute(
-                        const RouteSettings(name: AppRoutes.subscribersScreen)),
-                    (route) => false,
-                  );
-                },
-                text: 'Subscribers',
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 
   getCurrentUserData() async {
