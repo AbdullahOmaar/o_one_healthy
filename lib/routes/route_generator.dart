@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import '../screens/doctor_dashboard_screen/view/dashboard_screen.dart';
 import '../screens/doctor_dashboard_screen/view/doctor_dashboard.dart';
 import '../screens/doctor_dashboard_screen/view/patients_dashboard.dart';
+import '../screens/subscribers_requests/view/subscribers_requests.dart';
 import '../screens/subscribers_screen/view/subscribers_screen.dart';
 
 class RouteGenerator {
@@ -28,7 +29,9 @@ class RouteGenerator {
       case AppRoutes.usersScreen:
         return buildRoute(const DoctorDashboard(), settings: settings);
         case AppRoutes.patientScreen:
-        return buildRoute(const PatientsDashboard(), settings: settings);  
+        return buildRoute(const PatientsDashboard(), settings: settings);
+      case AppRoutes.subscribeRequestsScreen:
+        return buildRoute(const SubscriberRequests(), settings: settings);
       // 1. Add screen ID in screen class:
       // static const routeName = '/SampleScreen';
       // 2. Add screen route ID in AppRoutes:

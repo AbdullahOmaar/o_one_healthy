@@ -104,7 +104,13 @@ class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
                         (route) => false,
                   );
                 }),
-                makeDashboardItem("Hosbital", Icons.local_hospital, () {}),
+                makeDashboardItem("Requests", Icons.local_hospital, ()  {
+                  Navigator.of(context).pushAndRemoveUntil(
+                    RouteGenerator.generateRoute(
+                        const RouteSettings(name: AppRoutes.subscribeRequestsScreen)),
+                        (route) => false,
+                  );
+                }),
               ]),
         )
 

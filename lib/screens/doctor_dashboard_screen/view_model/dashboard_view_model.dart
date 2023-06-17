@@ -11,12 +11,14 @@ final dashboardViewModelProvider =
 class DashboardState {
   final bool isNotCreated;
   List<User> users=[] ;
-  DashboardState({required this.isNotCreated,this.users=const[]});
+  List<SubscribeRequest> requests=[];
+  DashboardState({required this.isNotCreated,this.users=const[],this.requests=const[]});
 
-  DashboardState copyWith({required bool isCreated,List<User>? users}) {
+  DashboardState copyWith({required bool isCreated,List<User>? users, List<SubscribeRequest>? requests}) {
     return DashboardState(
       isNotCreated: isCreated,
-      users: users??[]
+      users: users??[],
+      requests: requests??[],
     );
   }
 }
@@ -25,7 +27,7 @@ class DashboardViewModel extends StateNotifier<DashboardState> {
   final DoctorDashboardRepo repo;
   final passwordGenerator =RandomPasswordGenerator();
 
-  DashboardViewModel(this.repo) : super(DashboardState(isNotCreated: true));
+  DashboardViewModel(this.repo) : super(DashboardState(isNotCreated: true ,requests: []));
 
   String generatePassword(){
     return passwordGenerator.randomPassword(
@@ -71,6 +73,16 @@ class DashboardViewModel extends StateNotifier<DashboardState> {
     final List<User> users = await repo.getAllUsersFiles();
     state = state.copyWith(isCreated: true,
       users: users);
+  }
+  getAllRequests() async {
+    final List<SubscribeRequest> requests = await repo.getAllRequests();
+    state = state.copyWith(isCreated: true,
+        requests: requests);
+  }
+  deleteRequest(SubscribeRequest request)async{
+    await repo.deleteSubscriptionRequest(request).then((value) async{
+      getAllRequests();
+    });
   }
 
   String? validateUserID(String value ,bool isUidExists)  {

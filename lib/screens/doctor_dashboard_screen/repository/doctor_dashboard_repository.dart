@@ -10,6 +10,8 @@ abstract class IDoctorDashboardRepo {
   Future<void> createSubscriptionRequest(SubscribeRequest subscribeRequest);
   Future<bool> checkUserExisting(String uid);
   Future<List<User>> getAllUsersFiles();
+  Future<List<SubscribeRequest>> getAllRequests();
+  Future<void> deleteSubscriptionRequest(SubscribeRequest request);
 }
 
 final  doctorDashboardRepositoryProvider = Provider((ref) => DoctorDashboardRepo());
@@ -29,6 +31,20 @@ class DoctorDashboardRepo extends IDoctorDashboardRepo {
     }
     return  list;
   }
+  @override
+  Future<List<SubscribeRequest>> getAllRequests() async{
+    final  data = await _fetchRequests();
+    Map<String,dynamic>map= Map<String,dynamic>.from(data as Map) ;
+    List<SubscribeRequest> list=[];
+    if(map['subscriptionRequests']!=null) {
+      for (var element
+          in Map<String, dynamic>.from(map['subscriptionRequests'] as Map)
+              .values) {
+        list.add(SubscribeRequest.fromJson(Map<String, dynamic>.from(element)));
+      }
+    }
+    return  list;
+  }
 
   _fetchUsers()async{
     final ref = FirebaseDatabase.instance.ref();
@@ -38,6 +54,20 @@ class DoctorDashboardRepo extends IDoctorDashboardRepo {
     } else {
       return 'No data available.';
     }
+  }
+  _fetchRequests()async{
+    final ref = FirebaseDatabase.instance.ref();
+    final snapshot = await ref.get();
+    if (snapshot.exists) {
+      return snapshot.value;
+    } else {
+      return 'No data available.';
+    }
+  }
+
+  @override
+  Future<void> deleteSubscriptionRequest(SubscribeRequest request)async{
+    FirebaseDatabase.instance.ref().child('subscriptionRequests').child(request.phoneNumber).remove();
   }
   Future<void> _writeNewUser(User user) async {
 
