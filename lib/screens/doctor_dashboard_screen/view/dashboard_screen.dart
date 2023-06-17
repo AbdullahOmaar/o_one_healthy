@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:app/common/bottom_bar/bottom_bar_widget/bottom_bar_view.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -148,7 +149,9 @@ class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
                   )),
                   SizedBox(height: MediaQuery.of(context).size.height * .02),
                   Center(
-                    child: Text(title,
+                    child: AutoSizeText(title,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
                         style: const TextStyle(
                             fontSize: 25.0, color: Colors.black)),
                   )
