@@ -15,9 +15,9 @@ class UserCard extends StatelessWidget {
     final Size screenSize = MediaQuery.of(context).size;
     return Center(
       child: SizedBox(
-        width: screenSize.width * 0.44,
+        width: screenSize.width * 0.45,
         child: Card(
-          margin: const EdgeInsets.fromLTRB(12, 5, 12, 5),
+          margin: const EdgeInsets.fromLTRB(8, 5, 8, 5),
           // color: user.privileges.isAdmin ? Colors.indigo : Colors.white70,
           color: Colors.indigo,
           elevation: 20,
@@ -32,12 +32,11 @@ class UserCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(2, 10, 2, 8),
                   child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: CircleAvatar(
-                            radius: 22,
+                            radius: 18,
                             backgroundImage:
                                 Image.asset('assets/images/logo/logo.jpeg')
                                     .image
@@ -110,7 +109,7 @@ class UserCard extends StatelessWidget {
   Widget getPatientNameText(String text, bool isAdmin) => Text(
         text,
         style: TextStyle(
-            fontSize: 18,
+            fontSize: 15,
             fontWeight: FontWeight.bold,
             color: isAdmin ? Colors.white : Colors.indigo),
       );

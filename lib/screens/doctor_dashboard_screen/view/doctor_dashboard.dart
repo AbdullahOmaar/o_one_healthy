@@ -122,13 +122,13 @@ class _DoctorDashboardState extends ConsumerState<DoctorDashboard> {
             Container(
               padding: const EdgeInsets.all(4),
               margin: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-              height: MediaQuery.of(context).size.height * 0.37,
+              height: MediaQuery.of(context).size.height * 0.40,
               child: Column(
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.045,
+                      height: MediaQuery.of(context).size.height * 0.05,
                       child: ToggleButtons(
                         fillColor: Colors.indigo,
                         selectedColor: Colors.white,
