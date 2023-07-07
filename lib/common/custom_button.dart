@@ -1,6 +1,32 @@
 import 'package:app/common/widget_utils.dart';
+import 'package:app/util/theme/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
+Widget solidButton(
+    {required onPressed,
+    required String text,
+    Color? backgroundColor,
+    required Icon icon}) {
+  return ElevatedButton.icon(
+      onPressed: () {
+        onPressed;
+      },
+      icon: icon,
+      label: Text(
+        text,
+        style: tsS12W700CkPrimary,
+      ),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: backgroundColor ?? backgroundColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.sp),
+        ),
+        minimumSize: const Size.fromHeight(50),
+      ));
+}
+
+//TODO delete
 enum CustomWidth { oneThird, twoThird, half, matchParent }
 
 class CustomButton extends StatelessWidget {
