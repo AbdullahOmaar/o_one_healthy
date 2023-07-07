@@ -1,4 +1,4 @@
-import 'package:app/screens/home_screen/view/home_screen.dart';
+import 'package:app/screens/home/view/home_screen.dart';
 import 'package:app/screens/patients/patients_file/view/patients_files_screen.dart';
 
 import '../screens/ads_screen/view/ads_screen.dart';

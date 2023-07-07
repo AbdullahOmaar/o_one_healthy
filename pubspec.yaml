@@ -53,6 +53,7 @@ dependencies:
   syncfusion_flutter_pdfviewer: ^21.2.3
   device_preview: ^1.1.0
   auto_size_text: ^3.0.0
+  sizer: ^2.0.15
   flutter_file_downloader: 1.1.2
 #  multiselect: ^0.1.0
 

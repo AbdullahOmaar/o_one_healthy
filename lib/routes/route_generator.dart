@@ -1,6 +1,6 @@
 import 'package:app/routes/app_routes.dart';
 import 'package:app/screens/ads_screen/view/ads_screen.dart';
-import 'package:app/screens/home_screen/view/home_screen.dart';
+import 'package:app/screens/home/view/home_screen.dart';
 import 'package:app/screens/login/view/login_screen.dart';
 import 'package:app/screens/patients/patients_file/view/patients_files_screen.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +28,7 @@ class RouteGenerator {
         return buildRoute(const PatientFileScreen(), settings: settings);
       case AppRoutes.usersScreen:
         return buildRoute(const DoctorDashboard(), settings: settings);
-        case AppRoutes.patientScreen:
+      case AppRoutes.patientScreen:
         return buildRoute(const PatientsDashboard(), settings: settings);
       case AppRoutes.subscribeRequestsScreen:
         return buildRoute(const SubscriberRequests(), settings: settings);
