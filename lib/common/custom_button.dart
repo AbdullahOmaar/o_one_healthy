@@ -1,28 +1,40 @@
 import 'package:app/common/widget_utils.dart';
 import 'package:app/util/theme/styles.dart';
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
 
-Widget solidButton(
-    {required onPressed,
-    required String text,
-    Color? backgroundColor,
-    required Icon icon}) {
-  return ElevatedButton.icon(
-      onPressed: () {
-        onPressed;
-      },
-      icon: icon,
-      label: Text(
-        text,
-        style: tsS12W700CkPrimary,
-      ),
+Widget solidButton({
+  required Function() onPressed,
+  required String text,
+  Color? backgroundColor,
+  String? image,
+}) {
+  return ElevatedButton(
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor ?? backgroundColor,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.sp),
+          borderRadius: BorderRadius.circular(20.0),
         ),
-        minimumSize: const Size.fromHeight(50),
+        minimumSize: const Size.fromHeight(58),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Row(
+          children: [
+            Image.asset(
+              image ?? '',
+              width: 20.0,
+              height: 20.0,
+            ),
+            const SizedBox(
+              width: 15.0,
+            ),
+            Text(
+              text,
+              style: blackPrimary,
+            )
+          ],
+        ),
       ));
 }
 

@@ -1,5 +1,24 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 Widget appLogo() {
-  return Container();
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Stack(
+        alignment: const AlignmentDirectional(.9, 4.5),
+        children: [
+          Image.asset(
+            "assets/images/logo/doctor.png",
+            width: 70,
+            height: 110,
+          ),
+          Image.asset(
+            "assets/images/logo/logopp2.png",
+            width: 190,
+            height: 90,
+          ),
+        ],
+      ),
+    ],
+  );
 }
