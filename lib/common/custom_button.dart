@@ -18,7 +18,7 @@ Widget solidButton({
         minimumSize: const Size.fromHeight(58),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Row(
           children: [
             Image.asset(
