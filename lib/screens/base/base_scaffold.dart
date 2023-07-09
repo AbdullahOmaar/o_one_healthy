@@ -28,7 +28,7 @@ class _BaseScaffold extends ConsumerState<BaseScaffold> {
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Padding(
           padding: widget.padding ??
-              EdgeInsets.only(left: 16.w, right: 16.w, bottom: 32.h),
+              EdgeInsets.only(left: 16.w, right: 16.w, bottom: 16.w, top: 18.w),
           child: widget.body,
         ),
       ),

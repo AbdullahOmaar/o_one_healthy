@@ -1,9 +1,14 @@
 import 'package:app/common/custom_button.dart';
 import 'package:app/common/logo.dart';
+import 'package:app/common/widget_utils.dart';
+import 'package:app/routes/app_routes.dart';
+import 'package:app/routes/route_generator.dart';
 import 'package:app/screens/base/base_scaffold.dart';
 import 'package:app/screens/patients/patients_files_search/models/patient_model.dart';
+import 'package:app/util/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 
 class HomeScreen extends ConsumerStatefulWidget {
   static const routeName = "/HomeScreen";
@@ -35,21 +40,64 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return BaseScaffold(body: body());
   }
 
-  body() => Center(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              appLogo(),
-              solidButton(
-                  onPressed: () {},
-                  text: "text",
-                  icon: const Icon(Icons.image_search_rounded)),
-              solidButton(
-                  onPressed: () {},
-                  text: "text",
-                  icon: const Icon(Icons.image_search_rounded))
-            ],
-          ),
+  body() => SingleChildScrollView(
+        child: Column(
+          children: [
+            appLogo(),
+            getVerticalSpacerWidget(context),
+            getVerticalSpacerWidget(context),
+            solidButton(
+              backgroundColor: ThemeColors.primay,
+              onPressed: () {},
+              text: "Patients Files",
+              image: "assets/images/icon/file.png",
+            ),
+            getVerticalSpacerWidget(context),
+            solidButton(
+              backgroundColor: ThemeColors.primay,
+              onPressed: () {
+                Navigator.of(context).pushAndRemoveUntil(
+                  RouteGenerator.generateRoute(
+                      const RouteSettings(name: AppRoutes.loginScreen)),
+                  (route) => false,
+                );
+              },
+              text: "Login",
+              image: "assets/images/icon/login.png",
+            ),
+            getVerticalSpacerWidget(context),
+            solidButton(
+              backgroundColor: ThemeColors.primay,
+              onPressed: () {
+                Navigator.of(context).pushAndRemoveUntil(
+                  RouteGenerator.generateRoute(
+                      const RouteSettings(name: AppRoutes.subscribersScreen)),
+                  (route) => false,
+                );
+              },
+              text: "Subscribers",
+              image: "assets/images/icon/subscribe.png",
+            ),
+            getVerticalSpacerWidget(context),
+            solidButton(
+              backgroundColor: ThemeColors.primay,
+              onPressed: () {
+                Navigator.of(context).pushAndRemoveUntil(
+                  RouteGenerator.generateRoute(
+                      const RouteSettings(name: AppRoutes.adsScreen)),
+                  (route) => false,
+                );
+              },
+              text: "Ads",
+              image: "assets/images/icon/ads.png",
+            ),
+            getVerticalSpacerWidget(context),
+            const Text("وَإِذَا مَرِضْتُ فَهُوَ يَشْفِينِ",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                ))
+          ],
         ),
       );
 

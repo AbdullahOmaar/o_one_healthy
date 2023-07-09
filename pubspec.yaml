@@ -86,7 +86,13 @@ flutter:
     - assets/translations/en-US.json
   #   - images/a_dot_ham.jpeg
     - assets/images/immg.png
-    - assets/images/logo/
+    - assets/images/logo/logo.jpeg
+    - assets/images/logo/doctor.png
+    - assets/images/logo/logopp2.png
+    - assets/images/icon/file.png
+    - assets/images/icon/login.png
+    - assets/images/icon/ads.png
+    - assets/images/icon/subscribe.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
