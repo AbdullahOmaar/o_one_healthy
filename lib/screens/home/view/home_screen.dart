@@ -6,9 +6,10 @@ import 'package:app/routes/route_generator.dart';
 import 'package:app/screens/base/base_scaffold.dart';
 import 'package:app/screens/patients/patients_files_search/models/patient_model.dart';
 import 'package:app/util/theme/colors.dart';
+import 'package:app/util/theme/dimens.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 
 class HomeScreen extends ConsumerStatefulWidget {
   static const routeName = "/HomeScreen";
@@ -44,43 +45,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         child: Column(
           children: [
             appLogo(),
-            getVerticalSpacerWidget(context),
-            getVerticalSpacerWidget(context),
+            Dimens.vMargin5,
             solidButton(
-              backgroundColor: ThemeColors.primay,
               onPressed: () {},
-              text: "Patients Files",
+              text: "home.patients_files".tr(),
               image: "assets/images/icon/file.png",
             ),
-            getVerticalSpacerWidget(context),
+            Dimens.vMargin5,
             solidButton(
-              backgroundColor: ThemeColors.primay,
               onPressed: () {
-                Navigator.of(context).pushAndRemoveUntil(
-                  RouteGenerator.generateRoute(
-                      const RouteSettings(name: AppRoutes.loginScreen)),
-                  (route) => false,
-                );
+                buttonAction(AppRoutes.loginScreen);
               },
-              text: "Login",
+              text: "home.login".tr(),
               image: "assets/images/icon/login.png",
             ),
-            getVerticalSpacerWidget(context),
+            Dimens.vMargin5,
             solidButton(
-              backgroundColor: ThemeColors.primay,
               onPressed: () {
-                Navigator.of(context).pushAndRemoveUntil(
-                  RouteGenerator.generateRoute(
-                      const RouteSettings(name: AppRoutes.subscribersScreen)),
-                  (route) => false,
-                );
+                buttonAction(AppRoutes.subscribersScreen);
               },
               text: "Subscribers",
               image: "assets/images/icon/subscribe.png",
             ),
-            getVerticalSpacerWidget(context),
+            Dimens.vMargin5,
             solidButton(
-              backgroundColor: ThemeColors.primay,
               onPressed: () {
                 Navigator.of(context).pushAndRemoveUntil(
                   RouteGenerator.generateRoute(
@@ -91,7 +79,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               text: "Ads",
               image: "assets/images/icon/ads.png",
             ),
-            getVerticalSpacerWidget(context),
+            Dimens.vMargin5,
             const Text("وَإِذَا مَرِضْتُ فَهُوَ يَشْفِينِ",
                 style: TextStyle(
                   fontSize: 20,
@@ -104,6 +92,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   // fetchPatientData() async {
   //   await ref.read(patientFSViewModelProvider.notifier).getPatientList();
   // }
+
+  void buttonAction(String route) {
+    Navigator.pushNamed(context, route);
+  }
 }
 
 //TODO delete
