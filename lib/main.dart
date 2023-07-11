@@ -11,6 +11,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sizer/sizer.dart';
 import 'package:workmanager/workmanager.dart';
 import 'firebase_options.dart';
+import 'util/constant.dart';
 
 @pragma(
     'vm:entry-point') // Mandatory if the App is obfuscated or using Flutter 3.1+
@@ -42,9 +43,10 @@ void main() async {
   );
   runApp(ProviderScope(
     child: EasyLocalization(
-        supportedLocales: const [Locale('en', 'US'), Locale('ar', 'AR')],
+        supportedLocales: Lang.values.map((e) => Locale(e.name)).toList(),
         path: 'assets/translations',
-        fallbackLocale: const Locale('ar', 'AR'),
+        fallbackLocale: Locale(Lang.ar.name),
+        startLocale: Locale(Lang.ar.name),
         child: DevicePreview(
             enabled: !kReleaseMode, builder: (context) => const MyApp())),
   ));
@@ -76,8 +78,8 @@ class _MyAppState extends ConsumerState<MyApp> {
           supportedLocales: context.supportedLocales,
           // locale: context.locale,
           theme: ThemeData(
-              // primarySwatch: Themes.kPrimarySwatch,
-              ),
+              primarySwatch: Themes.kPrimarySwatch,
+              fontFamily: Themes.kFontFamily),
           initialRoute: getInitialPage(),
           onGenerateRoute: RouteGenerator.generateRoute,
         );
@@ -87,8 +89,3 @@ class _MyAppState extends ConsumerState<MyApp> {
 
   String getInitialPage() => AppRoutes.home;
 }
-
-// Scaffold(
-// bottomNavigationBar:const CustomBottomBarWidget(),
-// body: ref.watch(bottomBarViewModelProvider.notifier).screens[ref.watch(bottomBarViewModelProvider).currentIndex]),
-// );

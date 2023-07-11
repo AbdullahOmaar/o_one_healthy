@@ -1,4 +1,6 @@
+import 'package:app/util/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 import '../custom_button.dart';
 import '../widget_utils.dart';
@@ -7,7 +9,7 @@ enum FieldBorder { underline, outline, custom }
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
-  final TextInputType inputType;
+  final TextInputType? inputType;
   final Function? fieldSubmitted;
   final Function? validate;
   final String labelText;
@@ -15,7 +17,7 @@ class CustomTextField extends StatelessWidget {
   final IconData? prefix;
   final Function? onTappedTextForm;
   final IconData? suffix;
-  final bool isPassword;
+  final bool? isPassword;
   late CustomWidth customWidth;
   final Function? showPassword;
   late double fullWidth;
@@ -24,7 +26,7 @@ class CustomTextField extends StatelessWidget {
   CustomTextField({
     Key? key,
     required this.controller,
-    required this.inputType,
+    this.inputType,
     this.fieldSubmitted,
     this.validate,
     required this.labelText,
@@ -32,45 +34,45 @@ class CustomTextField extends StatelessWidget {
     this.prefix,
     this.onTappedTextForm,
     this.suffix,
-    required this.isPassword,
+    this.isPassword,
     this.showPassword,
-    this.fieldBorder = FieldBorder.underline,
+    this.fieldBorder = FieldBorder.outline,
     this.customWidth = CustomWidth.matchParent,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    fullWidth = MediaQuery.of(context).size.width;
-
     return SizedBox(
-      width: getWidgetWidth(fullWidth, customWidth),
+      height: 55,
       child: TextFormField(
-        style: const TextStyle(color: Colors.grey),
-        cursorColor: Colors.black,
+        style: TextStyle(color: ThemeColors.black),
+        cursorColor: ThemeColors.kPrimary,
         keyboardType: inputType,
         controller: controller,
         onChanged: onChanged,
         validator: (String? value) {
           return validate!(value);
         },
-        obscureText: isPassword,
+        obscureText: isPassword ?? false,
         decoration: getInputDecoration(),
       ),
     );
   }
 
-  InputBorder getUnderlineBorder() => const UnderlineInputBorder(
-        borderSide: BorderSide(color: Colors.indigo, width: 0.2),
+  InputBorder getUnderlineBorder() => UnderlineInputBorder(
+        borderSide: BorderSide(color: ThemeColors.kPrimary, width: 0.2),
       );
 
   getTextFieldBorder() {
     switch (fieldBorder) {
       case FieldBorder.underline:
         return getUnderlineBorder();
-      case FieldBorder.outline :
-        return const OutlineInputBorder(
+      case FieldBorder.outline:
+        return OutlineInputBorder(
           borderSide: BorderSide(
-              color: Colors.indigo, width: 0.9, style: BorderStyle.solid),
+              color: ThemeColors.kPrimary,
+              width: 1.5,
+              style: BorderStyle.solid),
         );
       case FieldBorder.custom:
         return const OutlineInputBorder(
@@ -79,17 +81,21 @@ class CustomTextField extends StatelessWidget {
               color: Colors.indigo, width: 0.9, style: BorderStyle.solid),
         );
     }
-
   }
 
   InputDecoration getInputDecoration() => InputDecoration(
         labelText: labelText,
-        labelStyle: const TextStyle(
+        labelStyle: TextStyle(
           height: .5,
-          color: Colors.grey,
-          fontSize: 18.0,
+          color: ThemeColors.primary,
+          fontSize: 14.sp,
         ),
-        focusedBorder: getTextFieldBorder(),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+              color: ThemeColors.kPrimaryLight,
+              width: 1.5,
+              style: BorderStyle.solid),
+        ),
         enabledBorder: getTextFieldBorder(),
         border: getTextFieldBorder(),
         prefixIcon: prefix != null
