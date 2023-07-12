@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 import '../custom_button.dart';
-import '../widget_utils.dart';
 
 enum FieldBorder { underline, outline, custom }
 
@@ -43,9 +42,9 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 55,
+      // height: 55,
       child: TextFormField(
-        style: TextStyle(color: ThemeColors.kblack),
+        style: TextStyle(color: ThemeColors.kBlack),
         cursorColor: ThemeColors.kPrimary,
         keyboardType: inputType,
         controller: controller,
@@ -84,6 +83,9 @@ class CustomTextField extends StatelessWidget {
   }
 
   InputDecoration getInputDecoration() => InputDecoration(
+        floatingLabelBehavior: FloatingLabelBehavior.never,
+        isDense: true,
+        contentPadding: const EdgeInsets.all(10),
         labelText: labelText,
         labelStyle: TextStyle(
           height: .5,
@@ -92,9 +94,10 @@ class CustomTextField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-              color: ThemeColors.kPrimaryLight,
-              width: 1.5,
-              style: BorderStyle.solid),
+            color: ThemeColors.kPrimaryLight,
+            width: 1.5,
+            style: BorderStyle.solid,
+          ),
         ),
         enabledBorder: getTextFieldBorder(),
         border: getTextFieldBorder(),

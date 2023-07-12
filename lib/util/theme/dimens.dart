@@ -3,6 +3,7 @@ import 'package:sizer/sizer.dart';
 
 class Dimens {
   static SizedBox hMargin1 = SizedBox(width: 1.w);
+  static SizedBox hMargin2 = SizedBox(width: 2.w);
   static SizedBox hMargin6 = SizedBox(width: 6.w);
   static SizedBox hMargin8 = SizedBox(width: 8.w);
   static SizedBox hMargin12 = SizedBox(width: 12.w);
@@ -10,6 +11,7 @@ class Dimens {
   static SizedBox hMargin35 = SizedBox(width: 35.w);
   static SizedBox hMargin60 = SizedBox(width: 60.w);
 
+  static SizedBox vMargin2 = SizedBox(height: 2.h);
   static SizedBox vMargin5 = SizedBox(height: 5.h);
   static SizedBox vMargin8 = SizedBox(height: 8.h);
   static SizedBox vMargin10 = SizedBox(height: 10.h);

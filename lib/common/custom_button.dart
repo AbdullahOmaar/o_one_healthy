@@ -19,14 +19,15 @@ Widget solidButton(
         minimumSize: const Size.fromHeight(58),
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.0.w),
+        padding: EdgeInsets.symmetric(horizontal: 5.0.w),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             FittedBox(
               fit: BoxFit.scaleDown,
               child: Text(
                 text,
-                style: tsS14W700Ckblack,
+                style: tsS14W700CkBlack,
               ),
             ),
             const Spacer(),
@@ -34,6 +35,7 @@ Widget solidButton(
               image ?? '',
               width: 20.0,
               height: 20.0,
+              color: Colors.white,
             ),
           ],
         ),

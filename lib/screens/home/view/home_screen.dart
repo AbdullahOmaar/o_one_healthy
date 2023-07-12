@@ -1,15 +1,15 @@
 import 'package:app/common/custom_button.dart';
 import 'package:app/common/logo.dart';
-import 'package:app/common/widget_utils.dart';
 import 'package:app/routes/app_routes.dart';
-import 'package:app/routes/route_generator.dart';
 import 'package:app/screens/base/base_scaffold.dart';
 import 'package:app/screens/patients/patients_files_search/models/patient_model.dart';
-import 'package:app/util/theme/colors.dart';
+import 'package:app/util/constant.dart';
 import 'package:app/util/theme/dimens.dart';
+import 'package:app/util/theme/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sizer/sizer.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   static const routeName = "/HomeScreen";
@@ -22,10 +22,17 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   List<Patient> patients = [];
+
+  String? bottomRadioValue = Lang.ar.name;
+
   @override
   void initState() {
-    // fetchPatientData();
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      setState(() {
+        bottomRadioValue = context.locale.languageCode;
+      });
+    });
   }
 
   @override
@@ -38,53 +45,68 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     // fetchPatientData();
     // patients = ref.watch(patientFSViewModelProvider).patients;
-    return BaseScaffold(body: body());
+    return BaseScaffold(
+      body: body(),
+    );
   }
 
   body() => SingleChildScrollView(
-        child: Column(
+        child: Stack(
           children: [
-            appLogo(),
-            Dimens.vMargin5,
-            solidButton(
-              onPressed: () {},
-              text: "home.patients_files".tr(),
-              image: "assets/images/icon/file.png",
+            Stack(
+              children: [
+                Positioned(
+                  child: TextButton(
+                      onPressed: _changeLanguageBottomSheet(context, false),
+                      child: Text(
+                        bottomRadioValue!,
+                        style: tsS14W700CkBlack,
+                      )),
+                ),
+              ],
             ),
             Dimens.vMargin5,
-            solidButton(
-              onPressed: () {
-                buttonAction(AppRoutes.loginScreen);
-              },
-              text: "home.login".tr(),
-              image: "assets/images/icon/login.png",
+            Column(
+              children: [
+                appLogo(),
+                Dimens.vMargin5,
+                solidButton(
+                  onPressed: () {},
+                  text: "home.patients_files".tr(),
+                  image: "assets/images/icon/file.png",
+                ),
+                Dimens.vMargin5,
+                solidButton(
+                  onPressed: () {
+                    buttonAction(AppRoutes.loginScreen);
+                  },
+                  text: "home.login".tr(),
+                  image: "assets/images/icon/login.png",
+                ),
+                Dimens.vMargin5,
+                solidButton(
+                  onPressed: () {
+                    buttonAction(AppRoutes.subscribersScreen);
+                  },
+                  text: "home.subscribers".tr(),
+                  image: "assets/images/icon/subscribe.png",
+                ),
+                Dimens.vMargin5,
+                solidButton(
+                  onPressed: () {
+                    buttonAction(AppRoutes.adsScreen);
+                  },
+                  text: "home.ads".tr(),
+                  image: "assets/images/icon/ads.png",
+                ),
+                Dimens.vMargin8,
+                const Text("وَإِذَا مَرِضْتُ فَهُوَ يَشْفِينِ",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                    ))
+              ],
             ),
-            Dimens.vMargin5,
-            solidButton(
-              onPressed: () {
-                buttonAction(AppRoutes.subscribersScreen);
-              },
-              text: "home.subscribers".tr(),
-              image: "assets/images/icon/subscribe.png",
-            ),
-            Dimens.vMargin5,
-            solidButton(
-              onPressed: () {
-                Navigator.of(context).pushAndRemoveUntil(
-                  RouteGenerator.generateRoute(
-                      const RouteSettings(name: AppRoutes.adsScreen)),
-                  (route) => false,
-                );
-              },
-              text: "home.ads".tr(),
-              image: "assets/images/icon/ads.png",
-            ),
-            Dimens.vMargin5,
-            const Text("وَإِذَا مَرِضْتُ فَهُوَ يَشْفِينِ",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                ))
           ],
         ),
       );
@@ -95,6 +117,103 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   void buttonAction(String route) {
     Navigator.pushNamed(context, route);
+  }
+
+  _changeLanguageBottomSheet(context, change) {
+    setState(() {
+      if (change == true) context.setLocale(Locale(Lang.ar.name));
+    });
+
+    // showModalBottomSheet(
+    //     isScrollControlled: true,
+    //     useSafeArea: true,
+    //     shape: RoundedRectangleBorder(
+    //       borderRadius: BorderRadius.circular(10.0.sp),
+    //     ),
+    //     context: context,
+    //     builder: (BuildContext bc) {
+    //       return FractionallySizedBox(
+    //         heightFactor: 0.98,
+    //         child: Column(
+    //           children: [
+    //             // bottomSheetHeader(
+    //             //     context, "LocaleKeys.update_health_data.tr()"),
+    //             Expanded(
+    //               child: Container(),
+    //             ),
+    //           ],
+    //         ),
+    //       );
+    //     });
+  }
+
+  Widget bottomSheetHeader(BuildContext context, String headerText,
+      {Function? clearAction}) {
+    return Container(
+      height: 70.h,
+      decoration: BoxDecoration(
+          // color: Themes.kPrimaryBackGroundColor,
+          shape: BoxShape.rectangle,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.grey,
+              blurRadius: 20,
+              spreadRadius: 2,
+            )
+          ]),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 5.w,
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: IconButton(
+              onPressed: () {
+                if (clearAction != null) clearAction();
+                // Navigator.pop(context);
+              },
+              iconSize: 30.w,
+              icon: Icon(
+                Icons.close,
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+          ),
+          /* SizedBox(
+          // width: getScreenWidth(context) * 0.2,
+          width: 20.w,
+        ),*/
+          Expanded(
+            child: Center(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 5.0.h),
+                    child: SizedBox(
+                      width: 60.w,
+                      child: Divider(
+                        thickness: 3,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    headerText,
+                    style: tsS12W700CkPrimary,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: true,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Dimens.hMargin35
+        ],
+      ),
+    );
   }
 }
 

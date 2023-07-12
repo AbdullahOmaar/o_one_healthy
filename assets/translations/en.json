@@ -1,9 +1,23 @@
 {
   "home": {
     "patients_files": "Patients iles",
-    "login": "Login"
+    "login": "Login",
+    "subscribers":"Subscribers",
+    "ads":"ADS"
   },
   "login": {
-    "login": "Login"
+    "login": "Login",
+    "id": "id",
+    "password": "Password",
+    "remember_me": "Remember Me",
+    "don't_have_account": "Don't Have Account: ",
+    "add_account": "Add Account"
+  },
+  "dashboard": {
+    "services": "الخدمات",
+    "users":"المستخدمين",
+    "patients":"المرضي",
+    "subscribers":"المشتركين",
+    "ads":"الاعلانات"
   }
 }

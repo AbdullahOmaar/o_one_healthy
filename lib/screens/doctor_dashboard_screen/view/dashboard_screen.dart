@@ -6,14 +6,11 @@ import 'package:app/util/constant.dart';
 import 'package:app/util/theme/colors.dart';
 import 'package:app/util/theme/styles.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:sizer/sizer.dart';
 import '../../../routes/app_routes.dart';
-import '../../../routes/route_generator.dart';
 import '../models/user_data_model.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
@@ -44,23 +41,21 @@ class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
   }
 
   @override
-  Widget build(
-    BuildContext context,
-  ) {
+  Widget build(BuildContext context) {
     return BaseScaffold(
         bottomNavigationBar: const CustomBottomBarWidget(),
         padding: const EdgeInsets.all(12.0),
-        appBar: baseAppBar(context, title, Images.profile),
+        appBar: baseAppBar(context, title, profileImage: Images.profile),
         body: body());
   }
 
   body() => Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "dashboard.services".tr(),
-            style: tsS14W500CkPrimary,
+            style: tsS16W500CkPrimary,
           ),
           Image.asset(
             Images.adsImg,
@@ -79,35 +74,13 @@ class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
                 ),
                 children: [
                   makeDashboardItem("dashboard.patients".tr(), Images.patientes,
-                      () {
-                    Navigator.of(context).pushAndRemoveUntil(
-                      RouteGenerator.generateRoute(
-                          const RouteSettings(name: AppRoutes.patientScreen)),
-                      (route) => false,
-                    );
-                  }),
-                  makeDashboardItem("dashboard.users".tr(), Images.users, () {
-                    Navigator.of(context).pushAndRemoveUntil(
-                      RouteGenerator.generateRoute(
-                          const RouteSettings(name: AppRoutes.usersScreen)),
-                      (route) => false,
-                    );
-                  }),
-                  makeDashboardItem("dashboard.ads".tr(), Images.ads, () {
-                    Navigator.of(context).pushAndRemoveUntil(
-                      RouteGenerator.generateRoute(const RouteSettings(
-                          name: AppRoutes.subscribeRequestsScreen)),
-                      (route) => false,
-                    );
-                  }),
-                  makeDashboardItem(
-                      "dashboard.subscribers".tr(), Images.subscribers, () {
-                    Navigator.of(context).pushAndRemoveUntil(
-                      RouteGenerator.generateRoute(const RouteSettings(
-                          name: AppRoutes.subscribersScreen)),
-                      (route) => false,
-                    );
-                  }),
+                      AppRoutes.patientScreen),
+                  makeDashboardItem("dashboard.users".tr(), Images.users,
+                      AppRoutes.usersScreen),
+                  makeDashboardItem("dashboard.ads".tr(), Images.ads,
+                      AppRoutes.subscribeRequestsScreen),
+                  makeDashboardItem("dashboard.subscribers".tr(),
+                      Images.subscribers, AppRoutes.subscribersScreen),
                 ]),
           ),
         ],
@@ -120,38 +93,36 @@ class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
     user = User.fromJson(json.decode(data ?? ''));
   }
 
-  Widget makeDashboardItem(String title, String image, Function() onTap) {
+  Widget makeDashboardItem(String title, String image, routeName) {
     return InkWell(
-      onTap: onTap,
+      onTap: () {
+        // Navigator.pushNamed(context, routeName);
+      },
       child: Card(
           elevation: 0.0,
-          // margin: const EdgeInsets.all(8.0),
-          child: Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Container(
-              width: MediaQuery.of(context).size.width * .01,
-              height: MediaQuery.of(context).size.height * .01,
-              decoration:  BoxDecoration(
-                  color:ThemeColors.kPrimary,
-                  borderRadius: const BorderRadius.all(Radius.circular(25.0))),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                // verticalDirection: VerticalDirection.down,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // SizedBox(height: MediaQuery.of(context).size.height * .05),
-                  Image.asset(
-                    image,
-                    width: 70,
-                    height: 70,
-                  ),
-                  // SizedBox(height: MediaQuery.of(context).size.height * .01),
-                  AutoSizeText(title,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: tsS14W700Ckblack)
-                ],
-              ),
+          child: Container(
+            width: MediaQuery.of(context).size.width * .01,
+            height: MediaQuery.of(context).size.height * .01,
+            decoration: BoxDecoration(
+                color: ThemeColors.kPrimary,
+                borderRadius: const BorderRadius.all(Radius.circular(25.0))),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              // verticalDirection: VerticalDirection.down,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // SizedBox(height: MediaQuery.of(context).size.height * .05),
+                Image.asset(
+                  image,
+                  width: 70,
+                  height: 70,
+                ),
+                // SizedBox(height: MediaQuery.of(context).size.height * .01),
+                AutoSizeText(title,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    style: tsS14W700CkBlack)
+              ],
             ),
           )),
     );
