@@ -6,7 +6,12 @@
     "ads":"الاعلانات"
   },
   "login": {
-    "login": "تسجيل الدخول"
+    "login": "تسجيل الدخول",
+    "id": "رقم الحساب",
+    "password": "كلمة السر",
+    "remember_me": "تذكرني",
+    "don't_have_account": "ليس لديك حساب: ",
+    "add_account": "اضافة حساب"
   },
   "dashboard": {
     "services": "الخدمات",

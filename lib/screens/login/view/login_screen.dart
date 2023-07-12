@@ -1,16 +1,13 @@
-import 'package:app/common/bottom_bar/bottom_bar_widget/bottom_bar_view.dart';
-import 'package:app/common/bottom_bar/bottombar_view_model/bottomBar_view_model.dart';
+import 'package:app/common/custom_button.dart';
 import 'package:app/common/custom_text_field/custom_text_field.dart';
 import 'package:app/common/logo.dart';
-import 'package:app/common/widget_utils.dart';
 import 'package:app/routes/app_routes.dart';
-import 'package:app/routes/route_generator.dart';
 import 'package:app/screens/base/base_scaffold.dart';
-import 'package:app/screens/login/model/login_model.dart';
 import 'package:app/screens/login/view_model/login_viewmodel.dart';
 import 'package:app/util/theme/colors.dart';
 import 'package:app/util/theme/dimens.dart';
 import 'package:app/util/theme/styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -44,9 +41,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     loginViewModel = ref.read(loginViewModelProvider.notifier);
     stateWatcher = ref.read(loginViewModelProvider);
 
-    LoginModel? login = ref.watch((loginViewModelProvider)).loginModel;
     return BaseScaffold(
-      // appBar: baseAppBar(),
+      // appBar: baseAppBar(context, "tittle"),
       body: body(),
     );
   }
@@ -57,144 +53,100 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               appLogo(),
               Dimens.vMargin5,
+              Text("login.id".tr(), style: tsS12W500CkBlack),
+              // Dimens.hMargin2,
               CustomTextField(
-                  controller: uidTextEditingController,
-                  inputType: TextInputType.number,
-                  labelText: 'ID'),
-              const Text("ID",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w400)),
-              // Dimens.vMargin5,
-              TextFormField(
-                  controller: uidTextEditingController,
-                  keyboardType: TextInputType.text,
-                  decoration: const InputDecoration(
-                      hintText: 'ID',
-                      hintStyle: TextStyle(color: Colors.blueGrey),
-                      border: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(width: 0.9, style: BorderStyle.solid),
-                      )),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'ID must not be empty';
-                    } else if (!isAuth) {
-                      return 'wrong ID or password';
-                    }
-                    return null;
-                  }),
-              Dimens.vMargin5,
-              const Text("Password",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w400)),
-              const SizedBox(
-                height: 8.0,
+                controller: uidTextEditingController,
+                inputType: TextInputType.number,
+                labelText: "login.id".tr(),
+                validate: handelValidator,
               ),
-              TextFormField(
-                  controller: passwordTextEditingController,
-                  keyboardType: TextInputType.text,
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                      hintText: 'Password',
-                      hintStyle: TextStyle(color: Colors.blueGrey),
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(
-                            // color: Colors.red,
-                            width: 0.9,
-                            style: BorderStyle.solid),
-                      )),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Password must not be empty';
-                    } else if (!isAuth) {
-                      return 'wrong ID or password';
-                    }
-                    return null;
-                  }),
+              Dimens.vMargin5,
+              Text("login.password".tr(), style: tsS12W500CkBlack),
+              // Dimens.vMargin2,
+              CustomTextField(
+                controller: passwordTextEditingController,
+                inputType: TextInputType.text,
+                labelText: "login.password".tr(),
+                validate: handelValidator,
+              ),
               Row(
                 children: [
-                  Text("Remember Me", style: tsS14W500CkPrimary),
-                  Checkbox(
-                    onChanged: (value) {},
-                    value: true,
-                    // fillColor:  ThemeColors.primay,
-                    activeColor: ThemeColors.primary,
-                    checkColor: Colors.white,
-                  )
+                  SizedBox(
+                    height: 24.0,
+                    width: 24.0,
+                    child: Checkbox(
+                      onChanged: (value) {},
+                      value: true,
+                      activeColor: ThemeColors.primary,
+                      checkColor: Colors.white,
+                    ),
+                  ),
+                  Dimens.hMargin2,
+                  Text("login.remember_me".tr(), style: tsS12W500CkBlack)
                 ],
               ),
-              GestureDetector(
-                child: Text("Forget Password?", style: tsS14W500CkPrimary),
-                onTap: () {},
-              ),
-              getVerticalSpacerWidget(context),
+              // GestureDetector(
+              //   child: Text("Forget Password?", style: tsS16W500CkPrimary),
+              //   onTap: () {},
+              // ),
+              Dimens.vMargin5,
               stateWatcher.isLoading
                   ? const Center(child: CircularProgressIndicator())
-                  : ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: ThemeColors.primary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        minimumSize: const Size.fromHeight(58),
-                      ),
+                  : solidButton(
                       onPressed: () async {
-                        final String uid = uidTextEditingController.text;
-                        isAuth = await loginViewModel.authUser(
-                            uid, passwordTextEditingController.text);
-                        if (formKey.currentState!.validate()) {
-                          if (!isAuth) {
-                            return;
-                          } else {
-                            await loginViewModel.getUserData(uid).then(
-                              (_) {
-                                Navigator.of(context).pushAndRemoveUntil(
-                                  RouteGenerator.generateRoute(
-                                      const RouteSettings(
-                                          name: AppRoutes.doctorDashboard)),
-                                  (route) => false,
-                                );
-                              },
-                            );
+                        {
+                          final String uid = uidTextEditingController.text;
+                          isAuth = await loginViewModel.authUser(
+                              uid, passwordTextEditingController.text);
+                          if (formKey.currentState!.validate()) {
+                            if (!isAuth) {
+                              return;
+                            } else {
+                              await loginViewModel.getUserData(uid).then(
+                                (_) {
+                                  Navigator.pushReplacementNamed(
+                                      context, AppRoutes.doctorDashboard);
+                                },
+                              );
+                            }
                           }
                         }
                       },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            "assets/images/icon/login.png",
-                            width: 20.0,
-                            height: 20.0,
-                          ),
-                          const SizedBox(
-                            width: 15.0,
-                          ),
-                          Text(
-                            "Login",
-                            style: tsS14W700Ckblack,
-                          )
-                        ],
-                      ),
+                      text: "login.login".tr(),
+                      image: "assets/images/icon/login.png",
                     ),
-              const SizedBox(
-                height: 12.0,
-              ),
-              GestureDetector(
-                child: Text("Don't Have Account", style: tsS14W500CkPrimary),
-                onTap: () {},
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("login.don't_have_account".tr(),
+                        style: tsS12W500CkBlack),
+                    GestureDetector(
+                      child: Text("login.add_account".tr(),
+                          style: tsS12W500CkPrimary),
+                      onTap: () {},
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
         ),
       ));
+
+  handelValidator(value) {
+    if (value!.isEmpty) {
+      return 'Password must not be empty';
+    } else if (!isAuth) {
+      return 'wrong ID or password';
+    }
+    return null;
+  }
 
   addFirData() async {
     DatabaseReference ref = FirebaseDatabase.instance.ref("users/123");
