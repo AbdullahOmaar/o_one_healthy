@@ -54,7 +54,7 @@ dependencies:
   device_preview: ^1.1.0
   auto_size_text: ^3.0.0
   sizer: ^2.0.15
-  flutter_file_downloader: 1.1.2
+  flutter_svg: ^2.0.7
 #  multiselect: ^0.1.0
 
 dev_dependencies:
@@ -93,6 +93,14 @@ flutter:
     - assets/images/icon/login.png
     - assets/images/icon/ads.png
     - assets/images/icon/subscribe.png
+    - assets/images/dashboard/image.png
+    - assets/images/dashboard/profile.png
+    - assets/images/dashboard/users.png
+    - assets/images/dashboard/patientes.png
+    - assets/images/dashboard/subscribers.png
+    - assets/images/dashboard/adss.png
+#    -
+    - assets/images/logo/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

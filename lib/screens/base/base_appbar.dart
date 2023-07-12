@@ -1,9 +1,10 @@
 import 'package:app/routes/app_routes.dart';
+import 'package:app/routes/route_generator.dart';
 import 'package:app/util/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-PreferredSizeWidget baseAppBar(context, String tittle) {
+PreferredSizeWidget baseAppBar(context, String tittle, String profileImage) {
   return AppBar(
     title: Text(
       tittle,
@@ -11,29 +12,33 @@ PreferredSizeWidget baseAppBar(context, String tittle) {
     ),
     centerTitle: true,
     leading: Padding(
-      padding: EdgeInsetsDirectional.only(start: 18.w),
-      child: Navigator.canPop(context)
-          ? IconButton(
-              onPressed: () async {
-                Navigator.maybePop(context);
-              },
-              icon: Icon(
-                Icons.arrow_back_ios,
-                color: ThemeColors.kPrimary,
-              ),
-            )
-          : IconButton(
-              onPressed: () async {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, AppRoutes.home, (r) => false);
-              },
-              icon: Icon(
-                Icons.arrow_back_ios,
-                color: ThemeColors.kPrimary,
-              ),
-            ),
+      padding: EdgeInsetsDirectional.only(start: 8.w),
+      child: IconButton(
+        onPressed: () {
+          Navigator.of(context).pushAndRemoveUntil(
+            RouteGenerator.generateRoute(
+                const RouteSettings(name: AppRoutes.home)),
+            (route) => false,
+          );
+        },
+        icon: Icon(
+          Icons.menu,
+          color: ThemeColors.kblack,
+          size: 40,
+        ),
+      ),
     ),
     backgroundColor: Colors.transparent,
     elevation: 0.0,
+    actions: [
+      Padding(
+        padding: EdgeInsetsDirectional.only(end: 8.w),
+        child: CircleAvatar(
+          child: Image.asset(
+            profileImage,
+          ),
+        ),
+      )
+    ],
   );
 }

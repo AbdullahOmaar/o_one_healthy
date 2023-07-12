@@ -1,9 +1,18 @@
 {
   "home": {
     "patients_files": "ملفات المرضي",
-    "login": "تسجيل الدخول"
+    "login": "تسجيل الدخول",
+    "subscribers":"المشتركين",
+    "ads":"الاعلانات"
   },
   "login": {
     "login": "تسجيل الدخول"
+  },
+  "dashboard": {
+    "services": "الخدمات",
+    "users":"المستخدمين",
+    "patients":"المرضي",
+    "subscribers":"المشتركين",
+    "ads":"الاعلانات"
   }
 }

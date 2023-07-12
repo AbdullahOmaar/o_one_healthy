@@ -26,7 +26,7 @@ Widget solidButton(
               fit: BoxFit.scaleDown,
               child: Text(
                 text,
-                style: blackPrimary,
+                style: tsS14W700Ckblack,
               ),
             ),
             const Spacer(),

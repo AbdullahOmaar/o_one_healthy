@@ -9,5 +9,5 @@ class ThemeColors {
   static Color kPinkLight = const Color(0xFFFCEDED); // Linen
   static Color kBgColor = const Color(0xFFFFFFFF);
   static Color primary = const Color(0xFFB9CC97);
-  static Color black = const Color(0xff000000);
+  static Color kblack = const Color(0xff000000);
 }

@@ -64,7 +64,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               onPressed: () {
                 buttonAction(AppRoutes.subscribersScreen);
               },
-              text: "Subscribers",
+              text: "home.subscribers".tr(),
               image: "assets/images/icon/subscribe.png",
             ),
             Dimens.vMargin5,
@@ -76,7 +76,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   (route) => false,
                 );
               },
-              text: "Ads",
+              text: "home.ads".tr(),
               image: "assets/images/icon/ads.png",
             ),
             Dimens.vMargin5,

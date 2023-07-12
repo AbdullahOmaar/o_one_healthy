@@ -32,4 +32,10 @@ class Themes {
 
 class Images {
   static const appLogo = 'assets/images/logo/app_logo.png';
+  static String profile = "assets/images/dashboard/profile.png";
+  static String adsImg = "assets/images/dashboard/image.png";
+  static String users = "assets/images/dashboard/users.png";
+  static String patientes = "assets/images/dashboard/patientes.png";
+  static String subscribers = "assets/images/dashboard/subscribers.png";
+  static String ads = "assets/images/dashboard/adss.png";
 }

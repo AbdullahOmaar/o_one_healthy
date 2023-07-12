@@ -7,13 +7,14 @@ class BaseScaffold extends ConsumerStatefulWidget {
     required this.body,
     this.padding,
     this.appBar,
+    this.bottomNavigationBar,
     Key? key,
   }) : super(key: key);
 
   final Widget body;
   final EdgeInsetsGeometry? padding;
   final PreferredSizeWidget? appBar;
-
+  final Widget? bottomNavigationBar ;
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _BaseScaffold();
 }
@@ -22,6 +23,7 @@ class _BaseScaffold extends ConsumerState<BaseScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar:widget.bottomNavigationBar ,
       appBar: widget.appBar,
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
