@@ -45,7 +45,7 @@ class CustomTextField extends StatelessWidget {
     return SizedBox(
       height: 55,
       child: TextFormField(
-        style: TextStyle(color: ThemeColors.black),
+        style: TextStyle(color: ThemeColors.kblack),
         cursorColor: ThemeColors.kPrimary,
         keyboardType: inputType,
         controller: controller,

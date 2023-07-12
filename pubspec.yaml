@@ -92,6 +92,12 @@ flutter:
     - assets/images/icon/login.png
     - assets/images/icon/ads.png
     - assets/images/icon/subscribe.png
+    - assets/images/dashboard/image.png
+    - assets/images/dashboard/profile.png
+    - assets/images/dashboard/users.png
+    - assets/images/dashboard/patientes.png
+    - assets/images/dashboard/subscribers.png
+    - assets/images/dashboard/adss.png
 #    -
     - assets/images/logo/
 

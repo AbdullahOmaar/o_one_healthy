@@ -1,3 +1,4 @@
+import 'package:app/util/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -15,20 +16,21 @@ class _CustomBottomBarWidgetState extends ConsumerState<CustomBottomBarWidget> {
   Widget build(BuildContext context) {
     return  BottomNavigationBar(
 
-      items: const <BottomNavigationBarItem>[
+      items:  <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-            icon: Icon(Icons.home, color: Colors.blue,), label: "home"),
+            icon: Icon(Icons.home, color: ThemeColors.kPrimary,), label: "home"),
          BottomNavigationBarItem(
-            icon: Icon(Icons.ads_click, color: Colors.blue,), label: "ads"),
+            icon: Icon(Icons.ads_click, color:ThemeColors.kPrimary,), label: "ads"),
         BottomNavigationBarItem(
-            icon: Icon(Icons.person_pin_outlined, color: Colors.blue,), label: "subscribers"),
+            icon: Icon(Icons.person_pin_outlined, color: ThemeColors.kPrimary,), label: "subscribers"),
       ],
       currentIndex: ref.watch(bottomBarViewModelProvider).currentIndex,
-      fixedColor: Colors.deepPurple,
+      selectedItemColor: ThemeColors.kPrimary,
+      unselectedItemColor: Colors.grey,
       onTap: (i){
         ref.read(bottomBarViewModelProvider.notifier).setCurrentScreen(i,SelectedScreen.none, context: context);
       },
-      selectedLabelStyle:const TextStyle(color: Colors.red, fontSize: 20),
+      // selectedLabelStyle:const TextStyle(color: Colors.red, fontSize: 20),
     );
   }
 }

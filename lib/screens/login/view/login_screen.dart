@@ -179,7 +179,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           ),
                           Text(
                             "Login",
-                            style: blackPrimary,
+                            style: tsS14W700Ckblack,
                           )
                         ],
                       ),

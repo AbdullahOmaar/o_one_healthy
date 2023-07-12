@@ -8,5 +8,5 @@ final tsS12W700CkPrimary = TextStyle(
 final tsS14W500CkPrimary = TextStyle(
     fontSize: 16.sp, fontWeight: FontWeight.w500, color: ThemeColors.primary);
 
-final blackPrimary = TextStyle(
-    fontSize: 14.sp, fontWeight: FontWeight.w700, color: ThemeColors.black);
+final tsS14W700Ckblack = TextStyle(
+    fontSize: 14.sp, fontWeight: FontWeight.w700, color: ThemeColors.kblack);
