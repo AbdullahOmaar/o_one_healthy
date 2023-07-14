@@ -1,4 +1,7 @@
 {
+  "current_language": "EN",
+  "change_language": "Change Language",
+  "choose": "Choose",
   "home": {
     "patients_files": "Patients iles",
     "login": "Login",

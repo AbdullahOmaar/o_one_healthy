@@ -84,22 +84,24 @@ flutter:
     - assets/translations/ar.json
     - assets/translations/en.json
   #   - images/a_dot_ham.jpeg
-    - assets/images/immg.png
-    - assets/images/logo/logo.jpeg
-    - assets/images/logo/doctor.png
-    - assets/images/logo/logopp2.png
-    - assets/images/icon/file.png
-    - assets/images/icon/login.png
-    - assets/images/icon/ads.png
-    - assets/images/icon/subscribe.png
-    - assets/images/dashboard/image.png
-    - assets/images/dashboard/profile.png
-    - assets/images/dashboard/users.png
-    - assets/images/dashboard/patientes.png
-    - assets/images/dashboard/subscribers.png
-    - assets/images/dashboard/adss.png
+#    - assets/images/immg.png
+#    - assets/images/logo/logo.jpeg
+#    - assets/images/logo/doctor.png
+#    - assets/images/logo/logopp2.png
+#    - assets/images/icon/file.png
+#    - assets/images/icon/login.png
+#    - assets/images/icon/ads.png
+#    - assets/images/icon/subscribe.png
+#    - assets/images/dashboard/image.png
+#    - assets/images/dashboard/profile.png
+#    - assets/images/dashboard/users.png
+#    - assets/images/dashboard/patientes.png
+#    - assets/images/dashboard/subscribers.png
+#    - assets/images/dashboard/adss.png
 #    -
     - assets/images/logo/
+    - assets/images/icon/
+    - assets/images/dashboard/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

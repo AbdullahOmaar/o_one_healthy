@@ -9,11 +9,12 @@ import '../../../doctor_dashboard_screen/view_model/dashboard_view_model.dart';
 class SubscribeRequestItem extends ConsumerStatefulWidget {
   final SubscribeRequest requests;
 
-
-  const SubscribeRequestItem({Key? key, required this.requests}) : super(key: key);
+  const SubscribeRequestItem({Key? key, required this.requests})
+      : super(key: key);
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _SubscribeRequestItemState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _SubscribeRequestItemState();
 }
 
 class _SubscribeRequestItemState extends ConsumerState<SubscribeRequestItem> {
@@ -26,9 +27,14 @@ class _SubscribeRequestItemState extends ConsumerState<SubscribeRequestItem> {
     return SizedBox(
       height: screenSize!.height * .15,
       child: ListTile(
-        leading: Icon(Icons.request_page_outlined,size:screenSize!.height*.13,),
+        leading: Icon(
+          Icons.request_page_outlined,
+          size: screenSize!.height * .13,
+        ),
         shape: const RoundedRectangleBorder(
-          side: BorderSide(color: Colors.indigo,),
+          side: BorderSide(
+            color: Colors.indigo,
+          ),
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
         ),
         title: Column(
@@ -37,15 +43,26 @@ class _SubscribeRequestItemState extends ConsumerState<SubscribeRequestItem> {
           children: [
             Padding(
               padding: const EdgeInsets.all(5.0),
-              child: AutoSizeText(widget.requests.name,style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 20)),
+              child: AutoSizeText(widget.requests.name,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w600, fontSize: 20)),
             ),
             Padding(
               padding: const EdgeInsets.all(5.0),
-              child: AutoSizeText(widget.requests.phoneNumber,style: const TextStyle(fontWeight: FontWeight.w400,fontSize: 15)),
+              child: AutoSizeText(widget.requests.phoneNumber,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w400, fontSize: 15)),
             ),
-            CustomButton(fontSize: 15, onPressed: ()async{
-              await ref.read(dashboardViewModelProvider.notifier).deleteRequest(widget.requests);
-            }, btnWidth: CustomWidth.twoThird,text: "cancel",)
+            CustomButton(
+              fontSize: 15,
+              onPressed: () async {
+                await ref
+                    .read(dashboardViewModelProvider.notifier)
+                    .deleteRequest(widget.requests);
+              },
+              btnWidth: CustomWidth.twoThird,
+              text: "cancel",
+            )
           ],
         ),
       ),

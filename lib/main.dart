@@ -1,6 +1,5 @@
 import 'package:app/routes/app_routes.dart';
 import 'package:app/routes/route_generator.dart';
-import 'package:cron/cron.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
@@ -48,7 +47,7 @@ void main() async {
         fallbackLocale: Locale(Lang.ar.name),
         startLocale: Locale(Lang.ar.name),
         child: DevicePreview(
-            enabled: !kReleaseMode, builder: (context) => const MyApp())),
+            enabled: kReleaseMode, builder: (context) => const MyApp())),
   ));
 }
 
@@ -70,13 +69,13 @@ class _MyAppState extends ConsumerState<MyApp> {
     return Sizer(
       builder: (context, orientation, deviceType) {
         return MaterialApp(
-          useInheritedMediaQuery: true,
-          locale: DevicePreview.locale(context),
+          // useInheritedMediaQuery: true,
+          // locale: DevicePreview.locale(context),
           builder: DevicePreview.appBuilder,
           debugShowCheckedModeBanner: false,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
-          // locale: context.locale,
+          locale: context.locale,
           theme: ThemeData(
               primarySwatch: Themes.kPrimarySwatch,
               fontFamily: Themes.kFontFamily),
