@@ -10,17 +10,14 @@ PreferredSizeWidget baseAppBar(context, String tittle, {String? profileImage}) {
       style: const TextStyle(color: Colors.black),
     ),
     centerTitle: true,
-    leading: Padding(
-      padding: EdgeInsetsDirectional.only(start: 8.w),
-      child: IconButton(
-        onPressed: () {
-          Navigator.pushNamed(context, AppRoutes.home);
-        },
-        icon: Icon(
-          Icons.menu,
-          color: ThemeColors.kBlack,
-          size: 40,
-        ),
+    leading: IconButton(
+      onPressed: () {
+        Navigator.pushNamed(context, AppRoutes.home);
+      },
+      icon: Icon(
+        Icons.menu,
+        color: ThemeColors.kBlack,
+        size: 40,
       ),
     ),
     backgroundColor: Colors.transparent,

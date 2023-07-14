@@ -47,97 +47,97 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
-  body() => Form(
-      key: formKey,
-      child: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              appLogo(),
-              Dimens.vMargin5,
-              Text("login.id".tr(), style: tsS12W500CkBlack),
-              // Dimens.hMargin2,
-              CustomTextField(
-                controller: uidTextEditingController,
-                inputType: TextInputType.number,
-                labelText: "login.id".tr(),
-                validate: handelValidator,
-              ),
-              Dimens.vMargin5,
-              Text("login.password".tr(), style: tsS12W500CkBlack),
-              // Dimens.vMargin2,
-              CustomTextField(
-                controller: passwordTextEditingController,
-                inputType: TextInputType.text,
-                labelText: "login.password".tr(),
-                validate: handelValidator,
-              ),
-              Row(
+  body() => Center(
+        child: Form(
+            key: formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    height: 24.0,
-                    width: 24.0,
-                    child: Checkbox(
-                      onChanged: (value) {},
-                      value: true,
-                      activeColor: ThemeColors.primary,
-                      checkColor: Colors.white,
+                  appLogo(),
+                  Dimens.vMargin8,
+                  Text("login.id".tr(), style: tsS12W500CkBlack),
+                  // Dimens.hMargin2,
+                  CustomTextField(
+                    controller: uidTextEditingController,
+                    inputType: TextInputType.number,
+                    labelText: "login.id".tr(),
+                    validate: handelValidator,
+                  ),
+                  Dimens.vMargin5,
+                  Text("login.password".tr(), style: tsS12W500CkBlack),
+                  // Dimens.vMargin2,
+                  CustomTextField(
+                    controller: passwordTextEditingController,
+                    inputType: TextInputType.text,
+                    labelText: "login.password".tr(),
+                    validate: handelValidator,
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        height: 24.0,
+                        width: 24.0,
+                        child: Checkbox(
+                          onChanged: (value) {},
+                          value: true,
+                          activeColor: ThemeColors.primary,
+                          checkColor: Colors.white,
+                        ),
+                      ),
+                      Dimens.hMargin2,
+                      Text("login.remember_me".tr(), style: tsS12W500CkBlack)
+                    ],
+                  ),
+                  // GestureDetector(
+                  //   child: Text("Forget Password?", style: tsS16W500CkPrimary),
+                  //   onTap: () {},
+                  // ),
+                  Dimens.vMargin5,
+                  stateWatcher.isLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : solidButton(
+                          onPressed: () async {
+                            {
+                              final String uid = uidTextEditingController.text;
+                              isAuth = await loginViewModel.authUser(
+                                  uid, passwordTextEditingController.text);
+                              if (formKey.currentState!.validate()) {
+                                if (!isAuth) {
+                                  return;
+                                } else {
+                                  await loginViewModel.getUserData(uid).then(
+                                    (_) {
+                                      Navigator.pushReplacementNamed(
+                                          context, AppRoutes.doctorDashboard);
+                                    },
+                                  );
+                                }
+                              }
+                            }
+                          },
+                          text: "login.login".tr(),
+                          image: "assets/images/icon/login.png",
+                        ),
+                  Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("login.don't_have_account".tr(),
+                            style: tsS12W500CkBlack),
+                        GestureDetector(
+                          child: Text("login.add_account".tr(),
+                              style: tsS12W500CkPrimary),
+                          onTap: () {},
+                        ),
+                      ],
                     ),
                   ),
-                  Dimens.hMargin2,
-                  Text("login.remember_me".tr(), style: tsS12W500CkBlack)
                 ],
               ),
-              // GestureDetector(
-              //   child: Text("Forget Password?", style: tsS16W500CkPrimary),
-              //   onTap: () {},
-              // ),
-              Dimens.vMargin5,
-              stateWatcher.isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : solidButton(
-                      onPressed: () async {
-                        {
-                          final String uid = uidTextEditingController.text;
-                          isAuth = await loginViewModel.authUser(
-                              uid, passwordTextEditingController.text);
-                          if (formKey.currentState!.validate()) {
-                            if (!isAuth) {
-                              return;
-                            } else {
-                              await loginViewModel.getUserData(uid).then(
-                                (_) {
-                                  Navigator.pushReplacementNamed(
-                                      context, AppRoutes.doctorDashboard);
-                                },
-                              );
-                            }
-                          }
-                        }
-                      },
-                      text: "login.login".tr(),
-                      image: "assets/images/icon/login.png",
-                    ),
-              Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("login.don't_have_account".tr(),
-                        style: tsS12W500CkBlack),
-                    GestureDetector(
-                      child: Text("login.add_account".tr(),
-                          style: tsS12W500CkPrimary),
-                      onTap: () {},
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ));
+            )),
+      );
 
   handelValidator(value) {
     if (value!.isEmpty) {

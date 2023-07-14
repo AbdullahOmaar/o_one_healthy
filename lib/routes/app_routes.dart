@@ -1,5 +1,6 @@
 import 'package:app/screens/home/view/home_screen.dart';
 import 'package:app/screens/patients/patients_file/view/patients_files_screen.dart';
+import 'package:app/screens/user_details/view/user_details.dart';
 
 import '../screens/ads_screen/view/ads_screen.dart';
 import '../screens/doctor_dashboard_screen/view/dashboard_screen.dart';
@@ -19,6 +20,7 @@ class AppRoutes {
   static const usersScreen = DoctorDashboard.routeName;
   static const patientScreen = PatientsDashboard.routeName;
   static const subscribeRequestsScreen = SubscriberRequests.routeName;
+  static const userDetailsScreen = UserDetailsScreen.routeName;
 
   // static const screenName = screenName.routeName;
 }

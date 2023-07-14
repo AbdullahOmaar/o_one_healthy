@@ -1,4 +1,7 @@
 {
+  "current_language": "عربي",
+  "change_language": "تغيير اللغة",
+  "choose": "اختر",
   "home": {
     "patients_files": "ملفات المرضي",
     "login": "تسجيل الدخول",

@@ -14,7 +14,7 @@ class BaseScaffold extends ConsumerStatefulWidget {
   final Widget body;
   final EdgeInsetsGeometry? padding;
   final PreferredSizeWidget? appBar;
-  final Widget? bottomNavigationBar ;
+  final Widget? bottomNavigationBar;
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _BaseScaffold();
 }
@@ -23,14 +23,14 @@ class _BaseScaffold extends ConsumerState<BaseScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar:widget.bottomNavigationBar ,
+      bottomNavigationBar: widget.bottomNavigationBar,
       appBar: widget.appBar,
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Padding(
           padding: widget.padding ??
-              EdgeInsets.only(left: 10.w, right: 10.w, bottom: 20.w, top: 20.w),
+              EdgeInsets.only(left: 10.w, right: 10.w, bottom: 0.w, top: 00.w),
           child: widget.body,
         ),
       ),

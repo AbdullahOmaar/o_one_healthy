@@ -1,5 +1,5 @@
-import 'dart:convert';
 import 'package:app/common/bottom_bar/bottom_bar_widget/bottom_bar_view.dart';
+import 'package:app/routes/app_routes.dart';
 import 'package:app/screens/doctor_dashboard_screen/view_model/dashboard_view_model.dart';
 import 'package:app/screens/subscribers_screen/view/widgets/subscribe_form.dart';
 import 'package:app/screens/subscribers_screen/view/widgets/subscriber_card.dart';
@@ -71,7 +71,12 @@ class _SubscribersScreenState extends ConsumerState<SubscribersScreen> {
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (ctx, index) {
                           final User user = allUsers![index];
-                          return SubscribersCard(user: user);
+                          return InkWell(
+                              onTap: () {
+                                Navigator.pushNamed(
+                                    context, AppRoutes.userDetailsScreen);
+                              },
+                              child: SubscribersCard(user: user));
                         },
                       ),
                     )
@@ -103,7 +108,6 @@ class _SubscribersScreenState extends ConsumerState<SubscribersScreen> {
       ),
     );
   }
-
 
   List<User>? getSubscribersList() {
     fetchUsersData();
