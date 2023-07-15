@@ -10,4 +10,8 @@ class ThemeColors {
   static Color kBgColor = const Color(0xFFFFFFFF);
   static Color primary = const Color(0xFFB9CC97);
   static Color kBlack = const Color(0xff000000);
+  static Color kmob = const Color(0xff704F4F);
+  static Color kLightBlue = const Color(0xfff5f8ff);
+  static Color kPrimaryTextColor = const Color(0xffa7c1ff);
+  static Color kSperator = const Color(0xffd9d9d9);
 }

@@ -38,4 +38,10 @@ class Images {
   static String patientes = "assets/images/dashboard/patientes.png";
   static String subscribers = "assets/images/dashboard/subscribers.png";
   static String ads = "assets/images/dashboard/adss.png";
+  static String docImg = "assets/images/usersdetails/doctor.png";
+  static String mob = "assets/images/usersdetails/mob.png";
+  static String stars = "assets/images/usersdetails/stars.png";
+  static String patientesFiles = "assets/images/usersdetails/patientfiles.png";
+  static String patientesNum = "assets/images/usersdetails/hospitalisation.png";
+
 }

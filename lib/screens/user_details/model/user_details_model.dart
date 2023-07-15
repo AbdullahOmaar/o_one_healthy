@@ -4,7 +4,7 @@ class UserDataModel {
   String? birthdate;
   String? image;
   String? specialty;
-  int? rating;
+  double? rating;
   int? experience;
   String? details;
   List<Days>? days;
@@ -48,6 +48,7 @@ class UserDataModel {
     files = json['files'];
     patient = json['patient'];
   }
+
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};

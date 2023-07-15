@@ -22,5 +22,28 @@
     "patients":"المرضي",
     "subscribers":"المشتركين",
     "ads":"الاعلانات"
-  }
+  },
+  "details":{
+     "evaluation":"التقييم",
+     "experience":"الخبرة",
+     "year":"سنة",
+     "detail":"تفاصيل",
+     "appointments":"المواعيد",
+     "from":"من",
+     "to":"الي",
+     "am":" صباحا " ,
+     "pm":" مساء " ,
+     "file":"ملف",
+     "patient":"مريض"
+
+  },"days":{
+    "sunday":"الاحد",
+    "monday":"الاثنين",
+    "tuesday":"الثلاثاء",
+    "wednesday":"الاربعاء",
+    "thursday":"الخميس",
+    "friday":"الجمعة",
+    "saturday":"السبت"
+
+  } 
 }

@@ -8,7 +8,7 @@ Map<String, Object> data = {
   "birthdate": "2012-04-23",
   "image": "http",
   "specialty": "doctor",
-  "rating": 3,
+  "rating": 3.0,
   "experience": 3,
   "details": "heellllll",
   "days": [
@@ -20,7 +20,7 @@ Map<String, Object> data = {
     {"Thursday": true},
     {"Friday": true}
   ],
-  "fromTime": 3,
+  "fromTime": 9,
   "toTime": 4,
   "files": 15,
   "patient": 20
