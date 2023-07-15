@@ -57,11 +57,14 @@ double getWidgetWidth(double fullWidth, CustomWidth customWidth) {
   }
 }
 
-Container getVerticalSpacerLine(double fullWidth, CustomWidth customWidth,
+Widget getVerticalSpacerLine(double fullWidth, CustomWidth customWidth,
         Color color, double padding) =>
-    Container(
-      padding: EdgeInsets.symmetric(horizontal: padding),
-      height: 1,
-      width: getWidgetWidth(fullWidth, customWidth),
-      color: color,
+    Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        // padding: EdgeInsets.all( padding),
+        height: 3,
+        width: getWidgetWidth(fullWidth, customWidth),
+        color: color,
+      ),
     );

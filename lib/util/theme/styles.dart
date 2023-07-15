@@ -16,3 +16,13 @@ final tsS12W500CkPrimary = TextStyle(
 
 final tsS14W700CkBlack = TextStyle(
     fontSize: 14.sp, fontWeight: FontWeight.w700, color: ThemeColors.kBlack);
+
+final tsS12W600CKmob = TextStyle(
+  fontSize: 16.sp, fontWeight:FontWeight.w600,color: ThemeColors.kmob);
+
+final tsS14W800CkBlack = TextStyle(
+    fontSize: 18.sp, fontWeight: FontWeight.w800, color: ThemeColors.kBlack,);  
+  
+
+final tsS16W500CkLightBlue = TextStyle(
+    fontSize: 12.sp, fontWeight: FontWeight.w500, color: ThemeColors.kLightBlue);
