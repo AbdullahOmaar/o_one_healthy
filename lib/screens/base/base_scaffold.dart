@@ -1,3 +1,4 @@
+import 'package:app/util/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sizer/sizer.dart';
@@ -23,6 +24,7 @@ class _BaseScaffold extends ConsumerState<BaseScaffold> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ThemeColors.kAppBackGroundColor,
       bottomNavigationBar: widget.bottomNavigationBar,
       appBar: widget.appBar,
       body: GestureDetector(
@@ -30,7 +32,7 @@ class _BaseScaffold extends ConsumerState<BaseScaffold> {
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Padding(
           padding: widget.padding ??
-              EdgeInsets.only(left: 10.w, right: 10.w, bottom: 0.w, top: 00.w),
+              EdgeInsets.only(left: 8.w, right: 8.w, bottom: 0.w, top: 00.w),
           child: widget.body,
         ),
       ),

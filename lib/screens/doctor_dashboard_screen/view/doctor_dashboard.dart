@@ -62,11 +62,12 @@ class _DoctorDashboardState extends ConsumerState<DoctorDashboard> {
         leading: IconButton(
             color: Colors.grey,
             onPressed: () {
-              Navigator.of(context).pushAndRemoveUntil(
-                RouteGenerator.generateRoute(
-                    const RouteSettings(name: AppRoutes.doctorDashboard)),
-                (route) => false,
-              );
+              Navigator.pushNamed(context, AppRoutes.doctorDashboard);
+              // Navigator.of(context).pushAndRemoveUntil(
+              //   RouteGenerator.generateRoute(
+              //       const RouteSettings(name: AppRoutes.doctorDashboard)),
+              //   (route) => false,
+              // );
             },
             icon: const Icon(Icons.arrow_back_ios)),
         backgroundColor: Colors.white70,

@@ -47,7 +47,7 @@ void main() async {
         fallbackLocale: Locale(Lang.ar.name),
         startLocale: Locale(Lang.ar.name),
         child: DevicePreview(
-            enabled: kReleaseMode, builder: (context) => const MyApp())),
+            enabled: !kReleaseMode, builder: (context) => const MyApp())),
   ));
 }
 
@@ -79,7 +79,7 @@ class _MyAppState extends ConsumerState<MyApp> {
           theme: ThemeData(
               primarySwatch: Themes.kPrimarySwatch,
               fontFamily: Themes.kFontFamily),
-          initialRoute: getInitialPage(),
+          initialRoute: AppRoutes.kSplash,
           onGenerateRoute: RouteGenerator.generateRoute,
         );
       },

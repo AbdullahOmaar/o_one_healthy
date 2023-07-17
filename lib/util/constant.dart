@@ -11,6 +11,7 @@ enum Lang {
 
 class Themes {
   static const kPrimaryColor = 0xffB9CC97;
+  static const kAppBackGroundColor = 0xffFFFFFB;
   static const kPrimaryTextColor = 0xff23282D;
   static const kPrimaryBackGroundColor = Color(0xffFDFDFD);
   static const kScreenBackGroundColor = Color(0xffDBDBDB);
@@ -43,5 +44,4 @@ class Images {
   static String stars = "assets/images/usersdetails/stars.png";
   static String patientesFiles = "assets/images/usersdetails/patientfiles.png";
   static String patientesNum = "assets/images/usersdetails/hospitalisation.png";
-
 }

@@ -14,7 +14,7 @@ class _AdsScreenState extends State<AdsScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Text(' Ads Screen'),
+      body: Center(child: Text('Ads Screen')),
       bottomNavigationBar: CustomBottomBarWidget(),
     );
   }

@@ -15,18 +15,15 @@ languageBottomSheet(context) {
       ),
       context: context,
       builder: (BuildContext state) {
-        return FractionallySizedBox(
-          heightFactor: 0.98,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              bottomSheetHeader(
-                context,
-                "change_language".tr(),
-              ),
-              Expanded(child: ChangeLanguageScreen()),
-            ],
-          ),
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            bottomSheetHeader(
+              context,
+              "change_language".tr(),
+            ),
+            Expanded(child: ChangeLanguageScreen()),
+          ],
         );
       });
 }
