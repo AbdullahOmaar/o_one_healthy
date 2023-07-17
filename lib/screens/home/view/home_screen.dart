@@ -85,7 +85,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           Dimens.vMargin5,
           solidButton(
             onPressed: () {
-              buttonAction(AppRoutes.subscribersScreen);
+              buttonAction(AppRoutes.sectionsScreen);
             },
             text: "home.subscribers".tr(),
             image: "assets/images/icon/subscribe.png",

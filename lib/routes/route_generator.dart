@@ -3,9 +3,10 @@ import 'package:app/screens/ads_screen/view/ads_screen.dart';
 import 'package:app/screens/home/view/home_screen.dart';
 import 'package:app/screens/login/view/login_screen.dart';
 import 'package:app/screens/patients/patients_file/view/patients_files_screen.dart';
+import 'package:app/screens/sections/view/sections_screen.dart';
+import 'package:app/screens/splash/view/splash_screen.dart';
 import 'package:app/screens/user_details/view/user_details.dart';
 import 'package:flutter/material.dart';
-
 import '../screens/doctor_dashboard_screen/view/dashboard_screen.dart';
 import '../screens/doctor_dashboard_screen/view/doctor_dashboard.dart';
 import '../screens/doctor_dashboard_screen/view/patients_dashboard.dart';
@@ -13,8 +14,10 @@ import '../screens/subscribers_requests/view/subscribers_requests.dart';
 import '../screens/subscribers_screen/view/subscribers_screen.dart';
 
 class RouteGenerator {
-  static Route<dynamic> generateRoute(RouteSettings settings) {
+  static Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case AppRoutes.kSplash:
+        return buildRoute(const SplashScreen(), settings: settings);
       case AppRoutes.home:
         return buildRoute(const HomeScreen(), settings: settings);
       case AppRoutes.doctorDashboard:
@@ -35,6 +38,8 @@ class RouteGenerator {
         return buildRoute(const SubscriberRequests(), settings: settings);
       case AppRoutes.userDetailsScreen:
         return buildRoute(const UserDetailsScreen(), settings: settings);
+      case AppRoutes.sectionsScreen:
+        return buildRoute(const SectionsScreen(), settings: settings);
       // 1. Add screen ID in screen class:
       // static const routeName = '/SampleScreen';
       // 2. Add screen route ID in AppRoutes:
@@ -45,7 +50,7 @@ class RouteGenerator {
       // final args = ModalRoute.of(context)!.settings.arguments;
       // return buildRoute(const SampleScreen(), settings: settings);
       default:
-        return _errorRoute();
+        return null;
     }
   }
 

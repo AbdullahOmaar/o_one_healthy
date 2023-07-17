@@ -42,32 +42,27 @@ class BottomBarViewModel extends StateNotifier<SelectedFragmentState> {
       {context}) async {
     switch (currentIndex) {
       case 0:
-        Navigator.of(context).pushAndRemoveUntil(
-          RouteGenerator.generateRoute(
-              const RouteSettings(name: AppRoutes.home)),
-          (route) => false,
-        );
+        Navigator.pushNamed(context, AppRoutes.home);
+        // Navigator.of(context).pushAndRemoveUntil(
+        //   RouteGenerator.generateRoute(
+        //       const RouteSettings(name: AppRoutes.home)),
+        //   (route) => false,
+        // );
         break;
       case 1:
-        Navigator.of(context).pushAndRemoveUntil(
-          RouteGenerator.generateRoute(
-              const RouteSettings(name: AppRoutes.adsScreen)),
-          (route) => false,
-        );
+        Navigator.pushNamed(context, AppRoutes.adsScreen);
+
+        // Navigator.of(context).pushAndRemoveUntil(
+        //   RouteGenerator.generateRoute(
+        //       const RouteSettings(name: AppRoutes.adsScreen)),
+        //   (route) => false,
+        // );
         break;
       case 2:
-        Navigator.of(context).pushAndRemoveUntil(
-          RouteGenerator.generateRoute(
-              const RouteSettings(name: AppRoutes.subscribersScreen)),
-          (route) => false,
-        );
+        Navigator.pushNamed(context, AppRoutes.subscribersScreen);
         break;
       default:
-        Navigator.of(context).pushAndRemoveUntil(
-          RouteGenerator.generateRoute(
-              const RouteSettings(name: AppRoutes.home)),
-          (route) => false,
-        );
+        Navigator.pushNamed(context, AppRoutes.home);
     }
     state = state.copyWith(
         currentIndex: currentIndex, selectedScreen: selectedScreen);

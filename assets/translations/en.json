@@ -2,6 +2,8 @@
   "current_language": "EN",
   "change_language": "Change Language",
   "choose": "Choose",
+  "welcome": "ًelcome",
+  "have_nice_day": "Have Nice Day",
   "home": {
     "patients_files": "Patients iles",
     "login": "Login",
@@ -17,10 +19,38 @@
     "add_account": "Add Account"
   },
   "dashboard": {
-    "services": "الخدمات",
-    "users":"المستخدمين",
-    "patients":"المرضي",
-    "subscribers":"المشتركين",
-    "ads":"الاعلانات"
+    "services": "Services",
+    "users":"Users",
+    "patients":"Patients",
+    "subscribers":"Subscribers",
+    "ads":"ADS"
+  },
+  "details":{
+    "evaluation":"Evaluation",
+    "experience":"Experience",
+    "year":"Year",
+    "detail":"Detail",
+    "appointments":"Appointments",
+    "from":"from",
+    "to":"to",
+    "am":" AM " ,
+    "pm":" PM " ,
+    "file":"file",
+    "patient":"patient"
+  },
+  "days":{
+  "sunday":"sunday",
+  "monday":"monday",
+  "tuesday":"tuesday",
+  "wednesday":"wednesday",
+  "thursday":"thursday",
+  "friday":"friday",
+  "saturday":"saturday"
+},
+  "sections": {
+    "sections": "Sections",
+    "doctors": "Doctors",
+    "hospitals": "hospitals",
+    "x_rays": "x_rays"
   }
 }

@@ -4,6 +4,7 @@ import '../constant.dart';
 
 class ThemeColors {
   static Color kPrimary = const Color(Themes.kPrimaryColor);
+  static Color kAppBackGroundColor = const Color(Themes.kAppBackGroundColor);
   static Color kPrimaryLight = const Color(0xFFBDA180);
   static Color kPrimaryText = const Color(Themes.kPrimaryTextColor);
   static Color kPinkLight = const Color(0xFFFCEDED); // Linen

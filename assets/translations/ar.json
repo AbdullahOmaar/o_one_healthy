@@ -2,6 +2,8 @@
   "current_language": "عربي",
   "change_language": "تغيير اللغة",
   "choose": "اختر",
+  "welcome": "مرحبا",
+  "have_nice_day": "اتمنى لك يوما جيدا",
   "home": {
     "patients_files": "ملفات المرضي",
     "login": "تسجيل الدخول",
@@ -44,6 +46,12 @@
     "thursday":"الخميس",
     "friday":"الجمعة",
     "saturday":"السبت"
+  },
 
-  } 
+  "sections": {
+    "sections": "الاقسام",
+    "doctors": "الأطباء",
+    "hospitals": "مستشفيات",
+    "x_rays": "الاشعة"
+  }
 }
