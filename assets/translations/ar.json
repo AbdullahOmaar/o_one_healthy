@@ -53,5 +53,7 @@
     "doctors": "الأطباء",
     "hospitals": "مستشفيات",
     "x_rays": "الاشعة"
+  },"pfiles":{
+    "search":"بحث"
   }
 }
