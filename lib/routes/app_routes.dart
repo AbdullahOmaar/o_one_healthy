@@ -8,6 +8,7 @@ import '../screens/doctor_dashboard_screen/view/dashboard_screen.dart';
 import '../screens/doctor_dashboard_screen/view/doctor_dashboard.dart';
 import '../screens/doctor_dashboard_screen/view/patients_dashboard.dart';
 import '../screens/login/view/login_screen.dart';
+import '../screens/patients/patientsFiles.dart';
 import '../screens/subscribers_requests/view/subscribers_requests.dart';
 import '../screens/subscribers_screen/view/subscribers_screen.dart';
 
@@ -25,5 +26,5 @@ class AppRoutes {
   static const userDetailsScreen = UserDetailsScreen.routeName;
   static const sectionsScreen = SectionsScreen.routeName;
 
-  // static const screenName = screenName.routeName;
+  static const patientsFiles = PatientsFiles.routeName;
 }

@@ -2,10 +2,10 @@
   "current_language": "EN",
   "change_language": "Change Language",
   "choose": "Choose",
-  "welcome": "ًelcome",
+  "welcome": "Welcome",
   "have_nice_day": "Have Nice Day",
   "home": {
-    "patients_files": "Patients iles",
+    "patients_files": "Patients Files",
     "login": "Login",
     "subscribers":"Subscribers",
     "ads":"ADS"
@@ -52,5 +52,7 @@
     "doctors": "Doctors",
     "hospitals": "hospitals",
     "x_rays": "x_rays"
+  },"pfiles":{
+    "search":"search"
   }
 }
