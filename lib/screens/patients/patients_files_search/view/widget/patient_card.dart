@@ -1,12 +1,10 @@
-import 'package:app/common/custom_button.dart';
-import 'package:app/common/custom_text_field/custom_text_field.dart';
 import 'package:app/routes/app_routes.dart';
+import 'package:app/screens/patients/patients_files_search/models/patient_model.dart';
 import 'package:app/util/constant.dart';
 import 'package:app/util/theme/colors.dart';
 import 'package:app/util/theme/dimens.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import '../../models/patient_model.dart';
 
 class PatientCard extends StatefulWidget {
   Patient patient;
@@ -27,26 +25,42 @@ class _PatientCardState extends State<PatientCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, AppRoutes.patientFileScreen,
+            arguments: widget.patient);
+      },
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical:12.0),
+        padding: const EdgeInsets.symmetric(vertical: 12.0),
         child: Container(
-          width:double.infinity,
+          width: double.infinity,
           height: 10.h,
           decoration: BoxDecoration(
-              color: ThemeColors.primary,
-              borderRadius: BorderRadius.circular(16.0),
-         ),
-         child: Padding(
-           padding: const EdgeInsets.all(8.0),
-           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-               IconButton(icon:Icon(Icons.more_vert,size: 30.0),onPressed: (){},),
-               Dimens.hMargin12,
-               getPatientNameText(widget.patient.nameEN),
-               Image.asset(Images.files,fit:BoxFit.contain,width: 50.0, height: 50.0,),
-               ],),),),),
+            color: ThemeColors.primary,
+            borderRadius: BorderRadius.circular(16.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.more_vert, size: 30.0),
+                  onPressed: () {},
+                ),
+                Dimens.hMargin12,
+                getPatientNameText(widget.patient.nameEN),
+                Image.asset(
+                  Images.files,
+                  fit: BoxFit.contain,
+                  width: 50.0,
+                  height: 50.0,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
       // child: SizedBox(
       //   width: MediaQuery.of(context).size.width * 0.95,
       //   child: Card(
