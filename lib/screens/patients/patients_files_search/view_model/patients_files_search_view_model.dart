@@ -1,9 +1,8 @@
 import 'package:app/screens/patients/patients_files_search/models/patient_details_model.dart';
 import 'package:app/screens/patients/patients_files_search/models/patient_model.dart';
+import 'package:app/screens/patients/patients_files_search/repository/patients_files_search_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:random_password_generator/random_password_generator.dart';
-
-import '../repository/patients_files_search_repository.dart';
 
 final patientFSViewModelProvider =
     StateNotifierProvider<PatientSearchViewModel, PatientFilesSearchState>(
@@ -12,22 +11,20 @@ final patientFSViewModelProvider =
 
 class PatientFilesSearchState {
   final List<Patient> patients;
-   bool? isCreated;
+  bool? isCreated;
 
+  PatientFilesSearchState({required this.patients, this.isCreated});
 
-  PatientFilesSearchState({required this.patients,this.isCreated});
-
-  PatientFilesSearchState copyWith({required List<Patient>? patient ,bool? isCreated}) {
+  PatientFilesSearchState copyWith(
+      {required List<Patient>? patient, bool? isCreated}) {
     return PatientFilesSearchState(
-      patients: patient ?? patients,
-      isCreated: isCreated ?? true
-    );
+        patients: patient ?? patients, isCreated: isCreated ?? true);
   }
 }
 
 class PatientSearchViewModel extends StateNotifier<PatientFilesSearchState> {
   final PatientsFilesRepository repo;
-  final passwordGenerator =RandomPasswordGenerator();
+  final passwordGenerator = RandomPasswordGenerator();
 
   PatientSearchViewModel(this.repo)
       : super(PatientFilesSearchState(patients: [
@@ -39,7 +36,7 @@ class PatientSearchViewModel extends StateNotifier<PatientFilesSearchState> {
               uid: "11",
               patientDetails: PatientDetails(age: 10, imgUrl: "n"))
         ]));
-  String generatePassword(){
+  String generatePassword() {
     return passwordGenerator.randomPassword(
         letters: true,
         numbers: true,
@@ -56,36 +53,31 @@ class PatientSearchViewModel extends StateNotifier<PatientFilesSearchState> {
     );
   }
 
-  Future<bool> validateUserIdExist(String uid)async{
+  Future<bool> validateUserIdExist(String uid) async {
     bool isExist = await repo.checkPatientExisting(uid);
     return isExist;
   }
 
   postNewPatient(Patient user) async {
     state = state.copyWith(
-      isCreated: false, patient: [],
+      isCreated: false,
+      patient: [],
     );
     await repo.createPatient(user).then((_) {
-      state = state.copyWith(
-        isCreated: true,
-        patient: []
-      );
+      state = state.copyWith(isCreated: true, patient: []);
     }).catchError((e) {
-      state = state.copyWith(
-        isCreated: false,
-        patient:[]
-      );
+      state = state.copyWith(isCreated: false, patient: []);
     });
   }
 
-  String? validatePatientID(String value ,bool isUidExists)  {
+  String? validatePatientID(String value, bool isUidExists) {
     if (value.isEmpty) {
       return 'Please enter valid ID';
     } else if (value.length < 14) {
       return 'ID is less than 14';
     } else if (value.length > 14) {
       return 'ID is greater than 14';
-    }else if (isUidExists) {
+    } else if (isUidExists) {
       return 'user id is already exists';
     }
     return null;

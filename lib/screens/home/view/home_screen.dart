@@ -70,7 +70,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           appLogo(),
           Dimens.vMargin5,
           solidButton(
-            onPressed: () {buttonAction(AppRoutes.patientsFiles);},
+            onPressed: () {
+              buttonAction(AppRoutes.patientsDashboard);
+            },
             text: "home.patients_files".tr(),
             image: "assets/images/icon/file.png",
           ),

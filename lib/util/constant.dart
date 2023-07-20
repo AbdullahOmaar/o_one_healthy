@@ -11,7 +11,7 @@ enum Lang {
 
 class Themes {
   static const kPrimaryColor = 0xffB9CC97;
-  static const kAppBackGroundColor = 0xffFFFFFB;
+  static const kAppBackGroundColor = 0xffFBFBF1;
   static const kPrimaryTextColor = 0xff23282D;
   static const kPrimaryBackGroundColor = Color(0xffFDFDFD);
   static const kScreenBackGroundColor = Color(0xffDBDBDB);

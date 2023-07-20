@@ -1,18 +1,18 @@
 import 'package:app/routes/app_routes.dart';
 import 'package:app/screens/ads_screen/view/ads_screen.dart';
+import 'package:app/screens/doctor_dashboard_screen/view/dashboard_screen.dart';
+import 'package:app/screens/doctor_dashboard_screen/view/doctor_dashboard.dart';
 import 'package:app/screens/home/view/home_screen.dart';
 import 'package:app/screens/login/view/login_screen.dart';
-import 'package:app/screens/patients/patientsFiles.dart';
 import 'package:app/screens/patients/patients_file/view/patients_files_screen.dart';
+import 'package:app/screens/patients/patients_files_search/view/patients_files_search.dart';
+import 'package:app/screens/profile/view/profile.dart';
 import 'package:app/screens/sections/view/sections_screen.dart';
 import 'package:app/screens/splash/view/splash_screen.dart';
+import 'package:app/screens/subscribers_requests/view/subscribers_requests.dart';
+import 'package:app/screens/subscribers_screen/view/subscribers_screen.dart';
 import 'package:app/screens/user_details/view/user_details.dart';
 import 'package:flutter/material.dart';
-import '../screens/doctor_dashboard_screen/view/dashboard_screen.dart';
-import '../screens/doctor_dashboard_screen/view/doctor_dashboard.dart';
-import '../screens/doctor_dashboard_screen/view/patients_dashboard.dart';
-import '../screens/subscribers_requests/view/subscribers_requests.dart';
-import '../screens/subscribers_screen/view/subscribers_screen.dart';
 
 class RouteGenerator {
   static Route<dynamic>? generateRoute(RouteSettings settings) {
@@ -33,16 +33,16 @@ class RouteGenerator {
         return buildRoute(const PatientFileScreen(), settings: settings);
       case AppRoutes.usersScreen:
         return buildRoute(const DoctorDashboard(), settings: settings);
-      case AppRoutes.patientScreen:
-        return buildRoute(const PatientsDashboard(), settings: settings);
+      case AppRoutes.patientsDashboard:
+        return buildRoute(const PatientsFilesSearch(), settings: settings);
       case AppRoutes.subscribeRequestsScreen:
         return buildRoute(const SubscriberRequests(), settings: settings);
       case AppRoutes.userDetailsScreen:
         return buildRoute(const UserDetailsScreen(), settings: settings);
       case AppRoutes.sectionsScreen:
         return buildRoute(const SectionsScreen(), settings: settings);
-      case AppRoutes.patientsFiles:
-        return buildRoute(const PatientsFiles(), settings: settings);  
+      case AppRoutes.profileScreen:
+        return buildRoute(const ProfileScreen(), settings: settings);
       // 1. Add screen ID in screen class:
       // static const routeName = '/SampleScreen';
       // 2. Add screen route ID in AppRoutes:
@@ -63,41 +63,41 @@ class RouteGenerator {
         settings: settings, builder: (BuildContext context) => child);
   }
 
-  static Route<dynamic> _errorRoute() {
-    return MaterialPageRoute(builder: (_) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'ERROR!!',
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          centerTitle: true,
-        ),
-        body: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 100.0,
-                  // width: 200.0,
-                  child: Image.asset('assets/images/logo/logo.jpeg'),
-                ),
-                const Text(
-                  'Seems the route you\'ve navigated to doesn\'t exist!!',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    });
-  }
+  // static Route<dynamic> _errorRoute() {
+  //   return MaterialPageRoute(builder: (_) {
+  //     return Scaffold(
+  //       appBar: AppBar(
+  //         title: const Text(
+  //           'ERROR!!',
+  //           style: TextStyle(
+  //             color: Colors.black,
+  //             fontWeight: FontWeight.bold,
+  //           ),
+  //         ),
+  //         centerTitle: true,
+  //       ),
+  //       body: Center(
+  //         child: SingleChildScrollView(
+  //           child: Column(
+  //             children: [
+  //               SizedBox(
+  //                 height: 100.0,
+  //                 // width: 200.0,
+  //                 child: Image.asset('assets/images/logo/logo.jpeg'),
+  //               ),
+  //               const Text(
+  //                 'Seems the route you\'ve navigated to doesn\'t exist!!',
+  //                 style: TextStyle(
+  //                   fontSize: 16.0,
+  //                   fontWeight: FontWeight.w600,
+  //                 ),
+  //                 textAlign: TextAlign.center,
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     );
+  //   });
+  // }
 }
