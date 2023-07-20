@@ -1,14 +1,15 @@
-import 'package:app/common/custom_button.dart';
+import 'package:app/common/bottom_bar/bottom_bar_widget/bottom_bar_view.dart';
 import 'package:app/screens/base/base_appbar.dart';
 import 'package:app/screens/base/base_scaffold.dart';
 import 'package:app/screens/doctor_dashboard_screen/models/user_data_model.dart';
 import 'package:app/screens/patients/patients_files_search/models/patient_model.dart';
 import 'package:app/screens/patients/patients_files_search/view/widget/patient_card.dart';
 import 'package:app/screens/patients/patients_files_search/view_model/patients_files_search_view_model.dart';
+import 'package:app/util/constant.dart';
 import 'package:app/util/theme/colors.dart';
 import 'package:app/util/theme/dimens.dart';
+import 'package:app/util/theme/styles.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -51,7 +52,8 @@ class _PatientsDashboardState extends ConsumerState<PatientsFilesSearch> {
   @override
   Widget build(BuildContext context) {
     return BaseScaffold(
-      appBar: baseAppBar(context, "search"),
+       bottomNavigationBar: const CustomBottomBarWidget(),
+      appBar: baseAppBar(context, "", profileImage: Images.profile),
       body: body(),
     );
   }
@@ -59,34 +61,44 @@ class _PatientsDashboardState extends ConsumerState<PatientsFilesSearch> {
   body() {
     return SingleChildScrollView(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              SizedBox(
-                width: 70.w,
-                child: TextField(
-                  decoration: new InputDecoration(
-                    contentPadding: const EdgeInsets.symmetric(vertical: 10),
-                    suffixIcon: Icon(Icons.clear),
-                    prefixIcon: Icon(Icons.search),
-                    labelText: "search".tr(),
-                    enabledBorder: OutlineInputBorder(
+          Text("welcome".tr(),style:tsS16W800CkPrimary,),
+            Dimens.vMargin2,
+            Text("have_nice_day".tr(),style:tsS14W700CkBlack,),
+            Dimens.vMargin2,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 60.w,
+                  child: TextField(
+                    decoration: new InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                      suffixIcon: Icon(Icons.clear,color: ThemeColors.iconColor),
+                      prefixIcon: Icon(Icons.search,color: ThemeColors.iconColor),
+                      labelText: "search".tr(),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                          borderSide: BorderSide(color: ThemeColors.kPrimary)),
+                      focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                        borderSide: BorderSide(color: ThemeColors.kPrimary)),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      borderSide: BorderSide(color: ThemeColors.kPrimary),
-                    ),
+                        borderSide: BorderSide(color: ThemeColors.kPrimary),),),  
+                    onChanged: (String val) {
+                      searchPatients(val);
+                    },
                   ),
-                  onChanged: (String val) {
-                    searchPatients(val);
-                  },
                 ),
-              ),
-              Dimens.hMargin2,
-              SizedBox(
-                  width: 40, child: solidButton(onPressed: () {}, text: "text"))
-            ],
+                Dimens.hMargin2,
+                Padding(
+                  padding: const EdgeInsets.only(left:4.0),
+                  child: ElevatedButton(onPressed: (){}, 
+                  child: Image.asset(Images.add,fit:BoxFit.contain,width: 30.0, height: 30.0,),
+                  style:ElevatedButton.styleFrom(backgroundColor:ThemeColors.bgColor,shape: CircleBorder(),fixedSize: Size(50,50))),
+                ),
+              ],
+            ),
           ),
           Container(
               padding: const EdgeInsets.all(4),
@@ -97,17 +109,10 @@ class _PatientsDashboardState extends ConsumerState<PatientsFilesSearch> {
                   itemCount: allPatients!.length,
                   itemBuilder: (ctx, index) {
                     final Patient patient = allPatients![index];
-
                     return PatientCard(patient: patient);
                   },
-                ),
-              )
-              //   ],
-              // ),
-              ),
-        ],
-      ),
-    );
+                ),),),
+        ],),);
   }
 
   void searchPatients(String query) {
@@ -137,4 +142,6 @@ class _PatientsDashboardState extends ConsumerState<PatientsFilesSearch> {
   fetchPatientsData() async {
     await ref.read(patientFSViewModelProvider.notifier).getPatientList();
   }
+
+   
 }
