@@ -28,13 +28,14 @@ class PatientSearchViewModel extends StateNotifier<PatientFilesSearchState> {
 
   PatientSearchViewModel(this.repo)
       : super(PatientFilesSearchState(patients: [
-          Patient(
-              isLocked: false,
-              isPassword: false,
-              nameAR: "A",
-              nameEN: "A",
-              uid: "11",
-              patientDetails: PatientDetails(age: 10, imgUrl: "n"))
+          // Patient(
+          //     isLocked: false,
+          //     isPassword: false,
+          //     nameAR: "A",
+          //     nameEN: "A",
+          //     uid: "11",
+          //     patientDetails: PatientDetails(age: 10, imgUrl: "n")
+          // )
         ]));
   String generatePassword() {
     return passwordGenerator.randomPassword(

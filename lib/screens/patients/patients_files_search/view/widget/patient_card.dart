@@ -27,8 +27,8 @@ class _PatientCardState extends State<PatientCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, AppRoutes.patientFileScreen,
-            arguments: widget.patient);
+        // Navigator.pushNamed(context, AppRoutes.patientFileScreen,
+        //     arguments: widget.patient);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12.0),

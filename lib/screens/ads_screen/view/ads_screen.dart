@@ -2,6 +2,7 @@ import 'package:app/common/bottom_bar/bottom_bar_widget/bottom_bar_view.dart';
 import 'package:app/common/widgets/text_widget.dart';
 import 'package:app/screens/base/base_appbar.dart';
 import 'package:app/screens/base/base_scaffold.dart';
+import 'package:app/util/constant.dart';
 import 'package:app/util/theme/colors.dart';
 import 'package:app/util/theme/dimens.dart';
 import 'package:app/util/theme/styles.dart';
@@ -42,23 +43,46 @@ class _AdsScreenState extends State<AdsScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Dimens.vMargin2,
-            SizedBox(
-              width: 90.w,
-              child: TextField(
-                decoration: new InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(vertical: 10),
-                  suffixIcon: Icon(Icons.clear),
-                  prefixIcon: Icon(Icons.search),
-                  labelText: "search".tr(),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                      borderSide: BorderSide(color: ThemeColors.kPrimary)),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    borderSide: BorderSide(color: ThemeColors.kPrimary),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 60.w,
+                  child: TextField(
+                    decoration: new InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(vertical: 10),
+                      suffixIcon:
+                          Icon(Icons.clear, color: ThemeColors.iconColor),
+                      prefixIcon:
+                          Icon(Icons.search, color: ThemeColors.iconColor),
+                      labelText: "search".tr(),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                          borderSide: BorderSide(color: ThemeColors.kPrimary)),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        borderSide: BorderSide(color: ThemeColors.kPrimary),
+                      ),
+                    ),
+                    onChanged: (String val) {
+                      // searchPatients(val);
+                    },
                   ),
                 ),
-              ),
+                Dimens.hMargin2,
+                ElevatedButton(
+                    onPressed: () {},
+                    child: Image.asset(
+                      Images.add,
+                      fit: BoxFit.contain,
+                      width: 30.0,
+                      height: 30.0,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: ThemeColors.bgColor,
+                        shape: CircleBorder(),
+                        fixedSize: Size(50, 50))),
+              ],
             ),
             Dimens.vMargin2,
             UiText(
