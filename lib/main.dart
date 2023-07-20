@@ -4,6 +4,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -71,7 +72,8 @@ class _MyAppState extends ConsumerState<MyApp> {
         return MaterialApp(
           // useInheritedMediaQuery: true,
           // locale: DevicePreview.locale(context),
-          builder: DevicePreview.appBuilder,
+          builder: EasyLoading.init(),
+          // builder: DevicePreview.appBuilder,
           debugShowCheckedModeBanner: false,
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
