@@ -48,7 +48,7 @@ void main() async {
         fallbackLocale: Locale(Lang.ar.name),
         startLocale: Locale(Lang.ar.name),
         child: DevicePreview(
-            enabled: kReleaseMode, builder: (context) => const MyApp())),
+            enabled: !kReleaseMode, builder: (context) => const MyApp())),
   ));
 }
 
