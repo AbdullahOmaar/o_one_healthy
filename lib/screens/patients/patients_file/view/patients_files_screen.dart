@@ -22,9 +22,13 @@ class PatientFileScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Column(
-          children:  [
+          children: [
             const PatientDetailsCard(),
-            SizedBox(height: 500, child: FileTabs(patient: patient,))
+            SizedBox(
+                height: 500,
+                child: FileTabs(
+                  patient: patient,
+                ))
           ],
         ),
       ),

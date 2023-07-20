@@ -4,6 +4,7 @@
   "choose": "اختر",
   "welcome": "مرحبا",
   "have_nice_day": "اتمنى لك يوما جيدا",
+  "search": "بحث",
   "home": {
     "patients_files": "ملفات المرضي",
     "login": "تسجيل الدخول",
@@ -55,5 +56,17 @@
     "x_rays": "الاشعة"
   },"pfiles":{
     "search":"بحث"
+  },
+
+  "ads": {
+    "ads": "الاعلانات"
+  },
+
+  "profile": {
+    "profile": "الملف الشخصي",
+    "edite_profile": "تعديل الملف",
+    "change_language": "تغيير اللغه",
+    "change_password": "تغيير كلمة السر",
+    "logout": "تسجيل الخروج"
   }
 }

@@ -4,6 +4,7 @@
   "choose": "Choose",
   "welcome": "Welcome",
   "have_nice_day": "Have Nice Day",
+  "search": "Search",
   "home": {
     "patients_files": "Patients Files",
     "login": "Login",
@@ -52,6 +53,16 @@
     "doctors": "Doctors",
     "hospitals": "hospitals",
     "x_rays": "x_rays"
+  },
+  "ads": {
+    "ads": "ADS"
+  },
+  "profile": {
+    "profile": "Profile",
+    "edite_profile": "Edite Profile",
+    "change_language": "Change Language",
+    "change_password": "Change Password",
+    "logout": "logout"
   },"pfiles":{
     "search":"search"
   }

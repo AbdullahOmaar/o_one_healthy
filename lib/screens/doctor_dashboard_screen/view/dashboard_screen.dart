@@ -74,7 +74,7 @@ class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
                 ),
                 children: [
                   makeDashboardItem("dashboard.patients".tr(), Images.patientes,
-                      AppRoutes.patientScreen),
+                      AppRoutes.patientsDashboard),
                   makeDashboardItem("dashboard.users".tr(), Images.users,
                       AppRoutes.usersScreen),
                   makeDashboardItem("dashboard.ads".tr(), Images.ads,

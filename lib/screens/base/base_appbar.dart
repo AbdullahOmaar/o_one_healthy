@@ -12,10 +12,10 @@ PreferredSizeWidget baseAppBar(context, String tittle, {String? profileImage}) {
     centerTitle: true,
     leading: IconButton(
       onPressed: () {
-        Navigator.pushNamed(context, AppRoutes.home);
+        Navigator.pushNamed(context, AppRoutes.profileScreen);
       },
       icon: Icon(
-        Icons.menu,
+        Icons.supervised_user_circle,
         color: ThemeColors.kBlack,
         size: 40,
       ),
@@ -28,7 +28,7 @@ PreferredSizeWidget baseAppBar(context, String tittle, {String? profileImage}) {
               padding: EdgeInsetsDirectional.only(end: 8.w, start: 8),
               child: CircleAvatar(
                 child: Image.asset(
-                  profileImage ?? "",
+                  profileImage,
                 ),
               ),
             )
