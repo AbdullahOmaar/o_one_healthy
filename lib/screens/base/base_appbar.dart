@@ -12,10 +12,10 @@ PreferredSizeWidget baseAppBar(context, String tittle, {String? profileImage}) {
     centerTitle: true,
     leading: IconButton(
       onPressed: () {
-        Navigator.pushNamed(context, AppRoutes.profileScreen);
+        // Navigator.pushNamed(context, AppRoutes.profileScreen);
       },
       icon: Icon(
-        Icons.supervised_user_circle,
+        Icons.menu,
         color: ThemeColors.kBlack,
         size: 40,
       ),

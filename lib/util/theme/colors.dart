@@ -15,4 +15,6 @@ class ThemeColors {
   static Color kLightBlue = const Color(0xfff5f8ff);
   static Color kPrimaryTextColor = const Color(0xffa7c1ff);
   static Color kSperator = const Color(0xffd9d9d9);
+  static Color iconColor = const Color(0xff7C2D2D);
+  static Color bgColor = const Color(0xffF4F5FF);
 }
