@@ -5,6 +5,10 @@
   "welcome": "Welcome",
   "have_nice_day": "Have Nice Day",
   "search": "Search",
+  "doctor":"Doctor",
+  "phone":"Phone",
+  "adress":"Adress",
+  "specialization":"Specialization",
   "home": {
     "patients_files": "Patients Files",
     "login": "Login",
@@ -65,5 +69,13 @@
     "logout": "logout"
   },"pfiles":{
     "search":"search"
+  },
+  "patients":{
+    "medicine":"Medicine",
+    "rays":"Rays",
+    "analyzes":"Analyzes",
+    "prescription":"Prescription",
+    "add_prescription":"Add Prescription ",
+    "add_medicine":"add medicine..."
   }
 }

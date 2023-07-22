@@ -17,4 +17,5 @@ class ThemeColors {
   static Color kSperator = const Color(0xffd9d9d9);
   static Color iconColor = const Color(0xff7C2D2D);
   static Color bgColor = const Color(0xffF4F5FF);
+  static Color roshetaBG = const Color(0xffe4e4e4);
 }

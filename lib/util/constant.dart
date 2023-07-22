@@ -46,5 +46,8 @@ class Images {
   static String patientesNum = "assets/images/usersdetails/hospitalisation.png";
   static String add = "assets/images/icon/add.png";
   static String files = "assets/images/icon/files.png";
+  static String rays = "assets/images/icon/xray.png";
+  static String analyzes = "assets/images/icon/analyzes.png";
+  static String medicine = "assets/images/icon/medicine.png";
 
 }

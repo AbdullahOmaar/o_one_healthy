@@ -1,3 +1,5 @@
+import 'package:app/util/theme/colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class MedicinesElement {
@@ -121,17 +123,17 @@ class MyAppState extends State<BuildMedicinesList> {
           right: 22.0,
           bottom: 12,
         ),
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(width: .5, color: Colors.lightBlue.shade900),
-          ),
-        ),
+        // decoration: BoxDecoration(
+        //   border: Border(
+        //     bottom: BorderSide(width: .0, color: Colors.lightBlue.shade900),
+        //   ),
+        // ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Checkbox(
-              checkColor: Colors.greenAccent,
-              activeColor: Colors.red,
+              checkColor:ThemeColors.kLightBlue ,
+              activeColor: ThemeColors.kPrimary,
               value: isChecked,
               onChanged: (bool? value) {
                 _editIsCheckedItem(index, value!);
@@ -147,15 +149,15 @@ class MyAppState extends State<BuildMedicinesList> {
               ),
             ),
             IconButton(
-              icon: const Icon(
+              icon:  Icon(
                 Icons.edit,
-                color: Colors.blueAccent,
+                color:ThemeColors.kPrimary,
               ),
               onPressed: () => _editDialog(context, index),
             ),
             IconButton(
               icon: const Icon(
-                Icons.delete_forever,
+                Icons.delete_outline,
                 color: Colors.red,
               ),
               onPressed: () => _removeTodoItem(index),
@@ -203,6 +205,7 @@ class MyAppState extends State<BuildMedicinesList> {
                 child: SizedBox(
                   // height: double.infinity,
                   child: TextField(
+                    textAlignVertical: TextAlignVertical.bottom,
                     controller: _controller1,
                     autofocus: true,
                     onSubmitted: (val) {
@@ -212,16 +215,17 @@ class MyAppState extends State<BuildMedicinesList> {
                     // style: const TextStyle(
                     //   fontSize: 15,
                     // ),
-                    decoration: const InputDecoration(
-                      hintText: 'اضافة دواء...',
+                    decoration: InputDecoration(
+                      hintText: "patients.add_medicine".tr(),
                       enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        borderRadius: BorderRadius.all(Radius.circular(25.0)),
                         borderSide:
                             BorderSide(color: Colors.blueGrey, width: 1),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        borderSide: BorderSide(color: Colors.red, width: 2),
+                        borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                        borderSide:
+                            BorderSide(color: ThemeColors.kPrimary, width: 2),
                       ),
                     ),
                   ),
@@ -233,7 +237,10 @@ class MyAppState extends State<BuildMedicinesList> {
                   height: double.infinity,
                   margin: const EdgeInsets.only(left: 12, right: 10),
                   child: FilledButton(
-                    child: const Text('اضافة', style: TextStyle(fontSize: 15)),
+                    child: Icon(
+                      Icons.add,
+                      color: ThemeColors.kLightBlue,
+                    ),
                     onPressed: () {
                       _addToDoItem(_controller1.text, false);
                       _controller1.clear();
