@@ -5,6 +5,10 @@
   "welcome": "مرحبا",
   "have_nice_day": "اتمنى لك يوما جيدا",
   "search": "بحث",
+  "doctor":"دكتور",
+  "phone":"رقم الهاتف",
+  "adress":"العنوان",
+  "specialization":"التخصص",
   "home": {
     "patients_files": "ملفات المرضي",
     "login": "تسجيل الدخول",
@@ -68,5 +72,13 @@
     "change_language": "تغيير اللغه",
     "change_password": "تغيير كلمة السر",
     "logout": "تسجيل الخروج"
-  }
+  },
+  "patients":{
+    "medicine":"الأدوية",
+    "rays":"الأشعة",
+    "analyzes":"التحاليل",
+    "prescription":"روشتة",
+    "add_prescription":"اضافه روشتة",
+    "add_medicine":"اضافه دواء..."
+    }
 }

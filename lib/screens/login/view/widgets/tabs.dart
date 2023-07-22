@@ -1,11 +1,16 @@
 import 'package:app/screens/patients/patients_file/view/widgets/medicine.dart';
+import 'package:app/util/constant.dart';
+import 'package:app/util/theme/colors.dart';
+import 'package:app/util/theme/styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 import '../../../patients/patients_file/view/widgets/Rays.dart';
 import '../../../patients/patients_files_search/models/patient_model.dart';
 
 class FileTabs extends StatefulWidget {
-  Patient patient ;
-   FileTabs({Key? key ,required this.patient}) : super(key: key);
+  Patient patient;
+  FileTabs({Key? key, required this.patient}) : super(key: key);
 
   @override
   _FileTabsState createState() => _FileTabsState();
@@ -14,12 +19,12 @@ class FileTabs extends StatefulWidget {
 class _FileTabsState extends State<FileTabs>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  final _selectedColor = const Color(0xff1a73e8);
+  final _selectedColor = ThemeColors.kPrimary;
 
   final _iconTabs = [
-    const Tab(icon: Icon(Icons.medical_services)),
-    const Tab(icon: Icon(Icons.ac_unit)),
-    const Tab(icon: Icon(Icons.ac_unit)),
+    getTapItem(Images.rays, "patients.rays".tr(),),
+    getTapItem(Images.analyzes, "patients.analyzes".tr(),),
+    getTapItem(Images.medicine, "patients.medicine".tr(),),
   ];
 
   @override
@@ -54,10 +59,10 @@ class _FileTabsState extends State<FileTabs>
             child: TabBarView(
               physics: const BouncingScrollPhysics(),
               controller: _tabController,
-              children:  [
-               const  Medicine(),
-                const Center(child: Text('1')),
-                RaysScreen(patient: widget.patient,),
+              children: [
+                  RaysScreen(patient: widget.patient,),
+                  const Center(child: Text('1')),
+                  const Medicine(),
               ],
             ),
           ),
@@ -66,3 +71,26 @@ class _FileTabsState extends State<FileTabs>
     );
   }
 }
+
+ Widget getTapItem(String img , String txt) {
+    return SizedBox(
+        // width: 50.w,
+        height: 12.h,
+        child: Tab(
+          child: Center(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Image.asset(
+                img,
+                width: 40.0,
+                height: 40.0,
+              ),
+              Text(
+                txt,
+                style: tsS16W800CkPrimary,
+              )
+            ],
+          )),
+        ));
+  }

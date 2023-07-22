@@ -1,5 +1,9 @@
 import 'package:app/common/roshata/rosheta_screen.dart';
+import 'package:app/util/theme/colors.dart';
+import 'package:app/util/theme/styles.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 class Medicine extends StatefulWidget {
   const Medicine({Key? key}) : super(key: key);
@@ -15,7 +19,10 @@ class _MedicineState extends State<Medicine> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          buildButton(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: buildButton(),
+          ),
           const Padding(
             padding: EdgeInsets.all(8.0),
             child: RoshetaScreen(),
@@ -27,14 +34,22 @@ class _MedicineState extends State<Medicine> {
 }
 
 Widget buildButton() {
-  return FilledButton(
-    style: FilledButton.styleFrom(
-      backgroundColor: Colors.indigo,
-    ),
-    onPressed: () {},
-    child: const Text(
-      'اضافة روشته ',
-      style: TextStyle(fontSize: 16),
+  return SizedBox(
+    width: 45.w,
+    child: FilledButton(
+      style: FilledButton.styleFrom(
+        backgroundColor: ThemeColors.kPrimary,),
+      onPressed: () {},
+      child:Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+            Text(
+            "patients.add_prescription".tr(),
+        style:tsS16W500CkLightBlue,
+      ),
+      Icon(Icons.add,color:ThemeColors.kLightBlue,),
+        ],
+      )
     ),
   );
 }
