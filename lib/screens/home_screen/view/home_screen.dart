@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:search_page/search_page.dart';
 
+import '../../../native_widget.dart';
 import '../../../routes/route_generator.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {

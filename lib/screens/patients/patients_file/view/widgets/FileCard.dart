@@ -2,6 +2,7 @@ import 'package:app/screens/patients/patients_file/view/widgets/custom_web_view.
 import 'package:app/screens/patients/patients_files_search/models/patient_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import '../../patient_file_repository/patients_files_repository.dart';
 
 class FileCard extends StatefulWidget {
@@ -22,6 +23,7 @@ class FileCard extends StatefulWidget {
 
 class _FileCardState extends State<FileCard> {
   String? url;
+  String dicomFileLocalPath ='';
 
   IconData getIconFromFileType() {
     switch (widget.fileType) {
@@ -63,8 +65,19 @@ class _FileCardState extends State<FileCard> {
                     onPressed: () async {
                       await Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              CustomWebViewer(url: widget.fileType ==FileType.dicom?"https://webnamics.github.io/u-dicom-viewer/":url ?? '',fileType: widget.fileType)));
-                    },
+                              CustomWebViewer(dicomFileLocalPath:url??'',url: widget.fileType ==FileType.dicom?"https://webnamics.github.io/u-dicom-viewer/":url ?? '',fileType: widget.fileType)));
+
+                      // if(widget.fileType ==FileType.dicom) {
+                      /*  FileDownloader.downloadFile(url: url??'',onDownloadCompleted: (value){
+                          dicomFileLocalPath=value;
+                        }).then((value) async{
+
+                        });*/
+                     // }
+               /*       await Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              CustomWebViewer(dicomFileLocalPath:dicomFileLocalPath,url: widget.fileType ==FileType.dicom?"https://webnamics.github.io/u-dicom-viewer/":url ?? '',fileType: widget.fileType)));
+                 */   },
                     icon: Icon(
                       Icons.remove_red_eye,
                       size: MediaQuery.of(context).size.width * .07,
