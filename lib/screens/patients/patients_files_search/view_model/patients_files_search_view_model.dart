@@ -1,4 +1,3 @@
-import 'package:app/screens/patients/patients_files_search/models/patient_details_model.dart';
 import 'package:app/screens/patients/patients_files_search/models/patient_model.dart';
 import 'package:app/screens/patients/patients_files_search/repository/patients_files_search_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,11 +30,10 @@ class PatientSearchViewModel extends StateNotifier<PatientFilesSearchState> {
           // Patient(
           //     isLocked: false,
           //     isPassword: false,
-          //     nameAR: "A",
+          //     nameAR: "0",
           //     nameEN: "A",
           //     uid: "11",
-          //     patientDetails: PatientDetails(age: 10, imgUrl: "n")
-          // )
+          //     patientDetails: PatientDetails(age: 10, imgUrl: "n"))
         ]));
   String generatePassword() {
     return passwordGenerator.randomPassword(
