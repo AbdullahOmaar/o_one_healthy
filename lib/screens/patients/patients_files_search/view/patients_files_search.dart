@@ -114,18 +114,22 @@ class _PatientsDashboardState extends ConsumerState<PatientsFilesSearch> {
             ],
           ),
           Dimens.vMargin2,
-          Container(
-            height: MediaQuery.of(context).size.height * 0.80,
-            child: Expanded(
-              child: ListView.builder(
-                itemCount: allPatients!.length,
-                itemBuilder: (ctx, index) {
-                  final Patient patient = allPatients![index];
-                  return PatientCard(patient: patient);
-                },
-              ),
-            ),
-          ),
+          allPatients != []
+              ? Container(
+                  height: 50.h,
+                  child: Expanded(
+                    child: ListView.builder(
+                      itemCount: allPatients!.length,
+                      itemBuilder: (ctx, index) {
+                        final Patient patient = allPatients![index];
+                        return PatientCard(patient: patient);
+                      },
+                    ),
+                  ),
+                )
+              : Center(
+                  child: Text("no data found"),
+                ),
         ],
       ),
     );
