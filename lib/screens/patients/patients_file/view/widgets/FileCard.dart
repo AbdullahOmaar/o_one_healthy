@@ -2,7 +2,6 @@ import 'package:app/screens/patients/patients_file/view/widgets/custom_web_view.
 import 'package:app/screens/patients/patients_files_search/models/patient_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import '../../patient_file_repository/patients_files_repository.dart';
 
 class FileCard extends StatefulWidget {
