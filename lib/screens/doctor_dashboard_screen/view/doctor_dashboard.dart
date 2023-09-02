@@ -82,15 +82,17 @@ class _DoctorDashboardState extends ConsumerState<DoctorDashboard> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CustomTextField(
-                    customWidth: CustomWidth.twoThird,
-                    controller: searchUserTextController,
-                    inputType: TextInputType.text,
-                    labelText: 'Search users',
-                    isPassword: false,
-                    fieldBorder: FieldBorder.custom,
-                    onChanged: searchUser,
-                    suffix: Icons.search,
+                  Expanded(
+                    child: CustomTextField(
+                      customWidth: CustomWidth.twoThird,
+                      controller: searchUserTextController,
+                      inputType: TextInputType.text,
+                      labelText: 'Search users',
+                      isPassword: false,
+                      fieldBorder: FieldBorder.custom,
+                      onChanged: searchUser,
+                      suffix: Icons.search,
+                    ),
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * .02,

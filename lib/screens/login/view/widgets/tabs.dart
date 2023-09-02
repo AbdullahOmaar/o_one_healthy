@@ -62,7 +62,7 @@ class _FileTabsState extends State<FileTabs>
               children: [
                   RaysScreen(patient: widget.patient,),
                   const Center(child: Text('1')),
-                  const Medicine(),
+                   MedicineView(patient: widget.patient),
               ],
             ),
           ),

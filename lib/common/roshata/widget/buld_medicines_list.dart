@@ -2,6 +2,8 @@ import 'package:app/util/theme/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../../../screens/patients/patients_files_search/models/patient_model.dart';
+
 class MedicinesElement {
   String name;
   bool? isChecked;
@@ -11,41 +13,54 @@ class MedicinesElement {
 }
 
 class BuildMedicinesList extends StatefulWidget {
-  const BuildMedicinesList({super.key});
+  Prescription prescription;
+  Function(List<Medicine>)? onMedicineUpdate;
+  BuildMedicinesList({super.key,required this.prescription,this.onMedicineUpdate});
 
   @override
   createState() => MyAppState();
 }
 
 class MyAppState extends State<BuildMedicinesList> {
-  final List<MedicinesElement> _medicinesItems = [];
+   List<Medicine> _medicinesItems = [];
   final TextEditingController _controller = TextEditingController();
   final TextEditingController _controller1 = TextEditingController();
+
+  @override
+  void initState() {
+    _medicinesItems=widget.prescription.medicines??[];
+    super.initState();
+  }
 
   void _addToDoItem(String text, isChecked) {
     if (text.isNotEmpty) {
       setState(() {
-        _medicinesItems.add(MedicinesElement(text, isChecked, DateTime.now()));
+        // widget.patient
+        _medicinesItems.add(Medicine(medicineName: text));
+        // widget.prescription.medicines?.add(Medicine(medicineName: text));
+        if(widget.onMedicineUpdate!=null)
+          widget.onMedicineUpdate!(_medicinesItems);
+        // _medicinesItems.add(MedicinesElement(text, isChecked, DateTime.now()));
       });
     }
   }
 
   void _editItem(String newText, int index) {
     setState(() {
-      _medicinesItems[index].name = newText;
+      // _medicinesItems[index].name = newText;
     });
   }
 
-  void _editIsCheckedItem(int index, bool isChecked) {
+/*  void _editIsCheckedItem(int index, bool isChecked) {
     setState(() {
       _medicinesItems[index].isChecked = isChecked;
     });
     print(_medicinesItems[index].isChecked);
-  }
+  }*/
 
-  void _removeTodoItem(int index) {
+/*  void _removeTodoItem(int index) {
     setState(() => _medicinesItems.removeAt(index));
-  }
+  }*/
 
   _editDialog(BuildContext context, int index) {
     return showDialog(
@@ -77,7 +92,7 @@ class MyAppState extends State<BuildMedicinesList> {
                           fontSize: 15,
                         ),
                         decoration: const InputDecoration(
-                          hintText: 'تعديل الدواد ...',
+                          hintText: 'تعديل الدواء ...',
                           enabledBorder: OutlineInputBorder(
                             borderRadius:
                                 BorderRadius.all(Radius.circular(10.0)),
@@ -114,14 +129,14 @@ class MyAppState extends State<BuildMedicinesList> {
         });
   }
 
-  Widget _buildMedicineItem(String text, isChecked, int index) {
+  Widget _buildMedicineItem(String? text, /*isChecked,*/ int index) {
     return SizedBox(
       child: Container(
         height: 58,
         margin: const EdgeInsets.only(
           left: 22.0,
           right: 22.0,
-          bottom: 12,
+          bottom: 0,
         ),
         // decoration: BoxDecoration(
         //   border: Border(
@@ -131,18 +146,18 @@ class MyAppState extends State<BuildMedicinesList> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Checkbox(
+       /*     Checkbox(
               checkColor:ThemeColors.kLightBlue ,
               activeColor: ThemeColors.kPrimary,
               value: isChecked,
               onChanged: (bool? value) {
-                _editIsCheckedItem(index, value!);
+                // _editIsCheckedItem(index, value!);
               },
-            ),
+            ),*/
             Expanded(
               child: ListTile(
                 title: Text(
-                  text,
+                  text??'',
                   style: const TextStyle(fontSize: 18),
                 ),
                 onTap: () => null,
@@ -160,7 +175,7 @@ class MyAppState extends State<BuildMedicinesList> {
                 Icons.delete_outline,
                 color: Colors.red,
               ),
-              onPressed: () => _removeTodoItem(index),
+              onPressed: () {/*_removeTodoItem(index)*/},
             ),
           ],
         ),
@@ -168,19 +183,19 @@ class MyAppState extends State<BuildMedicinesList> {
     );
   }
 
-  int compareElement(MedicinesElement a, MedicinesElement b) =>
-      a.timeOfCreation.isAfter(b.timeOfCreation) ? -1 : 1;
+/*  int compareElement(Medicine a, Medicine b) =>
+      a.medicineName.isAfter(b.medicineName) ? -1 : 1;*/
 
   Widget _buildList() {
-    _medicinesItems.sort(compareElement);
+    // _medicinesItems.sort(compareElement);
     return Expanded(
       child: ListView.builder(
         shrinkWrap: false,
         itemCount: _medicinesItems.length,
         itemBuilder: (context, index) {
           if (index < _medicinesItems.length) {
-            return _buildMedicineItem(_medicinesItems[index].name,
-                _medicinesItems[index].isChecked, index);
+            return _buildMedicineItem(_medicinesItems[index].medicineName
+                /*_medicinesItems[index].isChecked*/, index);
           }
         },
       ),

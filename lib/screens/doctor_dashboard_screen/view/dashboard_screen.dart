@@ -44,7 +44,7 @@ class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
   Widget build(BuildContext context) {
     return BaseScaffold(
         bottomNavigationBar: const CustomBottomBarWidget(),
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.all(8.0),
         appBar: baseAppBar(context, title, profileImage: Images.profile),
         body: body());
   }
@@ -66,11 +66,12 @@ class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
             flex: 1,
             fit: FlexFit.tight,
             child: GridView(
-                physics: const NeverScrollableScrollPhysics(),
+                physics: BouncingScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 20.0,
-                  mainAxisSpacing: 20.0,
+                  childAspectRatio: 1.15,
+                  crossAxisSpacing: 15.0,
+                  mainAxisSpacing: 15.0,
                 ),
                 children: [
                   makeDashboardItem("dashboard.patients".tr(), Images.patientes,
@@ -96,13 +97,12 @@ class _DoctorDashboardScreenState extends ConsumerState<DashboardScreen> {
   Widget makeDashboardItem(String title, String image, routeName) {
     return InkWell(
       onTap: () {
-        // Navigator.pushNamed(context, routeName);
+         Navigator.pushNamed(context, routeName);
       },
       child: Card(
           elevation: 0.0,
           child: Container(
-            width: MediaQuery.of(context).size.width * .01,
-            height: MediaQuery.of(context).size.height * .01,
+
             decoration: BoxDecoration(
                 color: ThemeColors.kPrimary,
                 borderRadius: const BorderRadius.all(Radius.circular(25.0))),

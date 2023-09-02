@@ -11,6 +11,8 @@ import '../../patients_files_search/models/patient_model.dart';
 
 abstract class IFilesRepository {
   Future<void> postPatientFileUrl(Patient patient, String uri, String fileType);
+  Future<void> postPatientPrescription(Patient patient, Prescription prescription);
+  Future<List<Prescription>> getPatientPrescription(Patient patient);
 
   Future<void> uploadFileToStorage(
       File file, Patient patient, FileType fileType);
@@ -22,6 +24,8 @@ enum FileType { pdf, dicom, image }
 final filesRepositoryProvider = Provider((ref) => FilesRepository());
 
 class FilesRepository extends IFilesRepository {
+
+
   @override
   Future<void> uploadFileToStorage(
       File file, Patient patient, FileType fileType) async {
@@ -108,6 +112,38 @@ class FilesRepository extends IFilesRepository {
       'orderCheckoutDetails' : FieldValue.arrayUnion([checkout.toDocument])
     });*/ /*.update(updates);*/
   }
+  @override
+  Future<void> postPatientPrescription(Patient patient,Prescription prescription) async {
+    Map<String, dynamic> updates = {};
+    String prescriptionID =RandomPasswordGenerator()
+        .randomPassword(
+        letters: false,
+        numbers: true,
+        passwordLength: 14,
+        specialChar: false,
+        uppercase: false)
+        .toString();
+    prescription.prescriptionID=prescriptionID;
+    updates = {
+      prescriptionID: prescription.toJson()
+    };
+    return await FirebaseDatabase.instance
+        .ref()
+        .child('patients')
+        .child(patient.uid)
+        .child('medicalRecord')
+        .child('prescriptions')
+        .update(updates);
+  }
+  @override
+  Future<List<Prescription>> getPatientPrescription(Patient patient) async {
+    var data =await FirebaseDatabase.instance
+        .ref()
+        .child('patients')
+        .child(patient.uid)
+        .child('medicalRecord').get();
+    return  getPrescriptionsList( Map<String,dynamic>.from(data.value as Map)['prescriptions'] );
+  }
 
   @override
   Future<Patient> getUpdatedPatientFile(String uid)async {
@@ -120,7 +156,7 @@ class FilesRepository extends IFilesRepository {
 // call API
 fetchPatientData(String uid) async {
   final ref = FirebaseDatabase.instance.ref();
-  final snapshot = await ref .child('patients')
+  final snapshot = await ref.child('patients')
       .child(uid).get();
   if (snapshot.exists) {
     return snapshot.value;

@@ -2,6 +2,7 @@ import 'package:app/common/bottom_bar/bottom_bar_widget/bottom_bar_view.dart';
 import 'package:app/screens/base/base_appbar.dart';
 import 'package:app/screens/base/base_scaffold.dart';
 import 'package:app/screens/doctor_dashboard_screen/models/user_data_model.dart';
+import 'package:app/screens/doctor_dashboard_screen/view/widgets/create_patient_form.dart';
 import 'package:app/screens/patients/patients_files_search/models/patient_model.dart';
 import 'package:app/screens/patients/patients_files_search/view/widget/patient_card.dart';
 import 'package:app/screens/patients/patients_files_search/view_model/patients_files_search_view_model.dart';
@@ -14,6 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../../doctor_dashboard_screen/view/widgets/create_user_form.dart';
 
 class PatientsFilesSearch extends ConsumerStatefulWidget {
   const PatientsFilesSearch({super.key});
@@ -51,6 +54,8 @@ class _PatientsDashboardState extends ConsumerState<PatientsFilesSearch> {
 
   @override
   Widget build(BuildContext context) {
+    allPatients = ref.watch(patientFSViewModelProvider).patients;
+
     return BaseScaffold(
       bottomNavigationBar: const CustomBottomBarWidget(),
       appBar: baseAppBar(context, "", profileImage: Images.profile),
@@ -100,7 +105,21 @@ class _PatientsDashboardState extends ConsumerState<PatientsFilesSearch> {
               ),
               Dimens.hMargin2,
               ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    showModalBottomSheet(
+                        isScrollControlled:true,
+
+                        shape: const RoundedRectangleBorder(
+                            borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(45))),
+                        constraints: BoxConstraints(
+                            minHeight: 200,
+                            maxHeight: MediaQuery.of(context).size.height,
+                            minWidth: 100,
+                            maxWidth: 1100),
+                        context: context,
+                        builder: (context) => const CreatePatientForm());
+                  },
                   child: Image.asset(
                     Images.add,
                     fit: BoxFit.contain,
@@ -117,14 +136,12 @@ class _PatientsDashboardState extends ConsumerState<PatientsFilesSearch> {
           allPatients != []
               ? Container(
                   height: 50.h,
-                  child: Expanded(
-                    child: ListView.builder(
-                      itemCount: allPatients!.length,
-                      itemBuilder: (ctx, index) {
-                        final Patient patient = allPatients![index];
-                        return PatientCard(patient: patient);
-                      },
-                    ),
+                  child: ListView.builder(
+                    itemCount: allPatients!.length,
+                    itemBuilder: (ctx, index) {
+                      final Patient patient = allPatients![index];
+                      return PatientCard(patient: patient);
+                    },
                   ),
                 )
               : Center(

@@ -36,6 +36,14 @@ class FilesViewModel extends StateNotifier<FilesSearchState> {
     state=state.copyWith(patient: patient,isPushLoading: true);
       await repo.uploadFileToStorage(file,patient,fileType);
   }
+  pushPatientPrescription(Patient patient ,Prescription prescription) async {
+    state=state.copyWith(patient: patient,isPushLoading: true);
+      await repo.postPatientPrescription(patient,prescription);
+  }
+  fetchPatientPrescriptions(Patient patient)async{
+    patient.medicalRecord?.prescriptions= await repo.getPatientPrescription(patient);
+    state=state.copyWith(patient: patient,isPushLoading: false);
+  }
   getPatientData(Patient patient) async {
     // Patient updatedPatient;
     /*updatedPatient=await*/ repo.getUpdatedPatientFile(patient.uid).then((value) {
