@@ -9,6 +9,7 @@ import 'package:app/util/theme/dimens.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   static const routeName = "/HomeScreen";
@@ -78,9 +79,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
           Dimens.vMargin5,
           solidButton(
-            onPressed: () {
-              buttonAction(AppRoutes.loginScreen);
-            },
+            onPressed: () async{
+              const FlutterSecureStorage storage = FlutterSecureStorage();
+              String session= await storage.read(key: 'userSession')??'';
+              if(session.isEmpty) {
+                buttonAction(AppRoutes.loginScreen);
+              }else{
+                buttonAction(AppRoutes.doctorDashboard);
+              }
+              },
             text: "home.login".tr(),
             image: "assets/images/icon/login.png",
           ),

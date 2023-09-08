@@ -141,22 +141,20 @@ class _SubscribersScreenState extends ConsumerState<SubscribersScreen> {
               // padding: const EdgeInsets.all(4),
               // margin: const EdgeInsets.fromLTRB(8, 8, 8, 8),
               // height: MediaQuery.of(context).size.height * 0.80,
-              child: Flexible(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: allUsers!.length,
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (ctx, index) {
-                    final User user = allUsers![index];
-                    return InkWell(
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, AppRoutes.userDetailsScreen);
-                        },
-                        child: SubscribersCard(user: user));
-                  },
-                ),
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: allUsers!.length,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (ctx, index) {
+                  final User user = allUsers![index];
+                  return InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, AppRoutes.userDetailsScreen);
+                      },
+                      child: SubscribersCard(user: user));
+                },
               ),
             ),
             // solidButton(
