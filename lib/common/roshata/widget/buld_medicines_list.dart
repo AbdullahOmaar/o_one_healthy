@@ -1,8 +1,13 @@
 import 'package:app/util/theme/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:random_password_generator/random_password_generator.dart';
+import 'package:sizer/sizer.dart';
 
+import '../../../screens/patients/patients_file/patient_file_view_model/patients_file_view_model.dart';
 import '../../../screens/patients/patients_files_search/models/patient_model.dart';
+import '../../../util/theme/styles.dart';
 
 class MedicinesElement {
   String name;
@@ -12,16 +17,19 @@ class MedicinesElement {
   MedicinesElement(this.name, this.isChecked, this.timeOfCreation);
 }
 
-class BuildMedicinesList extends StatefulWidget {
+class BuildMedicinesList extends ConsumerStatefulWidget {
+  Patient patient;
+  final bool isNewPrescription;
+
   Prescription prescription;
   Function(List<Medicine>)? onMedicineUpdate;
-  BuildMedicinesList({super.key,required this.prescription,this.onMedicineUpdate});
+  BuildMedicinesList({super.key,required this.prescription,required this.isNewPrescription,required this.patient,this.onMedicineUpdate});
 
   @override
-  createState() => MyAppState();
+  ConsumerState<BuildMedicinesList>  createState() => MyAppState();
 }
 
-class MyAppState extends State<BuildMedicinesList> {
+class MyAppState extends ConsumerState<BuildMedicinesList> {
    List<Medicine> _medicinesItems = [];
   final TextEditingController _controller = TextEditingController();
   final TextEditingController _controller1 = TextEditingController();
@@ -32,23 +40,47 @@ class MyAppState extends State<BuildMedicinesList> {
     super.initState();
   }
 
-  void _addToDoItem(String text, isChecked) {
-    if (text.isNotEmpty) {
+   @override
+  void didUpdateWidget(BuildMedicinesList oldWidget) {
+     _medicinesItems=widget.prescription.medicines??[];
+     super.didUpdateWidget(oldWidget);
+  }
+
+  void _addToDoItem(String medicineName, isChecked) async{
+
+    String medicineKey ;
+    do{
+      medicineKey = RandomPasswordGenerator()
+          .randomPassword(
+          letters: false,
+          numbers: true,
+          passwordLength: 2,
+          specialChar: false,
+          uppercase: false)
+          .toString();
+    }while(_medicinesItems.contains(medicineKey));
+    if (medicineName.isNotEmpty) {
+      Medicine medicine=Medicine(medicineName: medicineName,key: medicineKey);
       setState(() {
         // widget.patient
-        _medicinesItems.add(Medicine(medicineName: text));
+        _medicinesItems.add(medicine);
         // widget.prescription.medicines?.add(Medicine(medicineName: text));
         if(widget.onMedicineUpdate!=null)
           widget.onMedicineUpdate!(_medicinesItems);
         // _medicinesItems.add(MedicinesElement(text, isChecked, DateTime.now()));
       });
+      if(!widget.isNewPrescription)
+        await ref
+            .read(fileViewModelProvider.notifier).updateMedicine( widget.patient, widget.prescription,medicine,true);
+
     }
   }
 
-  void _editItem(String newText, int index) {
-    setState(() {
-      // _medicinesItems[index].name = newText;
-    });
+  void _editItem(String newText, int medicineIndex)async {
+    _medicinesItems[medicineIndex].medicineName=newText;
+    if(!widget.isNewPrescription)
+    await ref
+        .read(fileViewModelProvider.notifier).updateMedicine( widget.patient, widget.prescription,_medicinesItems[medicineIndex],false);
   }
 
 /*  void _editIsCheckedItem(int index, bool isChecked) {
@@ -62,7 +94,7 @@ class MyAppState extends State<BuildMedicinesList> {
     setState(() => _medicinesItems.removeAt(index));
   }*/
 
-  _editDialog(BuildContext context, int index) {
+  _editDialog(BuildContext context, int medicineIndex) {
     return showDialog(
         context: context,
         builder: (context) {
@@ -115,10 +147,9 @@ class MyAppState extends State<BuildMedicinesList> {
                       child:
                           const Text('تعديل', style: TextStyle(fontSize: 18)),
                       onPressed: () {
-                        _editItem(_controller.text, index);
+                        _editItem(_controller.text, medicineIndex);
                         _controller.clear();
                         Navigator.pop(context);
-                        FocusScope.of(context).requestFocus(FocusNode());
                       },
                     ),
                   ),
@@ -128,8 +159,23 @@ class MyAppState extends State<BuildMedicinesList> {
           );
         });
   }
-
-  Widget _buildMedicineItem(String? text, /*isChecked,*/ int index) {
+  Widget buildDeleteDialogButtons(String buttonText,Color btnColor,VoidCallback onPressed,) {
+    return SizedBox(
+      width: 28.w,
+      child: FilledButton(
+          style: FilledButton.styleFrom(
+            backgroundColor: btnColor/*ThemeColors.kPrimary*/,),
+          onPressed:onPressed /*() async{
+            Navigator.of(context).pop();
+          }*/,
+          child:Text(
+            "$buttonText",
+            style:tsS16W500CkLightBlue,
+          )
+      ),
+    );
+  }
+  Widget _buildMedicineItem(Medicine medicine, /*isChecked,*/ int index) {
     return SizedBox(
       child: Container(
         height: 58,
@@ -157,7 +203,7 @@ class MyAppState extends State<BuildMedicinesList> {
             Expanded(
               child: ListTile(
                 title: Text(
-                  text??'',
+                  medicine.medicineName??'',
                   style: const TextStyle(fontSize: 18),
                 ),
                 onTap: () => null,
@@ -175,7 +221,47 @@ class MyAppState extends State<BuildMedicinesList> {
                 Icons.delete_outline,
                 color: Colors.red,
               ),
-              onPressed: () {/*_removeTodoItem(index)*/},
+              onPressed: ()async {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return Dialog(
+                        backgroundColor: Colors.transparent,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                          ),
+                          padding: const EdgeInsets.all(20),
+                          height: 180,
+                          width: 100,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Are you sure you want to delete this item ?",
+                              ),
+                              Row(
+                                children: [
+                                  buildDeleteDialogButtons("Yes",Colors.red,() async{
+                                    if(!widget.isNewPrescription)
+                                      await ref
+                                        .read(fileViewModelProvider.notifier).deleteMedicine( widget.patient, widget.prescription,medicine.key??'');
+                                    Navigator.of(context).pop();
+                                  }),
+                                  Spacer(),
+                                  buildDeleteDialogButtons("No",ThemeColors.kPrimary,() async{
+                                    Navigator.of(context).pop();
+                                  }),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    });
+
+              },
             ),
           ],
         ),
@@ -190,11 +276,12 @@ class MyAppState extends State<BuildMedicinesList> {
     // _medicinesItems.sort(compareElement);
     return Expanded(
       child: ListView.builder(
+        physics: BouncingScrollPhysics(),
         shrinkWrap: false,
         itemCount: _medicinesItems.length,
         itemBuilder: (context, index) {
           if (index < _medicinesItems.length) {
-            return _buildMedicineItem(_medicinesItems[index].medicineName
+            return _medicinesItems[index].medicineName=="undefined" ?SizedBox():_buildMedicineItem(_medicinesItems[index]
                 /*_medicinesItems[index].isChecked*/, index);
           }
         },

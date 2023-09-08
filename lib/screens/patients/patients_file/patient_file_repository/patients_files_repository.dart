@@ -12,6 +12,8 @@ import '../../patients_files_search/models/patient_model.dart';
 abstract class IFilesRepository {
   Future<void> postPatientFileUrl(Patient patient, String uri, String fileType);
   Future<void> postPatientPrescription(Patient patient, Prescription prescription);
+  Future<void> updateMedicine(Patient patient, Prescription prescription,Medicine medicine,bool isNewPrescription);
+  Future<void> deleteMedicine(Patient patient, Prescription prescription,String medicineIndex);
   Future<List<Prescription>> getPatientPrescription(Patient patient);
 
   Future<void> uploadFileToStorage(
@@ -134,6 +136,30 @@ class FilesRepository extends IFilesRepository {
         .child('medicalRecord')
         .child('prescriptions')
         .update(updates);
+  }
+  @override
+  Future<void> updateMedicine(Patient patient,Prescription prescription, Medicine medicine,bool isNewPrescription) async {
+
+    return  await FirebaseDatabase.instance
+        .ref()
+        .child('patients')
+        .child(patient.uid)
+        .child('medicalRecord')
+        .child('prescriptions')
+        .child('${prescription.prescriptionID}')
+        .child('medicines').child('${medicine.key}').child("medicineName")
+        .set('${medicine.medicineName}');
+
+  }  @override
+  Future<void> deleteMedicine(Patient patient,Prescription prescription, String medicineIndex) async {
+    return  await FirebaseDatabase.instance
+        .ref()
+        .child('patients')
+        .child(patient.uid)
+        .child('medicalRecord')
+        .child('prescriptions')
+        .child('${prescription.prescriptionID}')
+        .child('medicines').child('${medicineIndex}').remove();
   }
   @override
   Future<List<Prescription>> getPatientPrescription(Patient patient) async {

@@ -36,7 +36,7 @@ class _RoshetaScreenState extends State<RoshetaScreen> {
            SizedBox(height: 30.h,
            child: Card(
             margin: EdgeInsets.all(8.0),
-            child: BuildMedicinesList(prescription: widget.prescription,),
+            child: BuildMedicinesList(isNewPrescription:false,prescription: widget.prescription,patient: widget.patient,),
             color:Colors.white,
             shadowColor:Colors.grey.shade200,
             elevation: 1.0,

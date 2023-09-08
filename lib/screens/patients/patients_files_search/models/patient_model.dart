@@ -109,7 +109,7 @@ class Prescription {
 
   factory Prescription.fromJson(Map<String, dynamic> json) {
     return Prescription(
-        medicines: json['medicines']!=null?getMedicineList(json['medicines'] as List<Object?>):[],
+        medicines: json['medicines']!=null?getMedicineList(json['medicines'] as Map):[],
         prescriptionID: json['prescriptionID']??'',
         creator:User.fromJson(Map<String,dynamic>.from(json['creator'])),
         creationDate: json["creationDate"]
@@ -127,7 +127,8 @@ abstract class PatientFile{
 }
 class Medicine extends PatientFile{
   String? medicineName;
-  Medicine({this.medicineName});
+  String? key;
+  Medicine({this.medicineName,this.key});
   factory Medicine.fromJson(String json)=>Medicine(medicineName :json);
   Map<String ,dynamic> toJson()=>{
     "medicineName":medicineName
@@ -155,10 +156,11 @@ List<PDFFile> getPDFRaysList(Map json) {
   }
   return raysURLs;
 }
-List<Medicine> getMedicineList(List<Object?>json) {
+List<Medicine> getMedicineList(Map json) {
   List<Medicine> medicines = [];
-  for (var element in json) {
-    medicines.add(Medicine(medicineName: Map<String, dynamic>.from(element as Map)['medicineName'].toString()));
+  for (var element in Map<String, dynamic>.from(json).entries){
+    // Map<String, dynamic>map= Map<String, dynamic>.from(element as Map);
+    medicines.add(Medicine(key:element.key ,medicineName: element!=null?element.value['medicineName'].toString():"undefined"));
   }
   return medicines;
 }

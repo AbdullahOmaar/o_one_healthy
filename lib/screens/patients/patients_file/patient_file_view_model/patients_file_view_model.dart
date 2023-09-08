@@ -40,6 +40,18 @@ class FilesViewModel extends StateNotifier<FilesSearchState> {
     state=state.copyWith(patient: patient,isPushLoading: true);
       await repo.postPatientPrescription(patient,prescription);
   }
+  updateMedicine(Patient patient ,Prescription prescription,Medicine medicine,bool isNewPrescription) async {
+    state=state.copyWith(patient: patient,isPushLoading: true);
+      await repo.updateMedicine(patient,prescription,medicine,isNewPrescription).then((value) {
+        fetchPatientPrescriptions(patient);
+      });
+  }
+  deleteMedicine(Patient patient ,Prescription prescription,String medicineIndex) async {
+    state=state.copyWith(patient: patient,isPushLoading: true);
+      await repo.deleteMedicine(patient,prescription,medicineIndex).then((value) {
+        fetchPatientPrescriptions(patient);
+      });
+  }
   fetchPatientPrescriptions(Patient patient)async{
     patient.medicalRecord?.prescriptions= await repo.getPatientPrescription(patient);
     state=state.copyWith(patient: patient,isPushLoading: false);

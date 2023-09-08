@@ -45,7 +45,7 @@ class _NewRoshetaScreenState extends ConsumerState<NewRoshetaScreen> {
              SizedBox(height: 30.h,
              child: Card(
               margin: EdgeInsets.all(8.0),
-              child: BuildMedicinesList(prescription: prescription,onMedicineUpdate: (List<Medicine> medicines){
+              child: BuildMedicinesList(isNewPrescription:true,prescription: prescription,patient:widget.patient,onMedicineUpdate: (List<Medicine> medicines){
                 setState(() {
                   prescription.medicines=medicines;
                 });
