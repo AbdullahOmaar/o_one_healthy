@@ -52,6 +52,12 @@ class FilesViewModel extends StateNotifier<FilesSearchState> {
         fetchPatientPrescriptions(patient);
       });
   }
+  deletePrescription(Patient patient ,Prescription prescription) async {
+    state=state.copyWith(patient: patient,isPushLoading: true);
+      await repo.deletePrescription(patient,prescription).then((value) {
+        fetchPatientPrescriptions(patient);
+      });
+  }
   fetchPatientPrescriptions(Patient patient)async{
     patient.medicalRecord?.prescriptions= await repo.getPatientPrescription(patient);
     state=state.copyWith(patient: patient,isPushLoading: false);

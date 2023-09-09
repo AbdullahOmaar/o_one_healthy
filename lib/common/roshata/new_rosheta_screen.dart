@@ -74,14 +74,20 @@ class _NewRoshetaScreenState extends ConsumerState<NewRoshetaScreen> {
             String? data = await storage.read(
               key: 'currentUser',
             );
-            User admin = User.fromJson(json.decode(data ?? ''));
-            if(data==null)
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text('Please Login first') ,));
-            prescription.creator=admin;
-            prescription.creationDate=DateTime.now().toString();
-            await ref
-                .read(fileViewModelProvider.notifier).pushPatientPrescription( widget.patient, prescription);
-            Navigator.of(context).pop();
+            if (data == null)
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Center(child: Text('Please Login first')),
+              ));
+            else {
+              User admin = User.fromJson(json.decode(data ?? ''));
+
+              prescription.creator = admin;
+              prescription.creationDate = DateTime.now().toString();
+              await ref
+                  .read(fileViewModelProvider.notifier)
+                  .pushPatientPrescription(widget.patient, prescription);
+              Navigator.of(context).pop();
+            }
           },
           child:Row(
             mainAxisAlignment: MainAxisAlignment.center,

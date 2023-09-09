@@ -244,9 +244,16 @@ class MyAppState extends ConsumerState<BuildMedicinesList> {
                               Row(
                                 children: [
                                   buildDeleteDialogButtons("Yes",Colors.red,() async{
-                                    if(!widget.isNewPrescription)
+                                    if(!widget.isNewPrescription) {
                                       await ref
-                                        .read(fileViewModelProvider.notifier).deleteMedicine( widget.patient, widget.prescription,medicine.key??'');
+                                          .read(fileViewModelProvider.notifier)
+                                          .deleteMedicine(
+                                              widget.patient,
+                                              widget.prescription,
+                                              medicine.key ?? '');
+                                      _medicinesItems.remove(medicine);
+                                    }
+
                                     Navigator.of(context).pop();
                                   }),
                                   Spacer(),

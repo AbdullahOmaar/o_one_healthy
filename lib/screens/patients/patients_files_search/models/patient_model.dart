@@ -108,8 +108,9 @@ class Prescription {
   Prescription({this.medicines ,this.prescriptionID, this.creator,this.creationDate});
 
   factory Prescription.fromJson(Map<String, dynamic> json) {
+    final bool isList =json['medicines'].runtimeType==List<Object?>;
     return Prescription(
-        medicines: json['medicines']!=null?getMedicineList(json['medicines'] as Map):[],
+        medicines: json['medicines']!=null?isList?getMedicineListFromListOfObject(json['medicines'] as List<Object?>):getMedicineList(json['medicines'] as Map):[],
         prescriptionID: json['prescriptionID']??'',
         creator:User.fromJson(Map<String,dynamic>.from(json['creator'])),
         creationDate: json["creationDate"]
@@ -159,8 +160,15 @@ List<PDFFile> getPDFRaysList(Map json) {
 List<Medicine> getMedicineList(Map json) {
   List<Medicine> medicines = [];
   for (var element in Map<String, dynamic>.from(json).entries){
-    // Map<String, dynamic>map= Map<String, dynamic>.from(element as Map);
     medicines.add(Medicine(key:element.key ,medicineName: element!=null?element.value['medicineName'].toString():"undefined"));
+  }
+  return medicines;
+}
+List<Medicine> getMedicineListFromListOfObject(List<Object?> json) {
+  List<Medicine> medicines = [];
+  for (var element in Map<dynamic, dynamic>.fromIterable(json).entries){
+    // Map<String, dynamic>map= Map<String, dynamic>.from(element as Map);
+    medicines.add(Medicine(key:element.key.toString() ,medicineName: element!=null?element.value['medicineName'].toString():"undefined"));
   }
   return medicines;
 }

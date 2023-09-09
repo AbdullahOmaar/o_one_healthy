@@ -38,7 +38,16 @@ class _MedicineViewState extends ConsumerState<MedicineView> {
              itemCount: widget.patient.medicalRecord?.prescriptions?.length??0,
                itemBuilder: (context,index){
                  widget.patient=ref.watch(fileViewModelProvider).currentPatient!;
-                 return RoshetaScreen(patient: widget.patient,prescription:widget.patient.medicalRecord!.prescriptions![index]);
+                 return InkWell(
+                     onLongPress: () async {
+                    await ref
+                        .read(fileViewModelProvider.notifier)
+                        .deletePrescription(
+                            widget.patient,
+                            widget
+                                .patient.medicalRecord!.prescriptions![index]);
+                  },
+                  child: RoshetaScreen(patient: widget.patient,prescription:widget.patient.medicalRecord!.prescriptions![index]));
            }, separatorBuilder: (BuildContext context, int index) =>SizedBox(height: .5.h,) ,)
         ],
       ),

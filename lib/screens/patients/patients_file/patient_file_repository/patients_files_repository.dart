@@ -14,6 +14,7 @@ abstract class IFilesRepository {
   Future<void> postPatientPrescription(Patient patient, Prescription prescription);
   Future<void> updateMedicine(Patient patient, Prescription prescription,Medicine medicine,bool isNewPrescription);
   Future<void> deleteMedicine(Patient patient, Prescription prescription,String medicineIndex);
+  Future<void> deletePrescription(Patient patient, Prescription prescription);
   Future<List<Prescription>> getPatientPrescription(Patient patient);
 
   Future<void> uploadFileToStorage(
@@ -162,13 +163,24 @@ class FilesRepository extends IFilesRepository {
         .child('medicines').child('${medicineIndex}').remove();
   }
   @override
+  Future<void> deletePrescription(Patient patient,Prescription prescription) async {
+    return  await FirebaseDatabase.instance
+        .ref()
+        .child('patients')
+        .child(patient.uid)
+        .child('medicalRecord')
+        .child('prescriptions')
+        .child('${prescription.prescriptionID}').remove();
+  }
+  @override
   Future<List<Prescription>> getPatientPrescription(Patient patient) async {
     var data =await FirebaseDatabase.instance
         .ref()
         .child('patients')
         .child(patient.uid)
         .child('medicalRecord').get();
-    return  getPrescriptionsList( Map<String,dynamic>.from(data.value as Map)['prescriptions'] );
+    Map<String,dynamic> map=Map<String,dynamic>.from(data.value as Map);
+    return map ['prescriptions']!= null? getPrescriptionsList(map ['prescriptions'] ):[];
   }
 
   @override
