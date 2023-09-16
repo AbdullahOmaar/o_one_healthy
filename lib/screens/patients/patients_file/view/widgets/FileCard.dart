@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import '../../patient_file_repository/patients_files_repository.dart';
 
 class FileCard extends StatefulWidget {
-  final FileType fileType;
+  final CustomFileType fileType;
   final Patient patient;
   final int index;
 
@@ -26,15 +26,15 @@ class _FileCardState extends State<FileCard> {
 
   IconData getIconFromFileType() {
     switch (widget.fileType) {
-      case FileType.image:
+      case CustomFileType.image:
         url = widget.patient.medicalRecord?.patientRays
             ?.imageRays![widget.index].imageFile;
         return Icons.image;
-      case FileType.dicom:
+      case CustomFileType.dicom:
         url = widget.patient.medicalRecord?.patientRays
             ?.dicomRays![widget.index].dicomFile;
         return Icons.medical_information;
-      case FileType.pdf:
+      case CustomFileType.pdf:
         url = widget
             .patient.medicalRecord?.patientRays?.pdfRays![widget.index].pdfFile;
         return Icons.picture_as_pdf;
@@ -64,7 +64,7 @@ class _FileCardState extends State<FileCard> {
                     onPressed: () async {
                       await Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                              CustomWebViewer(dicomFileLocalPath:url??'',url: widget.fileType ==FileType.dicom?"https://webnamics.github.io/u-dicom-viewer/":url ?? '',fileType: widget.fileType)));
+                              CustomWebViewer(dicomFileLocalPath:url??'',url: widget.fileType ==CustomFileType.dicom?"https://webnamics.github.io/u-dicom-viewer/":url ?? '',fileType: widget.fileType)));
 
                       // if(widget.fileType ==FileType.dicom) {
                       /*  FileDownloader.downloadFile(url: url??'',onDownloadCompleted: (value){

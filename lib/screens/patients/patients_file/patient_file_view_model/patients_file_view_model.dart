@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:app/screens/patients/patients_files_search/models/patient_details_model.dart';
 import 'package:app/screens/patients/patients_files_search/models/patient_model.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:random_password_generator/random_password_generator.dart';
 
@@ -32,9 +33,38 @@ class FilesViewModel extends StateNotifier<FilesSearchState> {
   FilesViewModel(this.repo)
       : super(FilesSearchState(isPushLoading: false));
 
-  pushPatientFile(File file,Patient patient ,FileType fileType) async {
+  pushPatientFile(File file,Patient patient ,CustomFileType fileType) async {
     state=state.copyWith(patient: patient,isPushLoading: true);
       await repo.uploadFileToStorage(file,patient,fileType);
+  }
+  pushMedicalTestFile(File file, Patient patient, CustomFileType fileType,TestData testData,String testID) async {
+    state=state.copyWith(patient: patient,isPushLoading: true);
+      await repo.uploadMedicalTestFileToStorage(file,patient,fileType,testData,testID);
+  }
+  postPatientTests(Patient patient ,MedicalTests medicalTest) async {
+    state = state.copyWith(patient: patient, isPushLoading: true);
+    await repo.postPatientTests(patient, medicalTest);
+  }
+  postMedicalTestData(Patient patient ,TestData testData,String testID) async {
+    state = state.copyWith(patient: patient, isPushLoading: true);
+    await repo.postMedicalTestData(patient, testData,testID).then((value) {
+      fetchPatientTests(patient);
+    });
+  }
+  fetchPatientTests(Patient patient)async{
+    await FirebaseDatabase.instance
+        .ref()
+        .child('patients')
+        .child(patient.uid)
+        .child('medicalRecord').onValue.listen((event) {
+
+      var snapshot = event.snapshot;
+      patient.medicalRecord?.medicalTests=  getMedicalTestList(Map<String,dynamic>.from(snapshot.value as Map) ['medicalTests'] );
+      state=state.copyWith(patient: patient,isPushLoading: false);
+      // map=Map<String,dynamic>.from(snapshot.value as Map);
+    });
+    patient.medicalRecord?.medicalTests= await repo.getPatientTests(patient);
+    state=state.copyWith(patient: patient,isPushLoading: false);
   }
   pushPatientPrescription(Patient patient ,Prescription prescription) async {
     state=state.copyWith(patient: patient,isPushLoading: true);

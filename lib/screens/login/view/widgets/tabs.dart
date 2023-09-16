@@ -6,6 +6,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import '../../../patients/patients_file/view/widgets/Rays.dart';
+import '../../../patients/patients_file/view/widgets/medicalTestsTab.dart';
 import '../../../patients/patients_files_search/models/patient_model.dart';
 
 class FileTabs extends StatefulWidget {
@@ -61,7 +62,7 @@ class _FileTabsState extends State<FileTabs>
               controller: _tabController,
               children: [
                   RaysScreen(patient: widget.patient,),
-                  const Center(child: Text('1')),
+                   MedicalTestView(patient: widget.patient),
                    MedicineView(patient: widget.patient),
               ],
             ),

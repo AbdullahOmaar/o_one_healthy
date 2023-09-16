@@ -11,6 +11,9 @@ import '../../patients_files_search/models/patient_model.dart';
 
 abstract class IFilesRepository {
   Future<void> postPatientFileUrl(Patient patient, String uri, String fileType);
+  Future<void> postPatientTests(Patient patient,MedicalTests medicalTests);
+  Future<List<MedicalTests>> getPatientTests(Patient patient);
+  Future<void> postMedicalTestData(Patient patient,TestData testData, String testID);
   Future<void> postPatientPrescription(Patient patient, Prescription prescription);
   Future<void> updateMedicine(Patient patient, Prescription prescription,Medicine medicine,bool isNewPrescription);
   Future<void> deleteMedicine(Patient patient, Prescription prescription,String medicineIndex);
@@ -18,11 +21,13 @@ abstract class IFilesRepository {
   Future<List<Prescription>> getPatientPrescription(Patient patient);
 
   Future<void> uploadFileToStorage(
-      File file, Patient patient, FileType fileType);
+      File file, Patient patient, CustomFileType fileType);
+  Future<void> uploadMedicalTestFileToStorage(
+      File file, Patient patient, CustomFileType fileType,TestData testData, String testID);
   Future<Patient> getUpdatedPatientFile (String uid);
 }
 
-enum FileType { pdf, dicom, image }
+enum CustomFileType { pdf, dicom, image }
 
 final filesRepositoryProvider = Provider((ref) => FilesRepository());
 
@@ -31,14 +36,14 @@ class FilesRepository extends IFilesRepository {
 
   @override
   Future<void> uploadFileToStorage(
-      File file, Patient patient, FileType fileType) async {
+      File file, Patient patient, CustomFileType fileType) async {
     UploadTask uploadTask;
     String fileTypeCaption='';
     SettableMetadata settableMetadata;
     // Create a Reference to the file
     Reference ref;
     switch (fileType) {
-      case FileType.pdf:
+      case CustomFileType.pdf:
         ref = FirebaseStorage.instance
             .ref()
             .child('patientRecords')
@@ -51,7 +56,7 @@ class FilesRepository extends IFilesRepository {
         );
         fileTypeCaption ="pdfFiles";
         break;
-      case FileType.dicom:
+      case CustomFileType.dicom:
         ref = FirebaseStorage.instance
             .ref()
             .child('patientRecords')
@@ -64,7 +69,7 @@ class FilesRepository extends IFilesRepository {
         );
         fileTypeCaption ="dicomFiles";
         break;
-      case FileType.image:
+      case CustomFileType.image:
         ref = FirebaseStorage.instance
             .ref()
             .child('patientRecords')
@@ -84,6 +89,65 @@ class FilesRepository extends IFilesRepository {
       ref.putFile(file, settableMetadata).then((task) async {
         String uri = await task.ref.getDownloadURL();
         postPatientFileUrl(patient, uri,fileTypeCaption);
+      });
+    }
+  }
+  @override
+  Future<void> uploadMedicalTestFileToStorage(
+      File file, Patient patient, CustomFileType fileType,TestData testData,String testID) async {
+    UploadTask uploadTask;
+    String fileTypeCaption='';
+    SettableMetadata settableMetadata;
+    // Create a Reference to the file
+    Reference ref;
+    switch (fileType) {
+      case CustomFileType.pdf:
+        ref = FirebaseStorage.instance
+            .ref()
+            .child('patientRecords')
+            .child(patient.uid.toString())
+            .child('medicalTests')
+            .child('pdf_files')
+            .child(Uri.file(file.path).pathSegments.last);
+        settableMetadata = SettableMetadata(
+          contentType: 'application/pdf',
+        );
+        fileTypeCaption ="pdfFiles";
+        break;
+      case CustomFileType.dicom:
+        ref = FirebaseStorage.instance
+            .ref()
+            .child('patientRecords')
+            .child(patient.uid.toString())
+            .child('medicalTests')
+            .child('dicom_files')
+            .child(Uri.file(file.path).pathSegments.last);
+        settableMetadata = SettableMetadata(
+          // contentType: 'application/zip',
+        );
+        fileTypeCaption ="dicomFiles";
+        break;
+      case CustomFileType.image:
+        ref = FirebaseStorage.instance
+            .ref()
+            .child('patientRecords')
+            .child(patient.uid.toString())
+            .child('medicalTests')
+            .child('image_files')
+            .child(Uri.file(file.path).pathSegments.last);
+        settableMetadata = SettableMetadata(
+          contentType: 'image/jpg',
+        );
+        fileTypeCaption ="imageFiles";
+        break;
+    }
+    if (kIsWeb) {
+      uploadTask = ref.putData(await file.readAsBytes(), settableMetadata);
+    } else {
+      ref.putFile(file, settableMetadata).then((task) async {
+        String uri = await task.ref.getDownloadURL();
+        testData.details=uri;
+        postMedicalTestData(patient, testData,testID);
       });
     }
   }
@@ -115,6 +179,66 @@ class FilesRepository extends IFilesRepository {
       'orderCheckoutDetails' : FieldValue.arrayUnion([checkout.toDocument])
     });*/ /*.update(updates);*/
   }
+
+  @override
+  Future<void> postPatientTests(Patient patient,MedicalTests medicalTests) async {
+    Map<String, dynamic> updates = {};
+    String testID =RandomPasswordGenerator()
+        .randomPassword(
+        letters: false,
+        numbers: true,
+        passwordLength: 14,
+        specialChar: false,
+        uppercase: false)
+        .toString();
+    medicalTests.testID=testID;
+    updates = {
+      testID: medicalTests.toJson()
+    };
+    return await FirebaseDatabase.instance
+        .ref()
+        .child('patients')
+        .child(patient.uid)
+        .child('medicalRecord')
+        .child('medicalTests')
+        .update(updates);
+  }
+  @override
+  Future<List<MedicalTests>> getPatientTests(Patient patient) async {
+    var data =await FirebaseDatabase.instance
+        .ref()
+        .child('patients')
+        .child(patient.uid)
+        .child('medicalRecord').get();
+    Map<String,dynamic> map=Map<String,dynamic>.from(data.value as Map);
+    return map ['medicalTests']!= null? getMedicalTestList(map ['medicalTests'] ):[];
+  }
+
+  @override
+  Future<void> postMedicalTestData(Patient patient,TestData testData, String testID) async {
+    Map<String, dynamic> updates = {};
+    String testDataID =RandomPasswordGenerator()
+        .randomPassword(
+        letters: false,
+        numbers: true,
+        passwordLength: 14,
+        specialChar: false,
+        uppercase: false)
+        .toString();
+    testData.testDataID=testDataID;
+    updates = {
+      testDataID: testData.toJson()
+    };
+    return  await FirebaseDatabase.instance
+        .ref()
+        .child('patients')
+        .child(patient.uid)
+        .child('medicalRecord')
+        .child('medicalTests')
+        .child('${testID}')
+        .child('testData').update(updates);
+  }
+
   @override
   Future<void> postPatientPrescription(Patient patient,Prescription prescription) async {
     Map<String, dynamic> updates = {};

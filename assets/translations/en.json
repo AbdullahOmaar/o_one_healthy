@@ -9,6 +9,7 @@
   "phone":"Phone",
   "adress":"Adress",
   "specialization":"Specialization",
+  "login_alert": "Please Login first",
   "home": {
     "patients_files": "Patients Files",
     "login": "Login",
@@ -76,6 +77,7 @@
     "analyzes":"Analyzes",
     "prescription":"Prescription",
     "add_prescription":"Add Prescription ",
+    "add_medical_test":"Add medical test",
     "add_medicine":"add medicine..."
   }
 }

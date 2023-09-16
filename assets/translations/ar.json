@@ -9,6 +9,7 @@
   "phone":"رقم الهاتف",
   "adress":"العنوان",
   "specialization":"التخصص",
+  "login_alert": "من فضلك قم بتسجيل الدخول",
   "home": {
     "patients_files": "ملفات المرضي",
     "login": "تسجيل الدخول",
@@ -79,6 +80,7 @@
     "analyzes":"التحاليل",
     "prescription":"روشتة",
     "add_prescription":"اضافه روشتة",
+    "add_medical_test":"اضافه تحليل",
     "add_medicine":"اضافه دواء..."
     }
 }

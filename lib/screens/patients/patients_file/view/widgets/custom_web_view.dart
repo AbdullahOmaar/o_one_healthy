@@ -7,7 +7,7 @@ import '../../patient_file_repository/patients_files_repository.dart';
 
 class CustomWebViewer extends StatefulWidget {
   final String url;
-  final FileType fileType;
+  final CustomFileType fileType;
   final String dicomFileLocalPath;
 
 
@@ -48,10 +48,10 @@ class _CustomWebViewerState extends State<CustomWebViewer> {
     return Scaffold(
       body: widget.url.isNotEmpty
           ? SafeArea(
-            child: widget.fileType==FileType.pdf?
+            child: widget.fileType==CustomFileType.pdf?
             SfPdfViewer.network(
                 widget.url)
-            :widget.fileType==FileType.dicom ?
+            :widget.fileType==CustomFileType.dicom ?
             getNativeDicomImage():
             WebViewWidget(
                 controller: controller,

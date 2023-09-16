@@ -57,32 +57,32 @@ class _RaysScreenState extends ConsumerState<RaysScreen> {
                       text: "add pdf",
                       fontSize: 16,
                       onPressed: () async {
-                        filePickAction(repo.FileType.pdf);
+                        filePickAction(repo.CustomFileType.pdf);
                       },
                       btnWidth: CustomWidth.oneThird),
                   CustomButton(
                       text: "add Dicom",
                       fontSize: 16,
                       onPressed: () async {
-                        filePickAction(repo.FileType.dicom);
+                        filePickAction(repo.CustomFileType.dicom);
                       },
                       btnWidth: CustomWidth.oneThird),
                   CustomButton(
                       text: "add image ",
                       fontSize: 16,
                       onPressed: () async {
-                        filePickAction(repo.FileType.image);
+                        filePickAction(repo.CustomFileType.image);
                       },
                       btnWidth: CustomWidth.oneThird),
                 ],
               ),
             ),
             getFileHeaderWithSpacer('pdf files'),
-            getFileList(repo.FileType.pdf),
+            getFileList(repo.CustomFileType.pdf),
             getFileHeaderWithSpacer('image files'),
-            getFileList(repo.FileType.image),
+            getFileList(repo.CustomFileType.image),
             getFileHeaderWithSpacer('dicom files'),
-            getFileList(repo.FileType.dicom)
+            getFileList(repo.CustomFileType.dicom)
           ],
         ):const Center(child: CircularProgressIndicator(),),
       ),
@@ -114,7 +114,7 @@ class _RaysScreenState extends ConsumerState<RaysScreen> {
     );
   }
 
-  Widget getFileList(repo.FileType fileType) {
+  Widget getFileList(repo.CustomFileType fileType) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
@@ -135,20 +135,20 @@ class _RaysScreenState extends ConsumerState<RaysScreen> {
     );
   }
 
-  int getFilesListCount(repo.FileType fileType) {
+  int getFilesListCount(repo.CustomFileType fileType) {
     switch (fileType) {
-      case repo.FileType.image:
+      case repo.CustomFileType.image:
         return widget.patient.medicalRecord?.patientRays?.imageRays?.length ??
             0;
-      case repo.FileType.dicom:
+      case repo.CustomFileType.dicom:
         return widget.patient.medicalRecord?.patientRays?.dicomRays?.length ??
             0;
-      case repo.FileType.pdf:
+      case repo.CustomFileType.pdf:
         return widget.patient.medicalRecord?.patientRays?.pdfRays?.length ?? 0;
     }
   }
 
-  void filePickAction(repo.FileType fileType) async {
+  void filePickAction(repo.CustomFileType fileType) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
     if (result != null) {
       File file = File(result.files.single.path.toString());

@@ -67,7 +67,8 @@ class Patient {
 class MedicalRecord {
   Rays? patientRays;
   List<Prescription>? prescriptions;
-  MedicalRecord({this.patientRays,this.prescriptions});
+  List<MedicalTests>? medicalTests;
+  MedicalRecord({this.patientRays,this.prescriptions,this.medicalTests});
 
   factory MedicalRecord.fromJson(Map<Object?, Object?> json) => MedicalRecord(
         patientRays: json['patientRays'] != null
@@ -75,6 +76,7 @@ class MedicalRecord {
                 Map<String, dynamic>.from(json['patientRays'] as Map))
             : null,
      prescriptions: json['prescriptions']!=null?getPrescriptionsList(json['prescriptions'] as Map):[],
+     medicalTests: json['medicalTests']!=null?getMedicalTestList(json['medicalTests'] as Map):[],
 
   );
 
@@ -124,6 +126,35 @@ class Prescription {
         "creationDate": creationDate ?? ''
       };
 }
+
+class MedicalTests {
+  List<Test>? test;
+  List<TestData>? testDataList;
+  String? testID ;
+  User? creator;
+  String? creationDate;
+  MedicalTests({this.test ,this.testID, this.creator,this.creationDate,this.testDataList});
+
+  factory MedicalTests.fromJson(Map<String, dynamic> json) {
+    final bool isList =json['test'].runtimeType==List<Object?>;
+    final bool isListOfTestData =json['testDataList'].runtimeType==List<Object?>;
+    return MedicalTests(
+        test: json['test']!=null?isList?getTestListFromListOfObject(json['test'] as List<Object?>):getTestList(json['test'] as Map):[],
+        testDataList: json['testData']!=null?getTestDataList(json['testData'] as Map):[],
+        testID: json['testID']??'',
+        creator:User.fromJson(Map<String,dynamic>.from(json['creator'])),
+        creationDate: json["creationDate"]
+    );
+  }
+
+  toJson() => {
+        "test": test?.map((e) => e.toJson()).toList(),
+        "testData": testDataList?.map((e) => e.toJson()).toList(),
+        "testID": testID,
+        "creator": creator?.toJson() ,
+        "creationDate": creationDate ?? ''
+      };
+}
 abstract class PatientFile{
 }
 class Medicine extends PatientFile{
@@ -134,6 +165,51 @@ class Medicine extends PatientFile{
   Map<String ,dynamic> toJson()=>{
     "medicineName":medicineName
   };
+}
+class Test {
+  String? testName;
+  String? key;
+  Test({this.testName,this.key});
+  factory Test.fromJson(String json)=>Test(testName :json);
+  Map<String ,dynamic> toJson()=>{
+    "testName":testName
+  };
+}
+class TestData {
+  String? details;
+  String? key;
+  String ? testDataID;
+  TestDataType? testDataType;
+  User? creator;
+  String? creationDate;
+  TestData({this.details,this.key,this.testDataType,this.creationDate,this.testDataID,this.creator});
+  factory TestData.fromJson(Map<String, dynamic> json)=>TestData(
+      details :json["details"],
+      testDataID :json["testDataID"],
+      creator:User.fromJson(Map<String,dynamic>.from(json['creator'])),
+
+      creationDate :json["creationDate"],
+      testDataType: parseTestDataFromString(json["testDataType"])
+  );
+  Map<String ,dynamic> toJson()=>{
+    "details":details??'',
+    "creator":creator?.toJson(),
+    "testDataID":testDataID??'',
+    "testDataType":testDataType.toString()??'',
+    "creationDate":creationDate??''
+  };
+}
+TestDataType parseTestDataFromString(String testData){
+  switch (testData){
+    case "TestDataType.Image":
+      return TestDataType.Image;
+    case "TestDataType.PDF":
+      return TestDataType.PDF;
+    case "TestDataType.Report":
+      return TestDataType.Report;
+    default:
+      return TestDataType.Report;
+  }
 }
 class PDFFile extends PatientFile{
   String? pdfFile;
@@ -172,6 +248,44 @@ List<Medicine> getMedicineListFromListOfObject(List<Object?> json) {
   }
   return medicines;
 }
+
+
+List<Test> getTestList(Map json) {
+  List<Test> tests = [];
+  for (var element in Map<String, dynamic>.from(json).entries){
+    tests.add(Test(key:element.key ,testName: element!=null?element.value['testName'].toString():"undefined"));
+  }
+  return tests;
+}
+List<Test> getTestListFromListOfObject(List<Object?> json) {
+  List<Test> tests = [];
+  for (var element in Map<dynamic, dynamic>.fromIterable(json).entries){
+    // Map<String, dynamic>map= Map<String, dynamic>.from(element as Map);
+    tests.add(Test(key:element.key.toString() ,testName: element!=null?element.value['testName'].toString():"undefined"));
+  }
+  return tests;
+}
+
+
+List<TestData> getTestDataList(Map json) {
+  List<TestData> testDataList = [];
+  for (var element in Map<String, dynamic>.from(json).values) {
+    testDataList.add(TestData.fromJson(Map<String, dynamic>.from(element)));
+  }
+  return testDataList;
+}
+List<TestData> getTestDataListFromListOfObject(List<Object?> json) {
+  List<TestData> testDataList = [];
+  for (var element in Map<dynamic, dynamic>.fromIterable(json).entries){
+    // Map<String, dynamic>map= Map<String, dynamic>.from(element as Map);
+    testDataList.add(TestData(key:element.key ,details: element!=null?element.value['details'].toString():"undefined",
+        creationDate:element.value['creationDate'],
+        testDataID: element.value['creationDate'],
+        testDataType:parseTestDataFromString(element.value['testDataType']) ));
+  }
+  return testDataList;
+}
+
 List<Prescription> getPrescriptionsList(Map json) {
   List<Prescription> prescriptions = [];
   for (var element in Map<String, dynamic>.from(json).values) {
@@ -180,6 +294,15 @@ List<Prescription> getPrescriptionsList(Map json) {
     )*/);
   }
   return prescriptions;
+}
+List<MedicalTests> getMedicalTestList(Map json) {
+  List<MedicalTests> medicalTest = [];
+  for (var element in Map<String, dynamic>.from(json).values) {
+    medicalTest.add(MedicalTests.fromJson(Map<String, dynamic>.from(element))
+      /*Prescriptions(  medicines:element!=null?getMedicineList(element as Map):[],
+    )*/);
+  }
+  return medicalTest;
 }
 List<ImageFile> getImagesRaysList(Map json) {
   List<ImageFile> raysURLs = [];
@@ -194,4 +317,9 @@ List<DicomFile> getDicomRaysList(Map json) {
     raysURLs.add(DicomFile(dicomFile: element.toString()));
   }
   return raysURLs;
+}
+enum TestDataType{
+  Image,
+  PDF,
+  Report
 }
