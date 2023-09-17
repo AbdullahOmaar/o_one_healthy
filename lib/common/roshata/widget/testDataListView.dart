@@ -6,7 +6,9 @@ import 'package:random_password_generator/random_password_generator.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../screens/doctor_dashboard_screen/models/user_data_model.dart';
+import '../../../screens/patients/patients_file/patient_file_repository/patients_files_repository.dart';
 import '../../../screens/patients/patients_file/patient_file_view_model/patients_file_view_model.dart';
+import '../../../screens/patients/patients_file/view/widgets/custom_web_view.dart';
 import '../../../screens/patients/patients_files_search/models/patient_model.dart';
 import '../../../util/constant.dart';
 import '../../../util/theme/styles.dart';
@@ -119,25 +121,37 @@ class MyAppState extends ConsumerState<TestDataListView> {
       ],
     );
   }
+  openFileViewer(String url,CustomFileType fileType)async{
+    await Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) =>
+            CustomWebViewer(dicomFileLocalPath:'',url: url,fileType: fileType)));
+
+
+  }
   buildMedicalTestImageWidget(TestData testData){
     return  Row(
       children: [
         if(testData.creator!=null)
           getCreatorDetailsWidget(testData.creator),
         Expanded(
-          child: Container(
-            height: 20.h,
-            width: 70.h,
-            decoration: BoxDecoration(
-              // color: Colors.amber,
-              borderRadius: BorderRadius.circular(80)
+          child: InkWell(
+            onTap: ()async{
+              openFileViewer( testData.details?? '', CustomFileType.image);
+            },
+            child: Container(
+              height: 20.h,
+              width: 70.h,
+              decoration: BoxDecoration(
+                // color: Colors.amber,
+                borderRadius: BorderRadius.circular(80)
+              ),
+              margin: const EdgeInsets.only(
+                left: 22.0,
+                right: 22.0,
+                bottom: 0,
+              ),
+              child: Image.network(testData.details??'',fit: BoxFit.cover,),
             ),
-            margin: const EdgeInsets.only(
-              left: 22.0,
-              right: 22.0,
-              bottom: 0,
-            ),
-            child: Image.network(testData.details??'',fit: BoxFit.cover,),
           ),
         ),
       ],
@@ -160,10 +174,14 @@ class MyAppState extends ConsumerState<TestDataListView> {
               right: 22.0,
               bottom: 0,
             ),
-            child: Icon(
+            child: IconButton(
+              color: Colors.grey, onPressed: () async{
+              openFileViewer( testData.details?? '', CustomFileType.pdf);
+            }, icon: Icon(
               Icons.picture_as_pdf,
               size: MediaQuery.of(context).size.width * .20,
-              color: Colors.grey,
+
+            ),
             ),
           ),
         ),
@@ -180,7 +198,7 @@ class MyAppState extends ConsumerState<TestDataListView> {
           color: Colors.black38,
         ),
         physics: BouncingScrollPhysics(),
-        shrinkWrap: false,
+        shrinkWrap: true,
         itemCount: widget.medicalTests.testDataList!.length,
         itemBuilder: (context, index) {
           TestData testData =widget.medicalTests.testDataList![index];
